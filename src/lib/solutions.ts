@@ -105,6 +105,58 @@ export const solutions: Solution[] = [
   },
 
   {
+    slug: 'intercoms',
+    label: 'Intercoms',
+    pageTitle: 'Commercial Intercom Systems Sydney',
+    cardHeadline: 'Talk to anyone at the door, from anywhere.',
+    shortDescription:
+      'Audio and video intercoms for commercial entrances, multi-tenant buildings, gates, and lift cars. IP-based, mobile-app capable, integrated with access control.',
+    heroLead:
+      "Intercoms decide who gets through your front door. We design and install commercial intercom systems that handle reception buzz-in during business hours, after-hours visitor verification, multi-tenant strata directories, gate and loading-dock entry, and emergency lift-car comms. Aiphone, Comelit, BPT, and Doorbird platforms, integrated cleanly with your access control so the swipe and the conversation happen on one system.",
+    icon: '/images/icons/intercoms.png',
+    heroPhotoPath: '/images/details/ktronics-comms-rack-install.jpg',
+    heroPhotoAlt: 'Ktronics technician commissioning a wall-mounted intercom and access control panel at a Sydney commercial site',
+    capabilities: [
+      { title: 'Audio and video intercoms', body: 'High-resolution video door stations with two-way audio. Reception sees exactly who they are buzzing in before the door unlocks.' },
+      { title: 'IP and mobile-app capable', body: 'Modern IP intercoms ring through to a mobile app or desk handset. Reception can answer the door from a meeting room, the warehouse, or off-site.' },
+      { title: 'Multi-tenant directories', body: 'Strata, mixed-use, and multi-tenant commercial buildings. Searchable resident or tenant lists, individual unit calling, optional concierge override.' },
+      { title: 'Gate and dock intercoms', body: 'Vehicle entry intercoms for warehouses, distribution centres, and gated industrial sites. Long-range audio, weatherproofed for Australian conditions.' },
+      { title: 'Emergency intercoms', body: 'Lift car emergency comms, accessible toilet help points, and DDA-compliant call stations. Compliant with AS 1735 (lifts) and AS 1428 (accessible facilities).' },
+      { title: 'Integrated with access control', body: 'Door release, credential lookup, and visitor day-pass issue can all happen at the intercom. One workflow, one platform, one audit trail.' },
+    ],
+    process: [
+      { num: 'Stage 01', title: 'Site walk', body: 'We walk every entry point: front door, gates, loading dock, lifts. We map the after-hours flow and the multi-tenant requirements.' },
+      { num: 'Stage 02', title: 'System design', body: 'Door stations, indoor monitors or app endpoints, network design, and integration with your access control specified to your site.' },
+      { num: 'Stage 03', title: 'Install and configure', body: 'Door stations mounted, cabling run cleanly, indoor handsets or apps configured, calling logic tested with your team.' },
+      { num: 'Stage 04', title: 'Tune and handover', body: 'Audio levels balanced for ambient noise, camera angles confirmed, after-hours rules tested. Reception trained on the workflow.' },
+    ],
+    relevantIndustries: ['strata-multi-tenant', 'corporate-offices', 'warehouse-logistics', 'medical-allied-health'],
+    faqs: [
+      {
+        question: 'Can a single intercom serve multiple tenants in a building?',
+        answer:
+          'Yes. Multi-tenant intercoms (sometimes called digital directories) display a searchable tenant list at the front entrance. Visitors find the right occupant, ring through, and the occupant can answer from their handset, app, or an in-tenancy monitor and release the door. We commission the directory with your tenant list and update it as tenants change.',
+      },
+      {
+        question: 'Will the intercom ring through to a mobile phone?',
+        answer:
+          'Modern IP intercoms (Aiphone IX, Comelit ViP, Doorbird) support mobile apps. When someone presses the door station, designated phones ring with two-way audio and live video. Useful for sites where reception is not always at the desk, or for after-hours buzz-in.',
+      },
+      {
+        question: 'Does an intercom have to integrate with access control?',
+        answer:
+          "Not necessarily, but the integrated configuration is significantly more capable. Without integration, the intercom buzzes someone in and that's where the system's role ends. With integration, the same swipe-or-call event flows into the access platform: door release, audit log, optional camera bookmark, optional temporary visitor credential. We typically recommend integration for any commercial-grade install.",
+      },
+      {
+        question: 'Are emergency intercoms in lifts a separate system?',
+        answer:
+          'Lift-car emergency intercoms are subject to AS 1735.12 and are usually installed by the lift contractor, not the security installer. We do install accessible-toilet help points (AS 1428.1) and DDA-compliant emergency call stations as part of broader commercial intercom projects.',
+      },
+    ],
+    order: 2,
+  },
+
+  {
     slug: 'video-surveillance',
     label: 'Video Surveillance',
     pageTitle: 'Commercial CCTV Installation Sydney',
@@ -153,7 +205,59 @@ export const solutions: Solution[] = [
           "IP cameras are network-connected, support modern features (4K, AI analytics, remote viewing, integration with access control), and are what we install on every new commercial system. Analogue is a legacy technology we still maintain on existing client sites but don't recommend for new installations.",
       },
     ],
-    order: 2,
+    order: 3,
+  },
+
+  {
+    slug: 'alarms',
+    label: 'Alarms',
+    pageTitle: 'Commercial Alarm Systems Sydney',
+    cardHeadline: 'Alarms that fire when they should, and not when they shouldn\u2019t.',
+    shortDescription:
+      'Commercial intrusion alarm systems with verified back-to-base monitoring. Bosch, Inner Range, and Tecom Challenger panels, designed to minimise false alarms and maximise verified response.',
+    heroLead:
+      "Most commercial alarm systems generate enough false alarms that the team eventually learns to ignore them. We design intrusion alarm systems that don't do that. Properly placed sensors, dual-tech detection where it matters, sensible zoning, integration with CCTV for verified response, and back-to-base monitoring through our own 24/7 control room. Bosch, Inner Range, and Tecom Challenger platforms.",
+    icon: '/images/icons/alarms.png',
+    heroPhotoPath: '/images/details/detail-alarm-intrusion-control-panel.jpg',
+    heroPhotoAlt: 'Commercial intrusion alarm panel with backup battery and clean cable terminations',
+    capabilities: [
+      { title: 'Intrusion detection', body: 'PIR motion, dual-tech (PIR + microwave), glass-break, shock, and vibration sensors. Selected and placed to your site, not by spec sheet.' },
+      { title: 'Perimeter and external', body: 'External beams, photoelectric perimeter detection, and fence-line vibration sensors. Catches intrusion before it reaches the building.' },
+      { title: 'Door, window, and gate contacts', body: 'Magnetic and high-security contacts on every opening. Tamper-protected, supervised, and resistant to magnetic attack.' },
+      { title: 'Duress and panic', body: 'Hold-up buttons at reception, cash-handling areas, and executive offices. Silent panic that triggers monitoring without alerting the offender.' },
+      { title: 'Back-to-base monitoring', body: 'Alarms verified by our 24/7 control room. Real human response, not auto-dismissed alerts. Police, key-holder, or our on-call tech dispatched per your response plan.' },
+      { title: 'CCTV-verified response', body: 'Alarm event triggers an automatic camera bookmark. Operator reviews the footage in seconds and dispatches based on what is actually happening.' },
+    ],
+    process: [
+      { num: 'Stage 01', title: 'Site walk', body: 'We map the entry points, the high-value zones, the after-hours flow, and the false-alarm risk factors (HVAC vents, blinds, animals, signage).' },
+      { num: 'Stage 02', title: 'System design', body: 'Sensors, panel, communication path, and zoning specified. Where false-alarm risk is high, we spec dual-tech or video-verified detection.' },
+      { num: 'Stage 03', title: 'Install and commission', body: 'Sensors mounted with attention to coverage angles. Panel installed in a tamper-protected location. Walk-test every sensor before handover.' },
+      { num: 'Stage 04', title: 'Onboard to monitoring', body: 'System connected to our control room. Test events confirmed end-to-end. Response plan documented and signed off.' },
+    ],
+    relevantIndustries: ['warehouse-logistics', 'retail-hospitality', 'corporate-offices', 'medical-allied-health'],
+    faqs: [
+      {
+        question: 'How do I avoid false alarms?',
+        answer:
+          'Most false alarms come from poorly placed sensors and inappropriate sensor types. The fix is upstream of the install: we design sensor placement around HVAC vents, sunlight, blinds, signage, and any other movement source on your site. For high-risk zones we spec dual-technology sensors (PIR + microwave) that require both signals to fire. For very high-risk environments, video-verified alarms add a second layer of confirmation before dispatch.',
+      },
+      {
+        question: 'Do I have to use your monitoring control room?',
+        answer:
+          "No. We can connect alarms to whichever monitoring centre you prefer, including ones you already use. That said, the ones we install and monitor end-to-end run cleanly because the install team and the monitoring team are the same business. If you're moving from another monitoring provider, we can usually take over the connection without changing the panel.",
+      },
+      {
+        question: 'How is the alarm signal sent to monitoring?',
+        answer:
+          "Modern commercial alarms use IP as the primary path with cellular (3G/4G) failover. The legacy phone-line dialler is end-of-life and we don't install it on new systems. Dual-path (IP + cellular) is mandatory for grade A2 / Class 5 compliance and we recommend it for any commercial installation.",
+      },
+      {
+        question: 'Can the alarm system integrate with access control and CCTV?',
+        answer:
+          'Yes, this is the standard configuration on Inner Range Integriti and Tecom Challenger. A door-forced alarm event triggers a camera bookmark. A duress press at reception locks down all external doors and pops up the relevant cameras. The integrated platform is significantly more useful than three separate systems for any operationally active site.',
+      },
+    ],
+    order: 4,
   },
 
   {
@@ -205,7 +309,7 @@ export const solutions: Solution[] = [
           'The systems we install support automatic data purging on a configurable schedule (typically 30, 60, or 90 days), encrypted storage, and visitor consent capture at sign-in. We configure each install to comply with the Australian Privacy Act and any sector-specific requirements (e.g. health information).',
       },
     ],
-    order: 3,
+    order: 5,
   },
 
   {
@@ -257,7 +361,7 @@ export const solutions: Solution[] = [
           "Yes, this is a significant part of our service work. We take on existing systems from other installers regularly. The first step is a written condition report so you know exactly what state the kit is in. We'll tell you upfront if anything is end-of-life, non-compliant, or genuinely beyond economic repair.",
       },
     ],
-    order: 4,
+    order: 6,
   },
 ];
 

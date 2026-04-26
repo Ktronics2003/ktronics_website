@@ -18,7 +18,9 @@ Ktronics Pty Ltd is a commercial electronic security specialist based in Brookva
 ## Solutions
 
 - [Access control](https://www.ktronics.com.au/solutions/access-control/): card, mobile, biometric, cloud-managed and on-premise systems for commercial sites
+- [Intercoms](https://www.ktronics.com.au/solutions/intercoms/): audio and video door entry, multi-tenant directories, gate intercoms, IP and mobile-app capable
 - [Video surveillance](https://www.ktronics.com.au/solutions/video-surveillance/): HD, 4K, thermal, and AI-enabled CCTV with sector-appropriate retention
+- [Alarms](https://www.ktronics.com.au/solutions/alarms/): commercial intrusion alarms with 24/7 verified back-to-base monitoring, Bosch / Inner Range / Tecom platforms
 - [Visitor management](https://www.ktronics.com.au/solutions/visitor-management/): commercial visitor sign-in, host notification, and on-site tracking
 - [Maintenance and monitoring](https://www.ktronics.com.au/solutions/maintenance-monitoring/): annual service plans and 24/7 monitored response from a graded control room
 
@@ -52,5 +54,5 @@ Ktronics Pty Ltd is a commercial electronic security specialist based in Brookva
 - Sales email: sales@ktronics.com.au
 - Address: Unit 11, 84 Old Pittwater Road, Brookvale NSW 2100
 - PO Box: PO Box 147, Narrabeen NSW 2101
-- Office hours: Monday to Friday, 8:00am to 3:00pm AEST/AEDT
+- Office hours: Monday to Friday, 7:00am to 3:00pm AEST/AEDT
 - Emergency: 24/7 response for monitored clients

@@ -1,0 +1,51 @@
+---
+/**
+ * /solutions/intercoms/
+ * See access-control.astro for the full composition + schema rationale.
+ */
+import PageLayout from '@layouts/PageLayout.astro';
+import SolutionHero from '@components/sections/SolutionHero.astro';
+import Capabilities from '@components/sections/Capabilities.astro';
+import HowItWorks from '@components/sections/HowItWorks.astro';
+import Faqs from '@components/sections/Faqs.astro';
+import RelatedSolutions from '@components/sections/RelatedSolutions.astro';
+import CtaBlock from '@components/sections/CtaBlock.astro';
+import { breadcrumbSchema, faqPageSchema, serviceSchema } from '@lib/schema';
+import { getSolution } from '@lib/solutions';
+import { site } from '@lib/site';
+
+const solution = getSolution('intercoms');
+const url = `${site.url}/solutions/${solution.slug}/`;
+
+const seo = {
+  title: `${solution.pageTitle} | Ktronics`,
+  description:
+    "Commercial intercom systems in Sydney: audio and video door entry, multi-tenant directories, gate intercoms, IP and mobile-app capable. Aiphone, Comelit, Doorbird.",
+  path: `/solutions/${solution.slug}/`,
+};
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: `${site.url}/` },
+  { name: 'Solutions', url: `${site.url}/solutions/` },
+  { name: solution.label },
+]);
+
+const service = serviceSchema({
+  serviceType: 'Intercom System Installation',
+  description: solution.heroLead,
+  url,
+});
+
+const faqSchema = faqPageSchema(solution.faqs);
+---
+<PageLayout seo={seo} schemaBlocks={[breadcrumbs, service, faqSchema]}>
+  <SolutionHero solution={solution} />
+  <Capabilities items={solution.capabilities} />
+  <HowItWorks steps={solution.process} />
+  <Faqs items={solution.faqs} eyebrow="Common questions" heading="Frequently asked." />
+  <RelatedSolutions currentSlug={solution.slug} />
+  <CtaBlock
+    heading="Need an intercom that works in 2026? <em>Let&apos;s walk the site.</em>"
+    buttonText="Request a site assessment"
+  />
+</PageLayout>

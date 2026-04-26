@@ -40,10 +40,10 @@ export const site = {
   // Pre-launch: confirm with Karl/Lesley. Currently aligned to footer copy
   // (Mon-Fri 8:00 - 15:30). See 06-content-inventory.md "Hours discrepancy".
   hours: {
-    open: '08:00',
+    open: '07:00',
     close: '15:00',
     days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'] as const,
-    display: 'Office hours: Mon–Fri 8am – 3:00pm',
+    display: 'Office hours: Mon–Fri 7am – 3:00pm',
     emergencyDisplay: '24/7 emergency for monitored clients',
   },
 

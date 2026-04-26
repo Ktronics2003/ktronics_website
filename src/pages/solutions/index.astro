@@ -32,7 +32,7 @@ const breadcrumbs = breadcrumbSchema([
     <div class="container">
       <Eyebrow>Solutions</Eyebrow>
       <h1 class="hub-title">
-        Four pillars of commercial<br />
+        Six pillars of commercial<br />
         electronic security.
       </h1>
       <p class="hub-lead">
@@ -94,7 +94,7 @@ const breadcrumbs = breadcrumbSchema([
 
   .hub-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 0;
     border-top: 1px solid var(--ktx-line);
     border-left: 1px solid var(--ktx-line);
@@ -156,7 +156,10 @@ const breadcrumbs = breadcrumbSchema([
     transition: color 0.2s ease;
   }
 
-  @media (max-width: 720px) {
+  @media (max-width: 1000px) {
+    .hub-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 640px) {
     .hub-grid { grid-template-columns: 1fr; }
     .hub-card { padding: 32px; min-height: 0; }
   }

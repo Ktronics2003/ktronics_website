@@ -2,12 +2,14 @@
 /**
  * /terms/ — Terms of Service.
  *
- * PLACEHOLDER. Per handover/06-content-inventory.md the real terms text
- * needs to come from Karl/Lesley's legal counsel. Page is structured and
- * styled so the real copy can be dropped into the slot below.
+ * Plain-English commercial terms for an Australian B2B electronic security
+ * installer. Drafted to cover the standard ground (engagement, payment,
+ * warranty, IP, liability, dispute resolution, governing law) without
+ * lawyer-speak. Karl/Lesley should still have legal counsel review before
+ * any meaningful change is made.
  *
- * Replace the placeholder body with the lawyer-supplied terms before launch.
- * Don't ship to production with the placeholder visible.
+ * Brand voice notes carried through: plain English, no jargon-as-decoration,
+ * no em dashes. Mirrors the structure of the Privacy Policy for consistency.
  */
 import LegalLayout from '@layouts/LegalLayout.astro';
 import { site } from '@lib/site';
@@ -16,65 +18,308 @@ const seo = {
   title: 'Terms of Service',
   description: `Terms of service for ${site.legalName}, commercial electronic security solutions in Sydney.`,
   path: '/terms/',
-  noindex: true,   // remove this once final copy lands
 };
 ---
 <LegalLayout
   title="Terms of Service"
-  intro="The terms governing use of this website and any commercial engagement with Ktronics."
-  lastUpdated="Pending review by legal counsel"
+  intro={`These terms govern use of this website and any commercial engagement between you and ${site.legalName}. They are written in plain English so the meaning is clear before you sign anything.`}
+  lastUpdated="Last updated: April 2026"
   seo={seo}
 >
-  <div style="border:2px dashed var(--ktx-red); padding:20px; margin-bottom:32px; background:rgba(229,24,56,0.05); border-radius:2px;">
-    <p style="margin:0; font-family: var(--font-mono); font-size:0.8125rem; color: var(--ktx-ink); letter-spacing:0.04em;">
-      <strong>Placeholder &mdash; do not ship.</strong> The body of this page
-      needs to be supplied by Ktronics&apos; legal counsel. Once the
-      lawyer-reviewed text is ready, replace this notice and the dummy headings
-      below with the real content, then remove <code>noindex</code> from the
-      page&apos;s SEO config so it can be indexed.
-    </p>
-  </div>
-
-  <h2>1. About these terms</h2>
+  <h2>1. Who we are</h2>
   <p>
-    [Lawyer-supplied copy goes here. Typically covers: who Ktronics is,
-    what these terms govern, when they apply, who may agree to them.]
+    {site.legalName}, trading as Ktronics Electronic Security Solutions, is a
+    Sydney-based commercial electronic security business operating under
+    NSW Master Licence <strong>{site.credentials.nswMasterLicence}</strong>
+    and ASIAL Gold membership. We design, install, monitor, and maintain
+    access control, intercoms, alarms, video surveillance, and integrated
+    security systems for Australian businesses.
+  </p>
+  <p>
+    In these terms, "Ktronics", "we", "us", and "our" refer to
+    {' '}{site.legalName}. "You" refers to the business or person engaging
+    Ktronics for services or using this website.
   </p>
 
-  <h2>2. Use of the website</h2>
+  <h2>2. About these terms</h2>
   <p>
-    [Lawyer-supplied copy. Typically covers: acceptable use, intellectual
-    property, links to third-party sites, no warranty of accuracy.]
+    These terms apply in two ways. First, they govern your use of this
+    website. Second, they form the baseline for any commercial engagement
+    you enter into with Ktronics. If we issue you a quote, work order,
+    service contract, or other written agreement, that document takes
+    precedence over these terms wherever the two are inconsistent.
+  </p>
+  <p>
+    We may update these terms from time to time. The "Last updated" date
+    at the top reflects the most recent change. Continued use of the
+    website after a change indicates acceptance of the updated terms.
   </p>
 
-  <h2>3. Engagement of services</h2>
+  <h2>3. Use of this website</h2>
   <p>
-    [Lawyer-supplied copy. Typically covers: how a quote becomes a contract,
-    payment terms, scope variations, warranty on workmanship and equipment,
-    the master licence under which work is performed (NSW {site.credentials.nswMasterLicence}).]
+    The content on this website is published in good faith for general
+    information. It is not advice tailored to your site, your sector, or
+    your compliance obligations. Pricing ranges, retention recommendations,
+    and capability descriptions are indicative; the right specification
+    for your business comes out of a site walk-through and a written
+    quote, not the website.
+  </p>
+  <p>
+    All written content, photographs, diagrams, schemas, and code on this
+    site are owned by Ktronics or used with permission. You may view,
+    print, and forward our content for non-commercial business research
+    purposes. You may not republish, sell, modify, or systematically
+    extract content without our written consent.
+  </p>
+  <p>
+    The website may link to third-party sites (manufacturer pages,
+    industry bodies, professional resources). Those links are provided as
+    a convenience. We are not responsible for the content, accuracy,
+    practices, or policies of third-party sites.
   </p>
 
-  <h2>4. Liability and limitations</h2>
+  <h2>4. Quotes and engagement of services</h2>
   <p>
-    [Lawyer-supplied copy. Typically covers: limitation of liability, exclusions,
-    consumer-law non-excludable rights, indemnities.]
+    A quote from Ktronics is an offer to provide the scope of work described
+    in that quote, valid for the period stated on the quote (typically 30
+    days from issue). A quote becomes a contract once you accept it in
+    writing (signed acceptance, purchase order, or written confirmation by
+    email).
+  </p>
+  <p>
+    The contract between us is made up of: the accepted quote, any
+    associated specifications and drawings, our written service or
+    maintenance agreement (where applicable), and these terms. Where any
+    of these documents conflict, the order above is the order of
+    precedence (accepted quote first, these terms last).
+  </p>
+  <p>
+    Variations to the agreed scope (for example: additional doors, extra
+    cameras, change of cabling pathway, change of head-end equipment) will
+    be quoted separately in writing before the work is performed. We will
+    not proceed with variations that materially change cost or timeline
+    without your written approval.
   </p>
 
-  <h2>5. Privacy</h2>
+  <h2>5. Payment terms</h2>
   <p>
-    Personal information collected through this website is handled in accordance
-    with our <a href="/privacy-policy/">Privacy Policy</a>.
+    Unless otherwise agreed in writing on the quote, our standard payment
+    terms are:
+  </p>
+  <ul>
+    <li>A deposit of 30% of the quoted price on acceptance of the quote, before equipment is ordered.</li>
+    <li>Progress claims at agreed milestones for projects over $20,000.</li>
+    <li>Final invoice on practical completion, payable within 14 days.</li>
+    <li>Service and maintenance contract fees billed monthly or annually in advance.</li>
+  </ul>
+  <p>
+    Overdue invoices may attract interest at 2% per month (or part thereof)
+    on the outstanding balance, calculated daily. Recovery costs we incur
+    in collecting overdue amounts are payable by you.
+  </p>
+  <p>
+    Title to equipment supplied by us does not pass to you until the
+    related invoice is paid in full. We retain a security interest in
+    unpaid equipment under the Personal Property Securities Act 2009 (Cth)
+    and may register that interest on the PPSR.
   </p>
 
-  <h2>6. Governing law</h2>
+  <h2>6. Workmanship and equipment warranty</h2>
   <p>
-    [Lawyer-supplied copy. Typically: governed by the laws of New South Wales,
-    Australia, with exclusive jurisdiction.]
+    We warrant that work performed by Ktronics technicians will be carried
+    out with reasonable skill and care, in accordance with the relevant
+    Australian Standards, and to the requirements of the NSW Security
+    Industry Act 1997. Defects in our workmanship reported within 12
+    months of practical completion will be rectified at no charge.
+  </p>
+  <p>
+    Equipment we supply carries the manufacturer's warranty (typically
+    one to three years, varying by product). We will support warranty
+    claims with the manufacturer on your behalf and replace or repair
+    defective equipment in line with the manufacturer's terms.
+  </p>
+  <p>
+    Warranty does not cover: damage caused by misuse, modification by
+    third parties, power surges, lightning, water damage outside the
+    equipment's rated environment, force majeure events, or normal wear
+    and tear of consumable items (batteries, lamps, cleaning materials).
   </p>
 
-  <h2>7. Contact</h2>
+  <h2>7. Service and response times</h2>
   <p>
-    Questions about these terms? Contact us at <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>
-    or call <a href={`tel:${site.contact.phone.replace(/\s+/g, '')}`}>{site.contact.phone}</a>.
+    Where you have an active service or maintenance contract with us,
+    response times are governed by that contract. Standard response times
+    referenced on this website (for example, "next business day" or "4
+    hours") are guidelines and only become contractual commitments when
+    written into a signed agreement.
+  </p>
+  <p>
+    Emergency response (for sites with monitored alarm panels) operates
+    around the clock through our 24/7 monitoring control room on
+    {' '}<a href={`tel:${site.contact.emergencyPhoneTel}`}>{site.contact.emergencyPhone}</a>.
+    Emergency call-out fees and after-hours rates apply where the
+    contract does not include them.
+  </p>
+
+  <h2>8. Site access and your obligations</h2>
+  <p>
+    To deliver our services, we need: safe and timely access to the work
+    areas, accurate information about the building (including known
+    hazards), nominated points of contact authorised to make decisions on
+    your behalf, and reasonable cooperation with any compliance, safety,
+    or operational protocols we propose.
+  </p>
+  <p>
+    Delays caused by site access issues, late information, or unapproved
+    variations may attract additional charges. We will notify you in
+    writing before charging for delay-related costs.
+  </p>
+
+  <h2>9. Intellectual property</h2>
+  <p>
+    Designs, drawings, schedules, specifications, and configuration files
+    we produce in the course of an engagement remain the intellectual
+    property of Ktronics. Once your invoice is paid in full, you receive
+    a perpetual, royalty-free licence to use those materials for the
+    purpose of operating, maintaining, and updating the security system
+    we delivered.
+  </p>
+  <p>
+    Where you supply us with information (floor plans, asset registers,
+    cardholder lists, operational procedures), that information remains
+    yours. We will only use it to deliver the services you engage us
+    for, and we handle it in accordance with our
+    {' '}<a href="/privacy-policy/">Privacy Policy</a>.
+  </p>
+
+  <h2>10. Confidentiality</h2>
+  <p>
+    Both parties will treat the other's commercial, technical, and
+    operational information as confidential and will not disclose it to
+    third parties without consent, except where required by law,
+    regulator, or in the course of delivering the engaged services
+    (for example, to a manufacturer for a warranty claim).
+  </p>
+  <p>
+    Ktronics does not publish client names without written permission.
+    Anonymised case studies sometimes describe sectors, scope, and
+    outcomes for marketing purposes; client-identifying information is
+    withheld unless you specifically authorise it in writing.
+  </p>
+
+  <h2>11. Limitation of liability</h2>
+  <p>
+    Nothing in these terms excludes, restricts, or modifies any rights or
+    remedies you have under the Australian Consumer Law (Schedule 2 of
+    the Competition and Consumer Act 2010 (Cth)) or any other law that
+    cannot lawfully be excluded.
+  </p>
+  <p>
+    Subject to the paragraph above, our total liability to you for any
+    claim arising out of or in connection with the services (whether in
+    contract, tort, statute, or otherwise) is limited at our option to:
+    re-supply of the relevant services, payment of the cost of having the
+    relevant services re-supplied, or a refund of the amount paid for the
+    relevant services. In no case will our total aggregate liability
+    exceed the amount you have paid us under the relevant engagement in
+    the 12 months preceding the claim.
+  </p>
+  <p>
+    We are not liable for indirect, consequential, or special losses,
+    including loss of profit, revenue, business opportunity, data, or
+    goodwill, even if those losses were foreseeable.
+  </p>
+  <p>
+    Electronic security systems reduce risk; they do not eliminate it.
+    No installer can guarantee that an alarm will always activate, that
+    a camera will always capture usable footage, that monitored response
+    will always prevent loss, or that a system will never be defeated by
+    a determined attacker. You acknowledge this in engaging us.
+  </p>
+
+  <h2>12. Insurance</h2>
+  <p>
+    Ktronics holds public liability insurance, professional indemnity
+    insurance, and product liability insurance to industry-standard
+    levels. Certificates of currency are available on request.
+  </p>
+
+  <h2>13. Termination</h2>
+  <p>
+    Either party may terminate a service or maintenance contract by
+    giving the notice period specified in that contract (typically 30
+    days). Where no notice period is specified, 30 days written notice
+    applies.
+  </p>
+  <p>
+    Either party may terminate immediately if the other materially
+    breaches these terms or the underlying contract and fails to remedy
+    the breach within 14 days of written notice.
+  </p>
+  <p>
+    On termination, you remain liable for: amounts invoiced and unpaid
+    at the date of termination, work performed and equipment supplied
+    up to that date, and any non-cancellable supplier commitments we
+    have made on your behalf.
+  </p>
+
+  <h2>14. Privacy</h2>
+  <p>
+    Personal information collected through this website or in the course
+    of providing services is handled in accordance with our
+    {' '}<a href="/privacy-policy/">Privacy Policy</a>. Where we install or
+    monitor systems that capture personal information about people on
+    your site (cardholders, visitors, footage subjects), the operator of
+    the site is the data controller; we act on your behalf and in line
+    with the contract.
+  </p>
+
+  <h2>15. Force majeure</h2>
+  <p>
+    Neither party is liable for failure or delay in performing
+    obligations caused by events beyond reasonable control, including:
+    natural disasters, pandemics, government action, industrial action,
+    failure of utilities, supplier default, or cyber incidents. The
+    affected party will notify the other promptly and will use
+    reasonable efforts to resume performance.
+  </p>
+
+  <h2>16. Dispute resolution</h2>
+  <p>
+    If a dispute arises, both parties agree to first try to resolve it
+    through good-faith negotiation. If that fails within 30 days, the
+    parties will attempt mediation through the Resolution Institute
+    (resolution.institute) before commencing court proceedings, except
+    where urgent injunctive relief is required.
+  </p>
+
+  <h2>17. Governing law and jurisdiction</h2>
+  <p>
+    These terms are governed by the laws of New South Wales, Australia.
+    The parties submit to the exclusive jurisdiction of the courts of
+    New South Wales and the relevant federal courts.
+  </p>
+
+  <h2>18. General</h2>
+  <p>
+    If any part of these terms is found to be unenforceable, that part
+    will be severed and the remaining terms will continue to apply. A
+    failure or delay by either party in exercising a right does not
+    constitute a waiver of that right. These terms (together with any
+    accepted quote, signed agreement, and our Privacy Policy) constitute
+    the entire agreement between the parties relating to the subject
+    matter and supersede any prior representations.
+  </p>
+
+  <h2>19. Contact</h2>
+  <p>
+    Questions about these terms? Contact us:
+  </p>
+  <p>
+    <strong>{site.legalName}</strong><br />
+    {site.address.streetAddress}<br />
+    {site.address.locality} {site.address.region} {site.address.postalCode}<br />
+    Email: <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a><br />
+    Phone: <a href={`tel:${site.contact.phoneTel}`}>{site.contact.phone}</a>
   </p>
 </LegalLayout>
