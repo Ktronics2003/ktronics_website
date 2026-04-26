@@ -1,0 +1,113 @@
+---
+/**
+ * Testimonial — large editorial pull-quote with red opening "
+ * Sits in an alternating section background.
+ */
+import Eyebrow from '@components/ui/Eyebrow.astro';
+
+interface Props {
+  quote: string;
+  /** Optional. Many security clients require their names be withheld — leave blank for those. */
+  name?: string;
+  role: string;
+  organisation?: string;
+  eyebrow?: string;
+  /**
+   * Append a small disclosure note below the quote indicating identifying
+   * details have been withheld. Default true (security clients are typically private).
+   */
+  detailsWithheld?: boolean;
+}
+const {
+  quote,
+  name,
+  role,
+  organisation,
+  eyebrow = 'In their words',
+  detailsWithheld = true,
+} = Astro.props;
+---
+<section class="testimonial-section">
+  <div class="container">
+    <div class="testimonial reveal">
+      <Eyebrow>{eyebrow}</Eyebrow>
+      <blockquote>{quote}</blockquote>
+      <div class="testimonial-cite">
+        <div>
+          {name && <div class="testimonial-cite-name">{name}</div>}
+          <div class="testimonial-cite-role">
+            {role}{organisation && <> &nbsp;/&nbsp; {organisation}</>}
+          </div>
+        </div>
+      </div>
+      {detailsWithheld && (
+        <p class="testimonial-disclosure">
+          Client name and identifying details withheld at their request. Security clients require discretion.
+        </p>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Sits flush against the CraftGallery (same paper bg). Top padding tightened
+     so the two light sections read as one breathing area, not two distinct
+     blocks separated by 250+px of empty space. */
+  .testimonial-section {
+    padding-top: clamp(40px, 5vw, 64px);
+    padding-bottom: clamp(80px, 10vw, 128px);
+  }
+  .testimonial {
+    text-align: left;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .testimonial blockquote {
+    margin: 0 0 40px;
+    font-family: var(--font-display);
+    font-size: clamp(1.375rem, 2.5vw, 1.875rem);
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.025em;
+    color: var(--ktx-ink);
+    text-wrap: balance;
+  }
+  .testimonial blockquote::before {
+    content: "\201C";
+    display: block;
+    font-size: 4rem;
+    line-height: 0.5;
+    color: var(--ktx-red);
+    margin-bottom: 16px;
+    margin-top: 16px;
+  }
+  .testimonial-cite {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding-top: 32px;
+    border-top: 1px solid var(--ktx-line);
+  }
+  .testimonial-cite-name {
+    font-weight: 500;
+    color: var(--ktx-ink);
+  }
+  .testimonial-cite-role {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--ktx-mute);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* Disclosure note — quiet, mono, sits below the cite block. */
+  .testimonial-disclosure {
+    margin: 24px 0 0;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.04em;
+    color: var(--ktx-mute);
+    line-height: 1.5;
+    max-width: 60ch;
+  }
+</style>

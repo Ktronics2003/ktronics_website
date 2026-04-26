@@ -1,0 +1,207 @@
+---
+/**
+ * Contact info block — sits next to the form on the Contact page.
+ *
+ * Three groups, vertically stacked:
+ *   1. Three contact channels (Sales / Service / Emergency) with their phone +
+ *      email so existing clients route to the right inbox without thinking.
+ *   2. Address: street + PO Box + office hours.
+ *   3. Social row: Facebook, Instagram, LinkedIn, YouTube — small inline SVGs.
+ */
+import { site } from '@lib/site';
+
+const tel = (n: string) => `tel:${n.replace(/\s+/g, '')}`;
+---
+<aside class="contact-info">
+  {/* ----- 1. Channels ----- */}
+  <ul class="channels">
+    <li class="channel">
+      <span class="channel-label">New enquiries</span>
+      <a class="channel-phone" href={tel(site.contact.phone)}>{site.contact.phone}</a>
+      <a class="channel-email" href={`mailto:${site.contact.email}`}>{site.contact.email}</a>
+    </li>
+    <li class="channel">
+      <span class="channel-label">Service requests <small>(existing clients)</small></span>
+      <a class="channel-phone" href={tel(site.contact.phone)}>{site.contact.phone}</a>
+      <a class="channel-email" href={`mailto:${site.contact.serviceEmail}`}>{site.contact.serviceEmail}</a>
+    </li>
+    <li class="channel channel--emergency">
+      <span class="channel-label">Emergency control room <small>(monitored clients only)</small></span>
+      <a class="channel-phone" href={tel(site.contact.emergencyPhone)}>{site.contact.emergencyPhone}</a>
+      <span class="channel-meta">24/7</span>
+    </li>
+  </ul>
+
+  {/* ----- 2. Address + hours ----- */}
+  <div class="info-block">
+    <span class="info-label">Office</span>
+    <address class="info-body">
+      {site.address.streetAddress}<br />
+      {site.address.locality} {site.address.region} {site.address.postalCode}
+    </address>
+    <span class="info-meta">{site.address.poBox}</span>
+    <span class="info-meta">{site.hours.display}</span>
+  </div>
+
+  {/* ----- 3. Social row ----- */}
+  <div class="info-block">
+    <span class="info-label">Follow Ktronics</span>
+    <ul class="socials">
+      <li>
+        <a href={site.social.facebook} target="_blank" rel="noopener" aria-label="Ktronics on Facebook">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+            <path d="M13.5 21v-7.5h2.55l.38-2.96H13.5V8.66c0-.86.24-1.45 1.47-1.45h1.57V4.56c-.27-.04-1.2-.12-2.28-.12-2.26 0-3.81 1.38-3.81 3.91v2.18H7.9v2.96h2.55V21h3.05Z"/>
+          </svg>
+          <span>Facebook</span>
+        </a>
+      </li>
+      <li>
+        <a href={site.social.instagram} target="_blank" rel="noopener" aria-label="Ktronics on Instagram">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="5"/>
+            <circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+          </svg>
+          <span>Instagram</span>
+        </a>
+      </li>
+      <li>
+        <a href={site.social.linkedin} target="_blank" rel="noopener" aria-label="Ktronics on LinkedIn">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+            <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S.02 4.88.02 3.5C.02 2.12 1.13 1 2.5 1S4.98 2.12 4.98 3.5ZM.22 8h4.55v14H.22V8Zm7.43 0h4.36v1.92h.06c.61-1.15 2.1-2.36 4.32-2.36 4.62 0 5.47 3.04 5.47 6.99V22h-4.55v-6.2c0-1.48-.03-3.39-2.07-3.39-2.07 0-2.39 1.62-2.39 3.29V22H7.65V8Z"/>
+          </svg>
+          <span>LinkedIn</span>
+        </a>
+      </li>
+      <li>
+        <a href={site.social.youtube} target="_blank" rel="noopener" aria-label="Ktronics on YouTube">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+            <path d="M23.5 7.05a2.97 2.97 0 0 0-2.09-2.1C19.55 4.5 12 4.5 12 4.5s-7.55 0-9.41.45A2.97 2.97 0 0 0 .5 7.05C.05 8.92.05 12 .05 12s0 3.08.45 4.95a2.97 2.97 0 0 0 2.09 2.1c1.86.45 9.41.45 9.41.45s7.55 0 9.41-.45a2.97 2.97 0 0 0 2.09-2.1c.45-1.87.45-4.95.45-4.95s0-3.08-.45-4.95ZM9.75 15.6V8.4l6.25 3.6-6.25 3.6Z"/>
+          </svg>
+          <span>YouTube</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</aside>
+
+<style>
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  /* ----- Channels ----- */
+  .channels {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--ktx-line);
+  }
+  .channel {
+    border-bottom: 1px solid var(--ktx-line);
+    padding: 20px 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+  .channel-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ktx-mute);
+    margin-bottom: 6px;
+  }
+  .channel-label small {
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--ktx-mute);
+    margin-left: 4px;
+    font-size: 0.875em;
+  }
+  .channel-phone {
+    font-family: var(--font-mono);
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: var(--ktx-ink);
+    transition: color 0.18s ease;
+  }
+  .channel-email {
+    font-size: 0.9375rem;
+    color: var(--ktx-ink-soft);
+    transition: color 0.18s ease;
+  }
+  .channel-phone:hover,
+  .channel-email:hover { color: var(--accent-text); }
+
+  .channel--emergency .channel-label,
+  .channel--emergency .channel-phone {
+    color: var(--accent-text);
+  }
+  .channel-meta {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ktx-mute);
+  }
+
+  /* ----- Info blocks (address, socials) ----- */
+  .info-block {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .info-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ktx-mute);
+    margin-bottom: 6px;
+  }
+  .info-body {
+    font-style: normal;
+    color: var(--ktx-ink);
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+  .info-meta {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--ktx-mute);
+    line-height: 1.6;
+  }
+
+  /* ----- Socials ----- */
+  .socials {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    margin-top: 4px;
+  }
+  .socials a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border: 1px solid var(--ktx-line);
+    border-radius: 2px;
+    background: white;
+    color: var(--ktx-ink);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    transition: all 0.18s var(--ease);
+  }
+  .socials a:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-1px);
+  }
+  .socials svg { flex-shrink: 0; }
+</style>

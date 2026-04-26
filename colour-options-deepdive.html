@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ktronics — Colour Options Deep Dive (6 vs 8 vs Hybrid)</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ktx-red: #E51838;
+    --ktx-red-hover: #C8142F;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: #2a2a2a;
+    color: white;
+    font-family: 'IBM Plex Sans', system-ui, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+
+  .page-header {
+    padding: 48px 32px 24px;
+    max-width: 1280px;
+    margin: 0 auto;
+    color: white;
+  }
+  .page-header h1 {
+    margin: 0 0 8px;
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+  }
+  .page-header p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.65);
+    max-width: 65ch;
+  }
+
+  /* Per-option container */
+  .option {
+    max-width: 1280px;
+    margin: 32px auto;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+  }
+  .option-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 24px;
+    background: #1a1a1a;
+    color: white;
+    flex-wrap: wrap;
+  }
+  .option-label-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .option-label-name strong { color: white; }
+  .option-label-stack {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6875rem;
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .option-label-stack span {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 4px 8px;
+    border-radius: 2px;
+    margin-left: 6px;
+    color: white;
+  }
+
+  /* ---- The banner + hero + sections (templated) ---- */
+  .surface { padding: 0 32px; }
+  .surface .inner { max-width: 1216px; margin: 0 auto; }
+
+  .banner-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 0;
+    gap: 32px;
+    border-bottom: 1px solid var(--line);
+  }
+  .banner-logo img {
+    height: 36px;
+    width: auto;
+    filter: var(--logo-filter, none);
+  }
+  .banner-nav {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+  }
+  .banner-nav a {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--fg);
+  }
+  .banner-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+    border-left: 1px solid var(--line);
+    padding-left: 24px;
+  }
+  .banner-cta-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--fg-mute);
+  }
+  .banner-cta a {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.0625rem;
+    font-weight: 500;
+    color: var(--fg);
+  }
+
+  .hero {
+    padding: 56px 0 64px;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 48px;
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--line);
+    flex-wrap: wrap;
+  }
+  .hero-meta-item {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--fg-mute);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .hero-meta-item-label {
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .hero-meta-item strong {
+    color: var(--fg);
+    font-weight: 600;
+    font-size: 0.8125rem;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .hero h2 {
+    margin: 0 0 24px;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    font-weight: 600;
+    color: var(--fg);
+    max-width: 14ch;
+  }
+  .hero h2 em {
+    color: var(--ktx-red);
+    font-style: italic;
+  }
+  .hero-lead {
+    color: var(--fg-mute);
+    max-width: 50ch;
+    margin: 0 0 24px;
+  }
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 24px;
+    background: var(--ktx-red);
+    color: white;
+    font-weight: 500;
+    border-radius: 2px;
+  }
+  .hero-img {
+    aspect-ratio: 4/5;
+    background-color: #1E1A1B;
+    background-size: cover;
+    background-position: center 30%;
+    background-image: url('./src/assets/images/hero/hero-karl-ktronics-truck-sydney.jpg');
+    position: relative;
+  }
+  .hero-img-tag {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: var(--bg);
+    color: var(--fg);
+    padding: 8px 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* Stats bar */
+  .stats {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 40px 0;
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+  }
+  .stat-num {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600;
+    line-height: 1;
+    color: var(--fg);
+    letter-spacing: -0.035em;
+  }
+  .stat-num small { font-size: 0.5em; color: var(--ktx-red); margin-left: 4px; }
+  .stat-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--fg-mute);
+    margin-top: 8px;
+    line-height: 1.4;
+  }
+
+  /* Solutions strip */
+  .solutions {
+    padding: 64px 0 80px;
+  }
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ktx-red);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 24px;
+    height: 1px;
+    background: currentColor;
+  }
+  .sol-h2 {
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    color: var(--fg);
+    margin: 0 0 32px;
+    max-width: 18ch;
+  }
+  .solutions-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+  }
+  .solution-card {
+    padding: 32px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .solution-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--fg-mute);
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+  }
+  .solution-card h3 {
+    font-size: 1.125rem;
+    color: var(--fg);
+    margin: 0 0 12px;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+  }
+  .solution-card p {
+    color: var(--fg-mute);
+    font-size: 0.9375rem;
+    margin: 0;
+  }
+
+  /* ==========================================================
+     OPTION 6: Concrete throughout
+     ========================================================== */
+  .opt-6 .surface,
+  .opt-6 .stats,
+  .opt-6 .solutions {
+    --bg: #DEDAD2;
+    --fg: #1E1A1B;
+    --fg-mute: #6F6A63;
+    --line: #BFBAB1;
+    background: var(--bg);
+    color: var(--fg);
+  }
+
+  /* ==========================================================
+     OPTION 8: Dark hero, paper body
+     ========================================================== */
+  .opt-8 .surface.dark {
+    --bg: #0A0908;
+    --fg: #FAFAF7;
+    --fg-mute: rgba(250, 250, 247, 0.65);
+    --line: rgba(250, 250, 247, 0.15);
+    --logo-filter: brightness(0) invert(1);
+    background: var(--bg);
+    color: var(--fg);
+  }
+  .opt-8 .surface.dark .banner-inner { border-bottom: 2px solid var(--ktx-red); }
+  .opt-8 .surface.light {
+    --bg: #FAFAF7;
+    --fg: #1E1A1B;
+    --fg-mute: #8A8682;
+    --line: #D9D7D2;
+    background: var(--bg);
+    color: var(--fg);
+  }
+
+  /* ==========================================================
+     HYBRID: Dark hero, concrete body
+     ========================================================== */
+  .opt-hybrid .surface.dark {
+    --bg: #0A0908;
+    --fg: #FAFAF7;
+    --fg-mute: rgba(250, 250, 247, 0.65);
+    --line: rgba(250, 250, 247, 0.15);
+    --logo-filter: brightness(0) invert(1);
+    background: var(--bg);
+    color: var(--fg);
+  }
+  .opt-hybrid .surface.dark .banner-inner { border-bottom: 2px solid var(--ktx-red); }
+  .opt-hybrid .surface.concrete {
+    --bg: #DEDAD2;
+    --fg: #1E1A1B;
+    --fg-mute: #6F6A63;
+    --line: #BFBAB1;
+    background: var(--bg);
+    color: var(--fg);
+  }
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <h1>Option 6 vs Option 8 vs a Hybrid</h1>
+  <p>
+    Same banner + hero + stats + solutions strip in three colour systems. This is roughly
+    what the top of every page would feel like. Scroll the full length of each — the question
+    isn't just the hero, it's how the design sustains across the next two sections.
+  </p>
+</header>
+
+<!-- ===== OPTION 6: Concrete throughout ===== -->
+<section class="option opt-6">
+  <div class="option-label">
+    <span class="option-label-name"><strong>Option 6 — Concrete throughout</strong>  &nbsp;Single palette. Architectural, substantial, consistent.</span>
+    <span class="option-label-stack">
+      BG <span>#DEDAD2</span>
+      Text <span>#1E1A1B</span>
+    </span>
+  </div>
+
+  <div class="surface">
+    <div class="inner">
+      <div class="banner-inner">
+        <a class="banner-logo" href="#"><img src="./public/images/ktronics-logo.png" alt="Ktronics" /></a>
+        <nav class="banner-nav">
+          <a href="#">Solutions</a><a href="#">Industries</a><a href="#">Work</a>
+          <a href="#">About</a><a href="#">Resources</a><a href="#">Contact</a>
+        </nav>
+        <div class="banner-cta">
+          <span class="banner-cta-label">Sydney • Call</span>
+          <a href="tel:1300621060">1300 621 060</a>
+        </div>
+      </div>
+
+      <div class="hero">
+        <div class="hero-meta">
+          <span class="hero-meta-item"><span class="hero-meta-item-label">Established</span><strong>2003</strong></span>
+          <span class="hero-meta-item"><span class="hero-meta-item-label">Membership</span><strong>ASIAL Gold Member</strong></span>
+          <span class="hero-meta-item"><span class="hero-meta-item-label">NSW Master Licence</span><strong>102039</strong></span>
+        </div>
+        <div class="hero-grid">
+          <div>
+            <h2>Commercial security systems that <em>actually work</em> when you need them.</h2>
+            <p class="hero-lead">Sydney's trusted electronic security installer for two decades.</p>
+            <a class="hero-cta" href="#">Get a quote →</a>
+          </div>
+          <div class="hero-img"><div class="hero-img-tag">● Karl Lamb / MD</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="surface">
+    <div class="inner">
+      <div class="stats">
+        <div class="stats-grid">
+          <div><div class="stat-num">22<small>+</small></div><div class="stat-label">Years protecting<br>Sydney businesses</div></div>
+          <div><div class="stat-num">90<small>+</small></div><div class="stat-label">Years combined<br>technical experience</div></div>
+          <div><div class="stat-num">20<small>+</small></div><div class="stat-label">Years with our<br>longest-standing clients</div></div>
+          <div><div class="stat-num">24/7</div><div class="stat-label">Monitoring &amp; emergency<br>response available</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="surface">
+    <div class="inner">
+      <div class="solutions">
+        <span class="eyebrow">01 / What we do</span>
+        <h2 class="sol-h2">Four pillars of commercial electronic security.</h2>
+        <div class="solutions-grid">
+          <div class="solution-card"><div class="solution-num">01 / Access Control</div><h3>Control who goes where, and when.</h3><p>Smart, scalable access systems tailored to your operations and compliance needs.</p></div>
+          <div class="solution-card"><div class="solution-num">02 / Video Surveillance</div><h3>Eyes on every corner of your site.</h3><p>HD, 4K, thermal, and AI-enabled CCTV systems with mobile alerts.</p></div>
+          <div class="solution-card"><div class="solution-num">03 / Visitor Management</div><h3>Know who's on-site, in real time.</h3><p>Streamlined check-in systems that make a strong first impression.</p></div>
+          <div class="solution-card"><div class="solution-num">04 / Maintenance</div><h3>Always-on systems. Always-on support.</h3><p>Tailored maintenance plans, 24/7 monitoring, and emergency response.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== OPTION 8: Dark hero, paper body ===== -->
+<section class="option opt-8">
+  <div class="option-label">
+    <span class="option-label-name"><strong>Option 8 — Dark hero + light body</strong>  &nbsp;Strong first impression, then comfortable for long-form reading.</span>
+    <span class="option-label-stack">
+      Hero <span>#0A0908</span>
+      Body <span>#FAFAF7</span>
+    </span>
+  </div>
+
+  <div class="surface dark">
+    <div class="inner">
+      <div class="banner-inner">
+        <a class="banner-logo" href="#"><img src="./public/images/ktronics-logo.png" alt="Ktronics" /></a>
+        <nav class="banner-nav">
+          <a href="#">Solutions</a><a href="#">Industries</a><a href="#">Work</a>
+          <a href="#">About</a><a href="#">Resources</a><a href="#">Contact</a>
+        </nav>
+        <div class="banner-cta">
+          <span class="banner-cta-label">Sydney • Call</span>
+          <a href="tel:1300621060">1300 621 060</a>
+        </div>
+      </div>
+
+      <div class="hero">
+        <div class="hero-meta">
+          <span class="hero-meta-item"><span class="hero-meta-item-label">Established</span><strong>2003</strong></span>
+          <span class="hero-meta-item"><span class="hero-meta-item-label">Membership</span><strong>ASIAL Gold Member</strong></span>
+          <span class="hero-meta-item"><span class="hero-meta-item-label">NSW Master Licence</span><strong>102039</strong></span>
+        </div>
+        <div class="hero-grid">
+          <div>
+            <h2>Commercial security systems that <em>actually work</em> when you need them.</h2>
+            <p class="hero-lead">Sydney's trusted electronic security installer for two decades.</p>
+            <a class="hero-cta" href="#">Get a quote →</a>
+          </div>
+          <div class="hero-img"><div class="hero-img-tag">● Karl Lamb / MD</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="surface light">
+    <div class="inner">
+      <div class="stats">
+        <div class="stats-grid">
+          <div><div class="stat-num">22<small>+</small></div><div class="stat-label">Years protecting<br>Sydney businesses</div></div>
+          <div><div class="stat-num">90<small>+</small></div><div class="stat-label">Years combined<br>technical experience</div></div>
+          <div><div class="stat-num">20<small>+</small></div><div class="stat-label">Years with our<br>longest-standing clients</div></div>
+          <div><div class="stat-num">24/7</div><div class="stat-label">Monitoring &amp; emergency<br>response available</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="surface light">
+    <div class="inner">
+      <div class="solutions">
+        <span class="eyebrow">01 / What we do</span>
+        <h2 class="sol-h2">Four pillars of commercial electronic security.</h2>
+        <div class="solutions-grid">
+          <div class="solution-card"><div class="solution-num">01 / Access Control</div><h3>Control who goes where, and when.</h3><p>Smart, scalable access systems tailored to your operations and compliance needs.</p></div>
+          <div class="solution-card"><div class="solution-num">02 / Video Surveillance</div><h3>Eyes on every corner of your site.</h3><p>HD, 4K, thermal, and AI-enabled CCTV systems with mobile alerts.</p></div>
+          <div class="solution-card"><div class="solution-num">03 / Visitor Management</div><h3>Know who's on-site, in real time.</h3><p>Streamlined check-in systems that make a strong first impression.</p></div>
+          <div class="solution-card"><div class="solution-num">04 / Maintenance</div><h3>Always-on systems. Always-on support.</h3><p>Tailored maintenance plans, 24/7 monitoring, and emergency response.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HYBRID: Dark hero, concrete body ===== -->
+<section class="option opt-hybrid">
+  <div class="option-label">
+    <span class="option-label-name"><strong>Hybrid — Dark hero + concrete body</strong>  &nbsp;Maximum first impression. Body stays substantial. No eggshell at all.</span>
+    <span class="option-label-stack">
+      Hero <span>#0A0908</span>
+      Body <span>#DEDAD2</span>
+    </span>
+  </div>
+
+  <div class="surface dark">
+    <div class="inner">
+      <div class="banner-inner">
+        <a class="banner-logo" href="#"><img src="./public/images/ktronics-logo.png" alt="Ktronics" /></a>
+        <nav class="banner-nav">
+          <a href="#">Solutions</a><a href="#">Industries</a><a href="#">Work</a>
+          <a href="#">About</a><a href="#">Resources</a><a href="#">Contact</a>
+        </nav>
+        <div class="banner-cta">
+          <span class="banner-cta-label">Sydney • Call</span>
+          <a href="tel:1300621060">1300 621 060</a>
+        </div>
+      </div>
+
+      <div class="hero">
+        <div class="hero-meta">
+          <span class="hero-meta-item"><span class="hero-meta-item-label">Established</span><strong>2003</strong></span>
+          <span class="hero-meta-item"><span class="hero-meta-item-label">Membership</span><strong>ASIAL Gold Member</strong></span>
+          <span class="hero-meta-item"><span class="hero-meta-item-label">NSW Master Licence</span><strong>102039</strong></span>
+        </div>
+        <div class="hero-grid">
+          <div>
+            <h2>Commercial security systems that <em>actually work</em> when you need them.</h2>
+            <p class="hero-lead">Sydney's trusted electronic security installer for two decades.</p>
+            <a class="hero-cta" href="#">Get a quote →</a>
+          </div>
+          <div class="hero-img"><div class="hero-img-tag">● Karl Lamb / MD</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="surface concrete">
+    <div class="inner">
+      <div class="stats">
+        <div class="stats-grid">
+          <div><div class="stat-num">22<small>+</small></div><div class="stat-label">Years protecting<br>Sydney businesses</div></div>
+          <div><div class="stat-num">90<small>+</small></div><div class="stat-label">Years combined<br>technical experience</div></div>
+          <div><div class="stat-num">20<small>+</small></div><div class="stat-label">Years with our<br>longest-standing clients</div></div>
+          <div><div class="stat-num">24/7</div><div class="stat-label">Monitoring &amp; emergency<br>response available</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="surface concrete">
+    <div class="inner">
+      <div class="solutions">
+        <span class="eyebrow">01 / What we do</span>
+        <h2 class="sol-h2">Four pillars of commercial electronic security.</h2>
+        <div class="solutions-grid">
+          <div class="solution-card"><div class="solution-num">01 / Access Control</div><h3>Control who goes where, and when.</h3><p>Smart, scalable access systems tailored to your operations and compliance needs.</p></div>
+          <div class="solution-card"><div class="solution-num">02 / Video Surveillance</div><h3>Eyes on every corner of your site.</h3><p>HD, 4K, thermal, and AI-enabled CCTV systems with mobile alerts.</p></div>
+          <div class="solution-card"><div class="solution-num">03 / Visitor Management</div><h3>Know who's on-site, in real time.</h3><p>Streamlined check-in systems that make a strong first impression.</p></div>
+          <div class="solution-card"><div class="solution-num">04 / Maintenance</div><h3>Always-on systems. Always-on support.</h3><p>Tailored maintenance plans, 24/7 monitoring, and emergency response.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

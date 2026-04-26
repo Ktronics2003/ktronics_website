@@ -1,0 +1,62 @@
+---
+/**
+ * Homepage — / (root).
+ *
+ * Wires the section components together:
+ *   Hero → StatsBar → SolutionsGrid → FeatureCaseStudy → IndustriesList
+ *   → Process → CraftGallery → Testimonial → CtaBlock
+ *
+ * Narrative arc: who → what → flagship proof → for whom → how we work
+ *               → visual proof → social proof → action.
+ * Dark sections (Hero, Feature, Process, CTA) act as visual punctuation.
+ *
+ * SEO + JSON-LD:
+ *   - title/description per 05-seo-requirements.md
+ *   - Organization + LocalBusiness schema injected by BaseLayout
+ *   - WebSite schema added here for sitelinks search box eligibility
+ */
+import PageLayout from '@layouts/PageLayout.astro';
+import Hero from '@components/sections/Hero.astro';
+import StatsBar from '@components/sections/StatsBar.astro';
+import SolutionsGrid from '@components/sections/SolutionsGrid.astro';
+import CraftGallery from '@components/sections/CraftGallery.astro';
+import FeatureCaseStudy from '@components/sections/FeatureCaseStudy.astro';
+import IndustriesList from '@components/sections/IndustriesList.astro';
+import Testimonial from '@components/sections/Testimonial.astro';
+import Process from '@components/sections/Process.astro';
+import CtaBlock from '@components/sections/CtaBlock.astro';
+import { site } from '@lib/site';
+
+const seo = {
+  title: 'Commercial Electronic Security Sydney',
+  description:
+    "Sydney commercial electronic security since 2003. Access control, CCTV, visitor management, 24/7 monitoring. ASIAL Gold Member, Master Licence 102039.",
+  path: '/',
+};
+
+// WebSite schema — enables Google sitelinks search box if/when search is added.
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${site.url}/#website`,
+  url: site.url,
+  name: site.alternateName,
+  publisher: { '@id': `${site.url}/#organization` },
+  inLanguage: 'en-AU',
+};
+---
+<PageLayout seo={seo} schemaBlocks={[websiteSchema]}>
+  <Hero />
+  <StatsBar />
+  <SolutionsGrid />
+  <FeatureCaseStudy />
+  <IndustriesList />
+  <Process />
+  <CraftGallery />
+  <Testimonial
+    quote="Ktronics don't just install. They design around how we actually operate. After more than a decade and three site upgrades, they still pick up the phone when we need them."
+    role="Facilities Manager"
+    organisation="Sydney CBD commercial tower"
+  />
+  <CtaBlock />
+</PageLayout>

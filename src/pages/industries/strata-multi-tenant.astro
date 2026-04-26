@@ -1,0 +1,44 @@
+---
+/**
+ * /industries/strata-multi-tenant/
+ * See warehouse-logistics.astro for the full composition + schema rationale.
+ */
+import PageLayout from '@layouts/PageLayout.astro';
+import IndustryHero from '@components/sections/IndustryHero.astro';
+import IndustryChallenges from '@components/sections/IndustryChallenges.astro';
+import IndustrySolutions from '@components/sections/IndustrySolutions.astro';
+import Faqs from '@components/sections/Faqs.astro';
+import RelatedIndustries from '@components/sections/RelatedIndustries.astro';
+import CtaBlock from '@components/sections/CtaBlock.astro';
+import { breadcrumbSchema, faqPageSchema } from '@lib/schema';
+import { getIndustry } from '@lib/industries';
+import { site } from '@lib/site';
+
+const industry = getIndustry('strata-multi-tenant');
+
+const seo = {
+  title: `${industry.pageTitle} | Ktronics`,
+  description:
+    "Strata and multi-tenant building security in Sydney: multi-resident access, common-area CCTV, intercom, audit trails. ASIAL Gold Member.",
+  path: `/industries/${industry.slug}/`,
+};
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: `${site.url}/` },
+  { name: 'Industries', url: `${site.url}/industries/` },
+  { name: industry.label },
+]);
+
+const faqSchema = faqPageSchema(industry.faqs);
+---
+<PageLayout seo={seo} schemaBlocks={[breadcrumbs, faqSchema]}>
+  <IndustryHero industry={industry} />
+  <IndustryChallenges items={industry.challenges} />
+  <IndustrySolutions slugs={industry.recommendedSolutions} />
+  <Faqs items={industry.faqs} eyebrow="Common questions" heading="Frequently asked." />
+  <RelatedIndustries currentSlug={industry.slug} />
+  <CtaBlock
+    heading="Strata or building manager? <em>Let&apos;s scope it together.</em>"
+    buttonText="Request a site assessment"
+  />
+</PageLayout>

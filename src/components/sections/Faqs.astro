@@ -1,0 +1,163 @@
+---
+/**
+ * FAQs accordion — semantic <details>/<summary> for native open/close.
+ *
+ * Reusable across pages: pass an `items` array of {question, answer}.
+ * The page is responsible for emitting the matching FAQPage JSON-LD via the
+ * faqPageSchema() helper in src/lib/schema.ts so the structured data lives
+ * in <head> alongside the rest of the page schema.
+ *
+ * Why <details> instead of a JS accordion:
+ *   - Works without JavaScript (progressive enhancement, accessibility win)
+ *   - Native expand/collapse animation in modern browsers
+ *   - Keyboard-navigable out of the box
+ *   - Screen readers announce expanded/collapsed state automatically
+ */
+import Eyebrow from '@components/ui/Eyebrow.astro';
+
+interface FaqItem {
+  question: string;
+  /** Plain text or simple HTML (no script tags). */
+  answer: string;
+}
+
+interface Props {
+  items: FaqItem[];
+  eyebrow?: string;
+  heading?: string;
+  /** Open the first item by default. Useful on focused-topic pages. */
+  openFirst?: boolean;
+}
+
+const {
+  items,
+  eyebrow = 'Common questions',
+  heading = 'Frequently asked.',
+  openFirst = false,
+} = Astro.props;
+---
+<section class="faqs">
+  <div class="container">
+    <div class="faqs-header reveal">
+      <Eyebrow>{eyebrow}</Eyebrow>
+      <h2 class="faqs-heading">{heading}</h2>
+    </div>
+
+    <ul class="faqs-list reveal">
+      {items.map((item, i) => (
+        <li>
+          <details class="faq" open={openFirst && i === 0}>
+            <summary>
+              <span class="faq-q">{item.question}</span>
+              <span class="faq-icon" aria-hidden="true"></span>
+            </summary>
+            <div class="faq-a" set:html={item.answer} />
+          </details>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .faqs {
+    padding-block: clamp(64px, 8vw, 96px);
+  }
+  .faqs-header {
+    max-width: 60ch;
+    margin-bottom: 40px;
+  }
+  .faqs-heading {
+    margin: 16px 0 0;
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+  }
+
+  .faqs-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--ktx-line);
+    max-width: 920px;
+  }
+  .faqs-list li {
+    border-bottom: 1px solid var(--ktx-line);
+  }
+
+  /* Native details */
+  .faq {
+    /* Reset default summary marker */
+  }
+  .faq summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 20px 0;
+    cursor: pointer;
+    list-style: none;
+    transition: color 0.18s ease;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary:hover .faq-q { color: var(--accent-text); }
+
+  .faq-q {
+    font-family: var(--font-display);
+    font-size: clamp(1rem, 1.5vw, 1.125rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--ktx-ink);
+    transition: color 0.18s ease;
+  }
+
+  /* Plus icon → minus icon when [open] */
+  .faq-icon {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    position: relative;
+  }
+  .faq-icon::before,
+  .faq-icon::after {
+    content: "";
+    position: absolute;
+    background: var(--ktx-ink);
+    transition: transform 0.25s var(--ease), opacity 0.2s ease;
+  }
+  .faq-icon::before {
+    /* Horizontal bar */
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1.5px;
+    transform: translateY(-50%);
+  }
+  .faq-icon::after {
+    /* Vertical bar — collapses on open */
+    left: 50%;
+    top: 0;
+    width: 1.5px;
+    height: 100%;
+    transform: translateX(-50%);
+  }
+  .faq[open] .faq-icon::after {
+    transform: translateX(-50%) rotate(90deg);
+    opacity: 0;
+  }
+
+  .faq-a {
+    padding: 0 0 24px;
+    color: var(--ktx-ink-soft);
+    font-size: 1rem;
+    line-height: 1.65;
+    max-width: 75ch;
+  }
+  .faq-a :global(a) {
+    color: var(--accent-text);
+    border-bottom: 1px solid currentColor;
+  }
+  .faq-a :global(a:hover) { color: var(--accent); }
+  .faq-a :global(p) { margin: 0 0 12px; }
+  .faq-a :global(p:last-child) { margin-bottom: 0; }
+</style>

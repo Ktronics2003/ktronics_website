@@ -1,0 +1,115 @@
+---
+/**
+ * HowItWorks process strip — sits on the dark charcoal surface as visual
+ * punctuation between two light sections on a Solution detail page.
+ *
+ * Different from the homepage Process component (which has fixed brand copy):
+ * this one takes a per-solution steps array so each Solution page can describe
+ * its own assess → design → install → support flow.
+ */
+import Eyebrow from '@components/ui/Eyebrow.astro';
+
+interface Step {
+  num: string;
+  title: string;
+  body: string;
+}
+
+interface Props {
+  steps: Step[];
+  eyebrow?: string;
+  heading?: string;
+  text?: string;
+}
+const {
+  steps,
+  eyebrow = 'How it works',
+  heading = 'From first walk to ongoing service.',
+  text = 'Same process every time. Same techs every step. No surprises in the quote, no surprises on install day.',
+} = Astro.props;
+---
+<section class="howitworks on-dark">
+  <div class="container">
+    <div class="howitworks-header reveal">
+      <Eyebrow>{eyebrow}</Eyebrow>
+      <h2 class="howitworks-heading">{heading}</h2>
+      {text && <p class="howitworks-text">{text}</p>}
+    </div>
+
+    <div class="howitworks-grid reveal">
+      {steps.map((step, i) => (
+        <div class:list={['hiw-step', i === 0 && 'hiw-step--first']}>
+          <div class="hiw-num">{step.num}</div>
+          <h3 class="hiw-title">{step.title}</h3>
+          <p class="hiw-body">{step.body}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .howitworks {
+    background: var(--bg-dark);
+    color: var(--fg-on-dark);
+    padding-block: clamp(80px, 10vw, 128px);
+  }
+  .howitworks-header {
+    max-width: 60ch;
+    margin-bottom: 56px;
+  }
+  .howitworks-heading {
+    margin: 16px 0 16px;
+    color: var(--fg-on-dark);
+    font-size: clamp(1.625rem, 3vw, 2.25rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+  .howitworks-text {
+    color: var(--fg-mute-on-dark);
+    font-size: var(--t-lead);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .howitworks-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+  }
+  .hiw-step {
+    border-top: 2px solid var(--fg-on-dark);
+    padding-top: 24px;
+  }
+  .hiw-step--first { border-top-color: var(--ktx-red); }
+
+  .hiw-num {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg-mute-on-dark);
+    margin-bottom: 16px;
+  }
+  .hiw-title {
+    color: var(--fg-on-dark);
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0 0 12px;
+    letter-spacing: -0.025em;
+  }
+  .hiw-body {
+    color: var(--fg-mute-on-dark);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  @media (max-width: 800px) {
+    .howitworks-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+  }
+  @media (max-width: 480px) {
+    .howitworks-grid { grid-template-columns: 1fr; }
+  }
+</style>

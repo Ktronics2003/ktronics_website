@@ -1,0 +1,212 @@
+---
+/**
+ * /case-studies/ — hub page listing every published case study.
+ *
+ * For launch we have one anchor case (pharma distribution). The grid handles
+ * 1, 2, 3+ cases gracefully. The page also shows an honest "more coming"
+ * note while the library is small — better than padding with placeholders.
+ */
+import PageLayout from '@layouts/PageLayout.astro';
+import Eyebrow from '@components/ui/Eyebrow.astro';
+import CtaBlock from '@components/sections/CtaBlock.astro';
+import { allCaseStudies } from '@lib/caseStudies';
+import { breadcrumbSchema } from '@lib/schema';
+import { site } from '@lib/site';
+
+const studies = allCaseStudies();
+
+const seo = {
+  title: 'Case Studies: Sydney Commercial Security Installations',
+  description:
+    "Anonymised Sydney commercial security case studies: pharma distribution, critical infrastructure, data centres, multi-site corporate. Client names withheld.",
+  path: '/case-studies/',
+};
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: `${site.url}/` },
+  { name: 'Case Studies' },
+]);
+---
+<PageLayout seo={seo} schemaBlocks={[breadcrumbs]}>
+  <section class="cs-hub-hero on-dark">
+    <div class="container">
+      <Eyebrow>Selected projects</Eyebrow>
+      <h1 class="cs-hub-title">
+        Two decades of work<br />
+        you&apos;ve probably <em>walked past</em><br />
+        and never noticed.
+      </h1>
+      <p class="cs-hub-lead">
+        A look at the kind of projects Ktronics has delivered across NSW
+        high-voltage infrastructure, multi-site pharmaceutical operations,
+        global beverage manufacturing, and compliance-grade data centres.
+        The integration approach, the scale of the install, and how long
+        the systems have stayed in service.
+      </p>
+    </div>
+  </section>
+
+  <section class="cs-hub-grid-section">
+    <div class="container">
+      <ul class="cs-hub-grid">
+        {studies.map((cs) => (
+          <li class="cs-hub-card">
+            <a href={`/case-studies/${cs.slug}/`}>
+              <div class="cs-hub-image">
+                <img
+                  src={cs.heroImage}
+                  alt={cs.heroImageAlt}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="cs-hub-meta">
+                <span class="cs-hub-industry">{cs.industry} / {cs.location}</span>
+                <h2 class="cs-hub-card-title">{cs.title}</h2>
+                <p class="cs-hub-summary">{cs.summary}</p>
+                <span class="cs-hub-cta">Read the case study <span aria-hidden="true">↗</span></span>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      {studies.length < 3 && (
+        <p class="cs-hub-more">
+          More projects to come. In the meantime, the
+          <a href="/solutions/"> Solutions section</a> walks through what
+          we do, and you can always <a href="/contact/">get in touch</a>
+          for sector-specific references.
+        </p>
+      )}
+    </div>
+  </section>
+
+  <CtaBlock
+    heading="Got a project to scope? <em>Let&apos;s walk the site.</em>"
+    buttonText="Request a site assessment"
+  />
+</PageLayout>
+
+<style>
+  /* ---------- Hero ---------- */
+  .cs-hub-hero {
+    background: var(--bg-dark);
+    color: var(--fg-on-dark);
+    padding-block: clamp(72px, 9vw, 128px);
+  }
+  .cs-hub-title {
+    margin: 16px 0 24px;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    color: var(--fg-on-dark);
+    text-wrap: balance;
+  }
+  .cs-hub-title em {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--ktx-red);
+  }
+  .cs-hub-lead {
+    color: var(--fg-mute-on-dark);
+    font-size: var(--t-lead);
+    line-height: 1.6;
+    max-width: 64ch;
+    margin: 0;
+  }
+
+  /* ---------- Grid ---------- */
+  .cs-hub-grid-section { padding-block: clamp(80px, 10vw, 128px); }
+  .cs-hub-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+  /* If only one card, it spans full width and reads like a feature */
+  .cs-hub-grid:has(> li:only-child) { grid-template-columns: 1fr; }
+
+  .cs-hub-card a {
+    display: block;
+    background: var(--bg);
+    border: 1px solid var(--ktx-line);
+    transition: border-color 0.2s ease;
+  }
+  .cs-hub-card a:hover {
+    border-color: var(--ktx-red);
+  }
+  .cs-hub-card a:hover .cs-hub-card-title { color: var(--ktx-red); }
+  .cs-hub-card a:hover .cs-hub-cta { color: var(--ktx-red); }
+  .cs-hub-card a:hover .cs-hub-image img { transform: scale(1.03); }
+
+  .cs-hub-image {
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    background: var(--ktx-charcoal);
+  }
+  .cs-hub-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(0.08) contrast(1.04);
+    transition: transform 0.5s var(--ease);
+  }
+
+  .cs-hub-meta {
+    padding: 24px 28px 28px;
+  }
+  .cs-hub-industry {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-text);
+    margin-bottom: 12px;
+  }
+  .cs-hub-card-title {
+    font-size: clamp(1.125rem, 2vw, 1.375rem);
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.025em;
+    margin: 0 0 12px;
+    transition: color 0.2s ease;
+    text-wrap: balance;
+  }
+  .cs-hub-summary {
+    color: var(--ktx-ink-soft);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    margin: 0 0 20px;
+  }
+  .cs-hub-cta {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ktx-mute);
+    transition: color 0.2s ease;
+  }
+
+  .cs-hub-more {
+    margin: 56px auto 0;
+    max-width: 60ch;
+    text-align: center;
+    color: var(--ktx-ink-soft);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+  .cs-hub-more a {
+    color: var(--accent-text);
+    border-bottom: 1px solid currentColor;
+  }
+  .cs-hub-more a:hover { color: var(--accent); }
+
+  @media (max-width: 800px) {
+    .cs-hub-grid { grid-template-columns: 1fr; }
+  }
+</style>

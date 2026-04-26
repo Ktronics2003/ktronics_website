@@ -1,0 +1,59 @@
+---
+import BlogPostLayout from '@layouts/BlogPostLayout.astro';
+import { getPost } from '@lib/blog';
+
+const post = getPost('sectech-nz-2025');
+---
+<BlogPostLayout post={post}>
+  <p class="lead">
+    In late 2025 Karl crossed the Tasman to walk the SecTech New Zealand
+    floor. The reason: half of what we&apos;ll be installing in
+    Australian commercial sites in 2026 and 2027 is product roadmap
+    work currently being shown across the ditch.
+  </p>
+
+  <h2>Why a Sydney installer goes to a New Zealand expo</h2>
+
+  <p>
+    Most of the big names in commercial security run a single
+    Australasian organisation. Product managers and engineering teams
+    based in Auckland, Christchurch, and Wellington often get earlier
+    looks at firmware roadmaps, beta integrations, and analytics
+    pipelines than the Australian sales channels do.
+  </p>
+
+  <p>
+    Walking the SecTech NZ floor lets us see which integrations are
+    actually shipping in Q1 2026 versus which are still demo-quality
+    vapour. It also lets us catch up directly with the people who write
+    the firmware our clients depend on, not just the local reps.
+  </p>
+
+  <h2>What that means for our clients</h2>
+
+  <p>
+    Three things, practically:
+  </p>
+
+  <ul>
+    <li>
+      Quotes we write in 2026 reflect what&apos;s actually ready to ship,
+      not the brochure version. We don&apos;t sell vapour.
+    </li>
+    <li>
+      Integrations we recommend (between access control, CCTV, and
+      monitoring platforms) have been seen working end-to-end before
+      we propose them.
+    </li>
+    <li>
+      When a client asks &ldquo;is feature X coming in the next firmware
+      release?&rdquo;, the answer doesn&apos;t need to wait for a
+      reply-by-email round trip with the supplier rep.
+    </li>
+  </ul>
+
+  <p>
+    It&apos;s a small thing in isolation. Across 22 years of doing this,
+    it adds up to systems that age better than they should.
+  </p>
+</BlogPostLayout>

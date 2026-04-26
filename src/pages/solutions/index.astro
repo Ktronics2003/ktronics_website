@@ -1,0 +1,163 @@
+---
+/**
+ * /solutions/ — hub page listing all solutions.
+ *
+ * The hub doesn't try to teach a buyer anything they couldn't get from a
+ * detail page; it just routes them to the right one. Hero + grid + CTA.
+ */
+import PageLayout from '@layouts/PageLayout.astro';
+import Eyebrow from '@components/ui/Eyebrow.astro';
+import CtaBlock from '@components/sections/CtaBlock.astro';
+import { allSolutions } from '@lib/solutions';
+import { breadcrumbSchema } from '@lib/schema';
+import { site } from '@lib/site';
+
+const solutions = allSolutions();
+
+const seo = {
+  title: 'Commercial Electronic Security Solutions Sydney',
+  description:
+    "Access control, CCTV, visitor management, and 24/7 monitoring by Sydney commercial security specialists since 2003. ASIAL Gold Member.",
+  path: '/solutions/',
+};
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: `${site.url}/` },
+  { name: 'Solutions' },
+]);
+---
+<PageLayout seo={seo} schemaBlocks={[breadcrumbs]}>
+  {/* ----- Hero ----- */}
+  <section class="solutions-hub-hero on-dark">
+    <div class="container">
+      <Eyebrow>Solutions</Eyebrow>
+      <h1 class="hub-title">
+        Four pillars of commercial<br />
+        electronic security.
+      </h1>
+      <p class="hub-lead">
+        Every Ktronics install is custom-designed to your site, your operations,
+        and your compliance needs. Pick the solution closest to your problem
+        below for the deeper read, or get in touch and we&apos;ll walk it with you.
+      </p>
+    </div>
+  </section>
+
+  {/* ----- Solutions grid ----- */}
+  <section class="hub-grid-section">
+    <div class="container">
+      <div class="hub-grid">
+        {solutions.map((s) => (
+          <a href={`/solutions/${s.slug}/`} class="hub-card">
+            <img class="hub-card-icon" src={s.icon} alt="" width="64" height="64" aria-hidden="true" />
+            <div class="hub-card-meta">
+              <h2 class="hub-card-title">{s.label}</h2>
+              <p class="hub-card-body">{s.shortDescription}</p>
+              <span class="hub-card-cta">Read more <span aria-hidden="true">↗</span></span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBlock
+    heading="Not sure which one fits? <em>We&apos;ll walk the site.</em>"
+    buttonText="Request a site assessment"
+  />
+</PageLayout>
+
+<style>
+  .solutions-hub-hero {
+    background: var(--bg-dark);
+    color: var(--fg-on-dark);
+    padding-block: clamp(72px, 9vw, 128px);
+  }
+  .hub-title {
+    margin: 16px 0 24px;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    color: var(--fg-on-dark);
+    text-wrap: balance;
+  }
+  .hub-lead {
+    color: var(--fg-mute-on-dark);
+    font-size: var(--t-lead);
+    line-height: 1.6;
+    max-width: 64ch;
+    margin: 0;
+  }
+
+  .hub-grid-section { padding-block: clamp(80px, 10vw, 128px); }
+
+  .hub-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--ktx-line);
+    border-left: 1px solid var(--ktx-line);
+  }
+  .hub-card {
+    border-right: 1px solid var(--ktx-line);
+    border-bottom: 1px solid var(--ktx-line);
+    background: var(--bg);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    transition: background 0.2s ease;
+    position: relative;
+    min-height: 240px;
+  }
+  .hub-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 0;
+    background: var(--ktx-red);
+    transition: height 0.25s var(--ease);
+  }
+  .hub-card:hover { background: var(--ktx-paper-hover); }
+  .hub-card:hover::before { height: 3px; }
+  .hub-card:hover .hub-card-title { color: var(--ktx-red); }
+  .hub-card:hover .hub-card-cta { color: var(--ktx-red); }
+  .hub-card:hover .hub-card-icon { transform: scale(1.06); }
+
+  .hub-card-icon {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    transition: transform 0.25s var(--ease);
+    flex-shrink: 0;
+  }
+  .hub-card-meta { flex-grow: 1; display: flex; flex-direction: column; }
+  .hub-card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    margin: 0 0 12px;
+    transition: color 0.2s ease;
+  }
+  .hub-card-body {
+    color: var(--ktx-ink-soft);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    margin: 0 0 24px;
+    flex-grow: 1;
+  }
+  .hub-card-cta {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ktx-mute);
+    transition: color 0.2s ease;
+  }
+
+  @media (max-width: 720px) {
+    .hub-grid { grid-template-columns: 1fr; }
+    .hub-card { padding: 32px; min-height: 0; }
+  }
+</style>

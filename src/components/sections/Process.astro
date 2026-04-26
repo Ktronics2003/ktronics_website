@@ -1,0 +1,78 @@
+---
+/**
+ * Four-stage process row — sits on the dark charcoal surface as visual punctuation
+ * between Industries (light) and CraftGallery (light). Each step's top-rule is 2px
+ * white-on-dark, except the first which is red (signalling start of process).
+ */
+import SectionHeader from '@components/ui/SectionHeader.astro';
+
+interface Step {
+  num: string;
+  title: string;
+  body: string;
+}
+const steps: Step[] = [
+  { num: 'STAGE 01', title: 'Site assessment', body: 'We walk your site, map your operations, and identify risks. No quotes from a desk.' },
+  { num: 'STAGE 02', title: 'Custom design',   body: 'We spec the system to your needs and budget. Plain English. Fixed price.' },
+  { num: 'STAGE 03', title: 'Professional install', body: 'Our techs install, test, and commission. We work around your operating hours.' },
+  { num: 'STAGE 04', title: 'Ongoing support', body: 'Maintenance, monitoring, upgrades. We stay with you for the life of the system.' },
+];
+---
+<section class="process on-dark">
+  <div class="container">
+    <SectionHeader
+      eyebrow="How we work"
+      heading="Four stages. No surprises."
+      text="From the first site walk to the day your system goes live, and every service call after. Here's how we deliver."
+    />
+    <div class="process-grid reveal">
+      {steps.map((step) => (
+        <div class="process-step">
+          <div class="process-num">{step.num}</div>
+          <h3>{step.title}</h3>
+          <p>{step.body}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .process {
+    background: var(--bg-dark);
+    color: var(--fg-on-dark);
+  }
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+  }
+  .process-step {
+    border-top: 2px solid var(--fg-on-dark);
+    padding-top: 24px;
+  }
+  .process-step:nth-child(1) { border-top-color: var(--ktx-red); }
+  .process-num {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--fg-mute-on-dark);
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+  }
+  .process-step h3 {
+    color: var(--fg-on-dark);
+    font-size: 1.25rem;
+    margin-bottom: 12px;
+  }
+  .process-step p {
+    color: var(--fg-mute-on-dark);
+    font-size: 0.9375rem;
+    margin: 0;
+  }
+  @media (max-width: 800px) {
+    .process-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+  }
+  @media (max-width: 480px) {
+    .process-grid { grid-template-columns: 1fr; }
+  }
+</style>

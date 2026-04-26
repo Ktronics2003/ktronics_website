@@ -1,0 +1,88 @@
+---
+/**
+ * Case Study editorial body — Brief / Solution / Outcome.
+ *
+ * Three section blocks rendered as a narrow reading column. Each takes an
+ * array of paragraph strings so the data file can be edited in plain prose
+ * without HTML.
+ *
+ * Layout: section eyebrow + h2 heading on the left, paragraphs on the right
+ * (asymmetric editorial layout). Stacks on mobile.
+ */
+import Eyebrow from '@components/ui/Eyebrow.astro';
+import type { CaseStudy } from '@lib/caseStudies';
+
+interface Props {
+  caseStudy: CaseStudy;
+}
+const { caseStudy } = Astro.props;
+
+// Sections with empty paragraph arrays are dropped. Short case studies that
+// only have a "solution" para (no separate brief or outcome) render compactly
+// without empty headings.
+const allSections = [
+  { eyebrow: 'The brief',    heading: 'What the client needed.',          paragraphs: caseStudy.challenge },
+  { eyebrow: 'The work',     heading: 'What Ktronics designed and built.', paragraphs: caseStudy.solution },
+  { eyebrow: 'The outcome',  heading: 'How it has performed.',             paragraphs: caseStudy.outcome },
+];
+const sections = allSections.filter((s) => s.paragraphs.length > 0);
+---
+<section class="cs-body">
+  <div class="container">
+    {sections.map((s) => (
+      <article class="cs-block reveal">
+        <header class="cs-block-head">
+          <Eyebrow>{s.eyebrow}</Eyebrow>
+          <h2 class="cs-block-heading">{s.heading}</h2>
+        </header>
+        <div class="cs-block-body">
+          {s.paragraphs.map((p) => <p>{p}</p>)}
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .cs-body {
+    padding-block: clamp(80px, 10vw, 128px);
+  }
+  .cs-block {
+    display: grid;
+    grid-template-columns: 0.85fr 1fr;
+    gap: clamp(40px, 6vw, 96px);
+    align-items: start;
+    padding-block: clamp(40px, 5vw, 64px);
+    border-top: 1px solid var(--ktx-line);
+  }
+  .cs-block:first-child { border-top: none; padding-top: 0; }
+  .cs-block:last-child { padding-bottom: 0; }
+
+  .cs-block-head {
+    position: sticky;
+    top: 96px;
+  }
+  .cs-block-heading {
+    margin: 16px 0 0;
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.15;
+    text-wrap: balance;
+    max-width: 18ch;
+  }
+
+  .cs-block-body {
+    color: var(--ktx-ink-soft);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    max-width: 65ch;
+  }
+  .cs-block-body p { margin: 0 0 18px; }
+  .cs-block-body p:last-child { margin-bottom: 0; }
+
+  @media (max-width: 900px) {
+    .cs-block { grid-template-columns: 1fr; gap: 24px; }
+    .cs-block-head { position: static; }
+  }
+</style>

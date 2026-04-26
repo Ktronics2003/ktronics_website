@@ -1,0 +1,176 @@
+---
+/**
+ * Contact page — /contact/
+ *
+ * Layout:
+ *   - Compact dark hero (small headline + lead)
+ *   - Two-column body: ContactForm (left, 1.4fr) | ContactInfo (right, 1fr)
+ *   - Map block with the Brookvale office pin
+ *
+ * The handover spec called out that the legacy Contact page had no form. The
+ * new page does — wired to Netlify Forms (see ContactForm.astro for details).
+ * Submissions redirect to /thank-you/.
+ */
+import PageLayout from '@layouts/PageLayout.astro';
+import Eyebrow from '@components/ui/Eyebrow.astro';
+import ContactForm from '@components/sections/ContactForm.astro';
+import ContactInfo from '@components/sections/ContactInfo.astro';
+import Faqs from '@components/sections/Faqs.astro';
+import { breadcrumbSchema, faqPageSchema } from '@lib/schema';
+import { site } from '@lib/site';
+
+const seo = {
+  title: 'Contact Ktronics: Sydney Commercial Security Enquiries',
+  description:
+    "Get a quote, request a service call, or reach our 24/7 emergency control room. Brookvale-based, Sydney-wide, ASIAL Gold Member.",
+  path: '/contact/',
+};
+
+// Contact-intent FAQs. Defined once and used twice: rendered as the visible
+// accordion AND emitted as FAQPage JSON-LD for AI-search citation eligibility.
+// (Don't repeat these Qs on other pages — Google penalises duplicated FAQ markup.)
+const contactFaqs = [
+  {
+    question: 'How quickly will you respond to my enquiry?',
+    answer:
+      "We aim to reply to all new enquiries within one business day. If your matter is urgent, calling 1300 621 060 during office hours (Mon-Fri, 8am to 3pm) is faster than the form. Existing monitored clients can reach our 24/7 emergency control room on 1300 621 006 any time.",
+  },
+  {
+    question: 'Do you cover all of Sydney, or only the Northern Beaches?',
+    answer:
+      "We service commercial sites Sydney-wide from our office and workshop in Brookvale on the Northern Beaches. Major projects also extend to Victoria and Western Australia. If you're not sure whether your site falls within our service area, get in touch and we'll let you know.",
+  },
+  {
+    question: 'Can existing clients reach Ktronics after hours?',
+    answer:
+      "Yes. Clients on a maintenance contract or 24/7 monitoring agreement can reach our emergency control room any time on 1300 621 006. For non-urgent service requests outside business hours, email <a href=\"mailto:service@ktronics.com.au\">service@ktronics.com.au</a> and we'll respond first thing the next business day.",
+  },
+];
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: `${site.url}/` },
+  { name: 'Contact' },
+]);
+const faqSchema = faqPageSchema(contactFaqs);
+---
+<PageLayout seo={seo} schemaBlocks={[breadcrumbs, faqSchema]}>
+  {/* ----- Compact dark hero ----- */}
+  <section class="contact-hero on-dark">
+    <div class="container">
+      <Eyebrow>Contact</Eyebrow>
+      <h1 class="contact-hero-title">
+        Contact Ktronics. Sydney&apos;s commercial<br />
+        electronic security installer since 2003.
+      </h1>
+      <p class="contact-hero-lead">
+        Get a quote, book a service call, or reach our 24/7 emergency
+        control room. We design, install, and maintain access control,
+        CCTV, visitor management, and monitoring for businesses
+        Sydney-wide. ASIAL Gold Member. NSW Master Licence 102039.
+      </p>
+    </div>
+  </section>
+
+  {/* ----- Form + info ----- */}
+  <section class="contact-body">
+    <div class="container">
+      <div class="contact-grid">
+        <div class="contact-grid-form">
+          <ContactForm />
+        </div>
+        <div class="contact-grid-info">
+          <ContactInfo />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* ----- FAQs (contact-intent only — service/product Qs live elsewhere) ----- */}
+  <Faqs
+    items={contactFaqs}
+    eyebrow="Common questions"
+    heading="Before you get in touch."
+  />
+
+  {/* ----- Map -----
+       Embeds the actual Ktronics Google Business Profile pin (not a generic
+       address search). Centred on the verified GBP coordinates so the
+       Ktronics marker is the focus. */}
+  <section class="contact-map" aria-label="Office location">
+    <iframe
+      title="Map showing Ktronics Electronic Security Solutions at 11/84 Old Pittwater Road, Brookvale NSW"
+      src="https://www.google.com/maps?q=Ktronics+Electronic+Security+Solutions+Brookvale&ll=-33.7616379,151.263663&z=17&output=embed&hl=en"
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+      width="100%"
+      height="420"
+      style="border:0;display:block;"
+    ></iframe>
+    <div class="map-meta container">
+      <span class="map-address">
+        Ktronics Electronic Security Solutions, 11/84 Old Pittwater Road, Brookvale NSW 2100
+        <span class="map-pluscode">(67Q7+8F Brookvale)</span>
+      </span>
+      <a
+        class="map-directions"
+        href="https://www.google.com/maps/place/Ktronics+Electronic+Security+Solutions/@-33.7616379,151.263663,17z/data=!4m6!3m5!1s0x6b12abaa7c975d75:0x2f445746f7dd3424!8m2!3d-33.7616379!4d151.263663!16s%2Fg%2F11f9gkh5gr"
+        target="_blank"
+        rel="noopener"
+      >
+        Open in Google Maps
+        <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  /* ----- Hero ----- */
+  .contact-hero {
+    background: var(--bg-dark);
+    color: var(--fg-on-dark);
+    padding-block: clamp(64px, 8vw, 112px);
+  }
+  .contact-hero-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.04em;
+    margin: 16px 0 24px;
+    color: var(--fg-on-dark);
+    text-wrap: balance;
+  }
+  .contact-hero-lead {
+    color: var(--fg-mute-on-dark);
+    font-size: var(--t-lead);
+    line-height: 1.6;
+    max-width: 60ch;
+    margin: 0;
+  }
+
+  /* ----- Body grid ----- */
+  .contact-body {
+    padding-block: clamp(80px, 10vw, 128px);
+  }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: clamp(48px, 6vw, 96px);
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+      gap: 56px;
+    }
+  }
+
+  /* ----- Map ----- */
+  .contact-map {
+    background: var(--ktx-charcoal);
+    line-height: 0;       /* kills iframe inline-block whitespace */
+  }
+  .contact-map iframe {
+    filter: grayscale(0.2) contrast(1.04);
+  }
+</style>

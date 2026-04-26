@@ -1,0 +1,15 @@
+---
+/**
+ * Eyebrow label — JetBrains Mono caps, red, with leading 1px rule.
+ * Use ONE per section, sitting directly above the H2 (per design system §3).
+ */
+interface Props {
+  /** Allow overriding rendered tag (e.g. "p"). Default: span. */
+  as?: 'span' | 'p' | 'div';
+  class?: string;
+}
+const { as: Tag = 'span', class: className = '' } = Astro.props;
+---
+<Tag class:list={['eyebrow', className]}>
+  <slot />
+</Tag>

@@ -1,0 +1,202 @@
+---
+/**
+ * Hero — top of homepage. Asymmetric two-column grid (text 1.15fr, image 1fr,
+ * align: end). Meta strip above headline (EST. 2003 / ASIAL / Master Licence).
+ *
+ * Image is rendered as an Astro <Image /> with fetchpriority="high" so it
+ * counts as the LCP element and isn't lazy-loaded.
+ */
+import { Image } from 'astro:assets';
+import Button from '@components/ui/Button.astro';
+import heroImage from '@/assets/images/hero/hero-karl-ktronics-truck-sydney.jpg';
+import { site } from '@lib/site';
+
+const phoneTel = site.contact.phone.replace(/\s+/g, '');
+---
+<section class="hero on-dark">
+  <div class="container">
+    <ul class="hero-meta" aria-label="Company credentials">
+      <li><span class="hero-meta-label">Established</span><strong>{site.founded}</strong></li>
+      <li><span class="hero-meta-label">Membership</span><strong>{site.credentials.asial}</strong></li>
+      <li><span class="hero-meta-label">NSW Master Licence</span><strong>{site.credentials.nswMasterLicence}</strong></li>
+    </ul>
+
+    <div class="hero-grid">
+      <div class="hero-text">
+        <h1 class="hero-headline">
+          Commercial security systems<br />
+          that <em>actually work</em><br />
+          when you need them.
+        </h1>
+        <p class="hero-lead">
+          Sydney's trusted electronic security installer for two decades.
+          Custom access control, video surveillance, and 24/7 monitoring.
+          Designed, installed, and maintained by techs who answer their phones.
+        </p>
+
+        <div class="hero-actions">
+          <Button href="/contact/" variant="primary">Get a quote</Button>
+          <Button href="/case-studies/" variant="secondary" arrow={false} class="hero-cta-secondary">See our work</Button>
+        </div>
+
+        <a class="hero-phone" href={`tel:${phoneTel}`}>
+          <span class="hero-phone-label">Or call us direct</span>
+          <span class="hero-phone-number">{site.contact.phone}</span>
+        </a>
+      </div>
+
+      <div class="hero-image">
+        <Image
+          src={heroImage}
+          alt="Karl Lamb, Ktronics Managing Director, in his work vehicle wearing a Ktronics uniform. Sydney commercial electronic security installer since 2003."
+          widths={[640, 960, 1280, 1600]}
+          sizes="(min-width: 900px) 540px, 100vw"
+          loading="eager"
+          decoding="async"
+          format="webp"
+          quality={80}
+          class="hero-photo"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    background: var(--bg-dark);
+    color: var(--fg-on-dark);
+    padding-top: 56px;
+    padding-bottom: 96px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ----- Meta strip ----- */
+  .hero-meta {
+    list-style: none;
+    margin: 0 0 32px;
+    padding: 0 0 24px;
+    border-bottom: 1px solid var(--rule-on-dark);
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    gap: 0 48px;
+    justify-content: start;
+  }
+  .hero-meta li {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--fg-mute-on-dark);
+    letter-spacing: 0.05em;
+    line-height: 1.4;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .hero-meta-label {
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--fg-mute-on-dark);
+  }
+  .hero-meta li strong {
+    color: var(--fg-on-dark);
+    font-weight: 600;
+    font-size: 0.8125rem;
+  }
+  @media (max-width: 720px) {
+    .hero-meta { grid-template-columns: 1fr 1fr; gap: 16px 24px; }
+    .hero-meta li:last-child { grid-column: 1 / -1; }
+  }
+  @media (max-width: 380px) {
+    .hero-meta { grid-template-columns: 1fr; }
+    .hero-meta li:last-child { grid-column: auto; }
+  }
+
+  /* ----- Grid ----- */
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: clamp(32px, 5vw, 80px);
+    align-items: end;
+  }
+  .hero-headline {
+    font-size: var(--t-display-xl);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    margin-bottom: 32px;
+    max-width: 14ch;            /* prevents ultra-wide text columns */
+    color: var(--fg-on-dark);
+  }
+  .hero-headline em {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--ktx-red);
+  }
+  .hero-lead {
+    font-size: var(--t-lead);
+    color: var(--fg-mute-on-dark);
+    line-height: 1.5;
+    max-width: 56ch;
+    margin-bottom: 32px;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+
+  /* ----- Phone CTA (mobile-friendly fallback to header phone) ----- */
+  .hero-phone {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule-on-dark);
+    color: var(--fg-on-dark);
+    transition: color 0.18s var(--ease);
+  }
+  .hero-phone:hover { color: var(--ktx-red); }
+  .hero-phone-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg-mute-on-dark);
+  }
+  .hero-phone-number {
+    font-family: var(--font-mono);
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: inherit;
+  }
+
+  /* ----- Image ----- */
+  .hero-image {
+    position: relative;
+    aspect-ratio: 4/5;
+    overflow: hidden;
+    background: var(--ktx-ink);
+  }
+  .hero-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 35%;
+    filter: grayscale(0.08) contrast(1.04);
+  }
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-image {
+      aspect-ratio: 16/9;
+      max-height: 360px;     /* keep CTA above the fold */
+      order: -1;             /* Photo above text on mobile */
+      margin-bottom: 24px;
+    }
+    /* Drop the secondary CTA on mobile — phone link below covers the same ground
+       and reduces decision load. */
+    :global(.hero-cta-secondary) { display: none; }
+  }
+</style>

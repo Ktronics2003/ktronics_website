@@ -1,0 +1,98 @@
+---
+/**
+ * BaseLayout — outermost HTML shell.
+ * Owns: <head>, meta tags, JSON-LD schema, fonts.
+ * Does NOT render header / footer — see PageLayout for that.
+ */
+import { resolveSEO, type PageSEO } from '@lib/seo';
+import { organizationSchema, localBusinessSchema } from '@lib/schema';
+import { site } from '@lib/site';
+import '@styles/global.css';
+
+interface Props {
+  seo: PageSEO;
+  /** Additional JSON-LD blocks to inject (Service, BreadcrumbList, FAQPage, etc.) */
+  schemaBlocks?: Record<string, unknown>[];
+  /** Optional <head> extras (preloads, alt links, etc.) */
+  headExtra?: string;
+}
+
+const { seo, schemaBlocks = [], headExtra } = Astro.props;
+const meta = resolveSEO(seo);
+
+// Always include Organization + LocalBusiness on every page; merge in any extras.
+const allSchema = [organizationSchema(), localBusinessSchema(), ...schemaBlocks];
+---
+<!DOCTYPE html>
+<html lang="en-AU">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{meta.title}</title>
+    <meta name="description" content={meta.description} />
+    <link rel="canonical" href={meta.canonical} />
+
+    <meta property="og:title" content={meta.ogTitle} />
+    <meta property="og:description" content={meta.ogDescription} />
+    <meta property="og:type" content={meta.ogType} />
+    <meta property="og:url" content={meta.ogUrl} />
+    <meta property="og:image" content={meta.ogImage} />
+    <meta property="og:site_name" content={site.alternateName} />
+    <meta property="og:locale" content="en_AU" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={meta.ogTitle} />
+    <meta name="twitter:description" content={meta.ogDescription} />
+    <meta name="twitter:image" content={meta.twitterImage} />
+
+    <meta name="robots" content={meta.robots} />
+    <meta name="theme-color" content={meta.themeColor} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+
+    {/*
+      Fonts: IBM Plex Sans + IBM Plex Mono (Option 6 — corporate technical).
+      Loaded from Google Fonts CDN. Pre-launch: self-host the WOFF2s in
+      /public/fonts/ and remove these CDN links. (Self-hosted = better perf + privacy.)
+    */}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" />
+
+    {/* JSON-LD */}
+    {allSchema.map((block) => (
+      <script type="application/ld+json" set:html={JSON.stringify(block)} />
+    ))}
+
+    {headExtra && <Fragment set:html={headExtra} />}
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <slot />
+
+    <script>
+      // Reveal-on-scroll: progressive enhancement only.
+      // Respects prefers-reduced-motion via the CSS rule in global.css.
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add('is-visible');
+                io.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.12, rootMargin: '0px 0px -60px 0px' },
+        );
+        document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+      } else {
+        document.querySelectorAll('.reveal').forEach((el) => el.classList.add('is-visible'));
+      }
+    </script>
+  </body>
+</html>

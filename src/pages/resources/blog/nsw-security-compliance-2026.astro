@@ -1,0 +1,18 @@
+---
+/**
+ * DRAFT — body content pending. See lib/blog.ts (draft=true) and the sibling
+ * draft posts for the same scaffold pattern.
+ */
+import BlogPostLayout from '@layouts/BlogPostLayout.astro';
+import { getPost } from '@lib/blog';
+
+const post = getPost('nsw-security-compliance-2026');
+---
+<BlogPostLayout post={post}>
+  <p class="lead">
+    This article is still in progress. We&apos;ll publish it shortly. In
+    the meantime, browse the published <a href="/resources/blog/">articles
+    and buying guides</a> or <a href="/contact/">get in touch</a> with a
+    specific question.
+  </p>
+</BlogPostLayout>

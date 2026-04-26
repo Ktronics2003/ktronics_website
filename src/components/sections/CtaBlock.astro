@@ -1,0 +1,108 @@
+---
+/**
+ * Dark CTA block — bookends most pages above the footer.
+ * Heading on the left, primary CTA stack on the right with phone fallback.
+ */
+import Button from '@components/ui/Button.astro';
+import { site } from '@lib/site';
+
+interface Props {
+  /** Allow page-specific copy. The `<em>...</em>` portion renders red italic. */
+  heading?: string;
+  buttonHref?: string;
+  buttonText?: string;
+}
+const {
+  heading = 'Got a project coming up? Let\u2019s <em>talk specifics</em>.',
+  buttonHref = '/contact/',
+  buttonText = 'Request a site assessment',
+} = Astro.props;
+---
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-block reveal on-dark">
+      <h2 set:html={heading} />
+      <div class="cta-actions">
+        <Button href={buttonHref} variant="primary" class="cta-button">{buttonText}</Button>
+        <div class="cta-phone">
+          <span class="cta-phone-label">Or call us direct</span>
+          <a href={`tel:${site.contact.phone.replace(/\s+/g, '')}`}>{site.contact.phone}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-section { padding-top: 0; padding-bottom: 128px; }
+
+  .cta-block {
+    background: var(--bg-dark);
+    color: var(--fg-on-dark);
+    padding: clamp(48px, 8vw, 96px);
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    align-items: center;
+    gap: 64px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-block::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--ktx-red);
+  }
+  .cta-block h2 {
+    color: var(--fg-on-dark);
+    font-size: clamp(1.625rem, 3vw, 2.25rem);
+    margin: 0;
+  }
+  .cta-block :global(em) {
+    font-style: italic;
+    color: var(--ktx-red);
+    font-weight: 500;
+  }
+
+  .cta-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .cta-actions :global(.cta-button) {
+    justify-content: center;
+    padding-block: 18px;
+  }
+  .cta-phone {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px 0;
+    border-top: 1px solid var(--rule-on-dark);
+    margin-top: 8px;
+  }
+  .cta-phone-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg-mute-on-dark);
+  }
+  .cta-phone a {
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    color: var(--fg-on-dark);
+  }
+  .cta-phone a:hover { color: var(--ktx-red); }
+
+  @media (max-width: 800px) {
+    .cta-block {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      padding: 48px 32px;
+    }
+  }
+</style>

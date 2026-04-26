@@ -1,0 +1,106 @@
+---
+/**
+ * Industries section — vertical list with hairline rules; on hover the row
+ * left-pads 16px and the name + arrow shift red.
+ *
+ * Reads industry data from the shared lib/industries.ts so labels, icons,
+ * and descriptions stay in sync with the /industries/ hub + detail pages.
+ */
+import SectionHeader from '@components/ui/SectionHeader.astro';
+import { allIndustries } from '@lib/industries';
+
+const industries = allIndustries();
+---
+<section class="industries">
+  <div class="container">
+    <SectionHeader
+      class="industries-header"
+      eyebrow="Who we work with"
+      heading="Industry-specific systems, not one-size-fits-all kit."
+      text="A childcare centre's needs are not a warehouse's. A strata building isn't a corporate office. We design to the regulations, risks, and real-world workflows of your industry."
+    />
+    <ul class="industries-list reveal">
+      {industries.map((item) => (
+        <li>
+          <a href={`/industries/${item.slug}/`}>
+            <img
+              class="industry-icon"
+              src={item.icon}
+              alt=""
+              width="48"
+              height="48"
+              loading="lazy"
+              decoding="async"
+              aria-hidden="true"
+            />
+            <span class="industry-name">{item.label}</span>
+            <span class="industry-desc">{item.shortDescription}</span>
+            <span class="industry-arrow" aria-hidden="true">→</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .industries { border-top: 1px solid var(--ktx-line); }
+  .industries-header { padding-top: 48px; }
+
+  .industries-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid var(--ktx-line);
+  }
+  .industries-list li { border-top: 1px solid var(--ktx-line); }
+  .industries-list li:first-child { border-top: none; }
+  .industries-list a {
+    display: grid;
+    grid-template-columns: 56px 1fr 2fr auto;
+    gap: 24px;
+    align-items: center;
+    padding: 24px 0;
+    transition: padding 0.2s ease;
+  }
+  .industries-list a:hover { padding-left: 16px; }
+  .industries-list a:hover .industry-name { color: var(--ktx-red); }
+  .industries-list a:hover .industry-arrow {
+    transform: translateX(8px);
+    color: var(--ktx-red);
+  }
+  .industries-list a:hover .industry-icon {
+    transform: scale(1.06);
+  }
+
+  .industry-icon {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+    transition: transform 0.25s var(--ease);
+  }
+  .industry-name {
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    transition: color 0.2s ease;
+  }
+  .industry-desc {
+    color: var(--ktx-mute);
+    font-size: 0.9375rem;
+  }
+  .industry-arrow {
+    color: var(--ktx-ink);
+    transition: transform 0.2s ease, color 0.2s ease;
+    display: inline-block;
+  }
+  @media (max-width: 800px) {
+    .industries-list a {
+      grid-template-columns: auto 1fr auto;
+      gap: 16px;
+      padding: 20px 0;
+    }
+    .industry-desc { display: none; }
+  }
+</style>

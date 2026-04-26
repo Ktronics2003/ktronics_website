@@ -1,0 +1,317 @@
+/* =============================================================
+   KTRONICS DESIGN SYSTEM v1.0
+   Global stylesheet — design tokens, base resets, typography,
+   reusable utility classes used across all pages.
+   ============================================================= */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------- Fonts ----------
+ * Currently loaded from Google Fonts CDN in BaseLayout.astro (IBM Plex Sans + Mono).
+ * To self-host:
+ *   1. Download IBM Plex Sans + IBM Plex Mono WOFF2s from fonts.google.com or
+ *      github.com/IBM/plex.
+ *   2. Drop the WOFF2 files in /public/fonts/.
+ *   3. Uncomment the @font-face block below.
+ *   4. Remove the Google Fonts <link> tags from BaseLayout.astro.
+ *
+ * @font-face {
+ *   font-family: 'IBM Plex Sans';
+ *   src: url('/fonts/IBMPlexSans-Variable.woff2') format('woff2-variations');
+ *   font-weight: 100 700; font-style: normal; font-display: swap;
+ * }
+ * @font-face {
+ *   font-family: 'IBM Plex Sans';
+ *   src: url('/fonts/IBMPlexSans-Italic-Variable.woff2') format('woff2-variations');
+ *   font-weight: 100 700; font-style: italic; font-display: swap;
+ * }
+ * @font-face {
+ *   font-family: 'IBM Plex Mono';
+ *   src: url('/fonts/IBMPlexMono-Variable.woff2') format('woff2-variations');
+ *   font-weight: 100 700; font-style: normal; font-display: swap;
+ * }
+ */
+
+/* =============================================================
+   TOKENS
+   ============================================================= */
+:root {
+  /* Type stack (Option 6 — IBM Plex). Change here to swap site-wide. */
+  --font-sans: 'IBM Plex Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Brand — Pairing C: cool charcoal + greige */
+  --ktx-red: #E51838;
+  --ktx-red-hover: #C8142F;
+  --ktx-red-tint: #FFE9ED;
+
+  /* Light surfaces — body, sections, cards */
+  --ktx-paper: #D7D3CB;        /* main body bg — greige */
+  --ktx-paper-2: #CDC8BE;      /* alt section bg — slightly darker */
+  --ktx-paper-hover: #E2DED5;  /* card hover — slightly lighter than paper */
+  --ktx-line: #BAB5AB;         /* hairlines on light */
+  --ktx-mute: #6A6660;         /* secondary text on light */
+  --ktx-ink: #1E1A1B;          /* primary text on light */
+  --ktx-ink-soft: #3A3537;     /* alternate body text */
+
+  /* Dark surfaces — header, hero, feature, footer, CTA */
+  --ktx-charcoal: #1B1D20;     /* cool charcoal */
+  --ktx-on-dark: #ECEDEF;      /* primary text on dark */
+  --ktx-mute-on-dark: rgba(236, 237, 239, 0.6);
+  --ktx-line-on-dark: rgba(236, 237, 239, 0.13);
+  /* Backwards-compat alias — older components reference --ktx-black */
+  --ktx-black: var(--ktx-charcoal);
+
+  /* Semantic aliases */
+  --bg: var(--ktx-paper);
+  --bg-alt: var(--ktx-paper-2);
+  --bg-dark: var(--ktx-charcoal);
+  --fg: var(--ktx-ink);
+  --fg-mute: var(--ktx-mute);
+  --fg-on-dark: var(--ktx-on-dark);
+  --fg-mute-on-dark: var(--ktx-mute-on-dark);
+  --accent: var(--ktx-red);             /* SHAPES: buttons, dots, structural rules */
+  --accent-text: var(--ktx-red-hover);  /* TEXT: passes WCAG AA on greige body bg */
+  --rule: var(--ktx-line);
+  --rule-on-dark: var(--ktx-line-on-dark);
+
+  /* Layout */
+  --max-w: 1280px;
+  --gutter: clamp(24px, 5vw, 96px);
+
+  /* Type scale — tuned for IBM Plex Sans (heavier visual weight than Fraunces;
+     display sizes reduced ~25% so headlines don't dominate the viewport). */
+  --t-display-xl: clamp(2.25rem, 4.5vw, 3.75rem);   /* 36 -> 60px */
+  --t-display-l:  clamp(2rem, 3.5vw, 3rem);         /* 32 -> 48px */
+  --t-h1:         clamp(1.625rem, 3vw, 2.25rem);    /* 26 -> 36px */
+  --t-h2:         clamp(1.5rem, 2.5vw, 2rem);       /* 24 -> 32px */
+  --t-h3:         1.25rem;                          /* 20px */
+  --t-lead:       clamp(1.0625rem, 1.4vw, 1.1875rem);
+  --t-body:       1.0625rem;
+  --t-small:      0.875rem;
+  --t-caption:    0.75rem;
+
+  /* Motion */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* =============================================================
+   BASE RESETS
+   ============================================================= */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: var(--t-body);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+img, svg, video { display: block; max-width: 100%; height: auto; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; border: none; background: none; padding: 0; color: inherit; }
+::selection { background: var(--accent); color: white; }
+
+/* Visible focus outlines — accent red, 2px offset (per design system §10) */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* =============================================================
+   TYPOGRAPHY
+   ============================================================= */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--fg);
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+  margin: 0;
+}
+h1 { font-size: var(--t-h1); line-height: 1.05; }
+h2 { font-size: var(--t-h2); line-height: 1.10; }
+h3 { font-size: var(--t-h3); line-height: 1.20; letter-spacing: -0.01em; }
+
+.display-xl {
+  font-size: var(--t-display-xl);
+  font-weight: 600;
+  line-height: 0.96;
+  letter-spacing: -0.045em;
+}
+.display-l {
+  font-size: var(--t-display-l);
+  font-weight: 600;
+  line-height: 1.0;
+  letter-spacing: -0.04em;
+}
+
+.lead {
+  font-size: var(--t-lead);
+  line-height: 1.55;
+  color: var(--ktx-ink-soft);
+  max-width: 65ch;
+}
+
+/* Eyebrow — mono caps + 1px red rule.
+   Text uses --accent-text (AA-contrast darker red on light, brand red on dark).
+   The 1px rule stays at the bright brand red for the structural mark. */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--t-caption);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.eyebrow::before {
+  content: "";
+  width: 24px;
+  height: 1px;
+  background: var(--accent);
+}
+
+/* Tabular numerals for stats */
+.tnum { font-variant-numeric: tabular-nums; }
+
+/* =============================================================
+   LAYOUT PRIMITIVES
+   ============================================================= */
+.container {
+  width: 100%;
+  max-width: var(--max-w);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+section { padding-block: clamp(72px, 10vw, 128px); }
+.section-alt { background: var(--bg-alt); }
+
+/* Skip link */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--ktx-ink);
+  color: white;
+  padding: 12px 16px;
+  z-index: 1000;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+}
+.skip-link:focus { left: 8px; top: 8px; }
+
+/* =============================================================
+   BUTTONS
+   ============================================================= */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 24px;
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  border-radius: 2px;
+  transition: all 0.18s var(--ease);
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  line-height: 1;
+}
+.btn-arrow {
+  display: inline-block;
+  transition: transform 0.18s var(--ease);
+}
+.btn:hover .btn-arrow { transform: translateX(4px); }
+
+.btn-primary {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+.btn-primary:hover {
+  background: var(--ktx-red-hover);
+  border-color: var(--ktx-red-hover);
+  transform: translateY(-1px);
+}
+/* Secondary button uses CSS custom properties so a parent surface can
+   override the colour pair. Default = light surface (ink on paper).
+   Dark sections (hero, feature, footer, CTA) override --btn-secondary-fg
+   to --fg-on-dark via the .surface-dark scope helper below. */
+.btn-secondary {
+  background: transparent;
+  color: var(--btn-secondary-fg, var(--fg));
+  border-color: var(--btn-secondary-fg, var(--fg));
+}
+.btn-secondary:hover {
+  background: var(--btn-secondary-fg, var(--fg));
+  color: var(--btn-secondary-bg, white);
+}
+
+/* Surface helper — apply to any wrapper that should treat its descendants
+   as "on a dark background". Centralises all dark-context overrides:
+   - secondary button uses light fg/bg
+   - red text uses bright brand red (plenty of contrast on dark)
+   - headings + section-header supporting text flip to light */
+.on-dark {
+  --btn-secondary-fg: var(--fg-on-dark);
+  --btn-secondary-bg: var(--bg-dark);
+  --accent-text: var(--ktx-red);
+}
+.on-dark h1,
+.on-dark h2,
+.on-dark h3,
+.on-dark h4,
+.on-dark h5,
+.on-dark h6 {
+  color: var(--fg-on-dark);
+}
+.on-dark .section-header-text {
+  color: var(--fg-mute-on-dark);
+}
+.btn-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  color: var(--fg);
+  border-bottom: 1px solid var(--fg);
+  padding-bottom: 2px;
+  transition: color 0.18s var(--ease), border-color 0.18s var(--ease);
+}
+.btn-link:hover { color: var(--accent); border-color: var(--accent); }
+
+/* Size variants */
+.btn-sm { padding: 12px 20px; font-size: 0.875rem; }
+.btn-lg { padding: 18px 32px; font-size: 1rem; }
+
+/* =============================================================
+   SCROLL REVEAL
+   ============================================================= */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

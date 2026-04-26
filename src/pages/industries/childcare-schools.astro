@@ -1,0 +1,44 @@
+---
+/**
+ * /industries/childcare-schools/
+ * See warehouse-logistics.astro for the full composition + schema rationale.
+ */
+import PageLayout from '@layouts/PageLayout.astro';
+import IndustryHero from '@components/sections/IndustryHero.astro';
+import IndustryChallenges from '@components/sections/IndustryChallenges.astro';
+import IndustrySolutions from '@components/sections/IndustrySolutions.astro';
+import Faqs from '@components/sections/Faqs.astro';
+import RelatedIndustries from '@components/sections/RelatedIndustries.astro';
+import CtaBlock from '@components/sections/CtaBlock.astro';
+import { breadcrumbSchema, faqPageSchema } from '@lib/schema';
+import { getIndustry } from '@lib/industries';
+import { site } from '@lib/site';
+
+const industry = getIndustry('childcare-schools');
+
+const seo = {
+  title: `${industry.pageTitle} | Ktronics`,
+  description:
+    "Childcare and school security in Sydney: NQS-compliant entry control, visitor management, child-protection CCTV, lockdown response. ASIAL Gold Member.",
+  path: `/industries/${industry.slug}/`,
+};
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: `${site.url}/` },
+  { name: 'Industries', url: `${site.url}/industries/` },
+  { name: industry.label },
+]);
+
+const faqSchema = faqPageSchema(industry.faqs);
+---
+<PageLayout seo={seo} schemaBlocks={[breadcrumbs, faqSchema]}>
+  <IndustryHero industry={industry} />
+  <IndustryChallenges items={industry.challenges} />
+  <IndustrySolutions slugs={industry.recommendedSolutions} />
+  <Faqs items={industry.faqs} eyebrow="Common questions" heading="Frequently asked." />
+  <RelatedIndustries currentSlug={industry.slug} />
+  <CtaBlock
+    heading="Childcare or school site to secure? <em>Let&apos;s talk specifics.</em>"
+    buttonText="Request a site assessment"
+  />
+</PageLayout>

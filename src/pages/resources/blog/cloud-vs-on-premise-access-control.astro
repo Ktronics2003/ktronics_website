@@ -1,0 +1,291 @@
+---
+import BlogPostLayout from '@layouts/BlogPostLayout.astro';
+import { getPost } from '@lib/blog';
+
+const post = getPost('cloud-vs-on-premise-access-control');
+---
+<BlogPostLayout post={post}>
+  <p class="lead">
+    Cloud-managed access control finally crossed over from "interesting
+    option" to "default for new commercial installs" sometime in 2024.
+    On-premise didn&apos;t go away. It just stopped being the obvious
+    choice. Here&apos;s how to decide which one suits your site, and the
+    questions to ask before signing.
+  </p>
+
+  <h2>What we mean by each pattern</h2>
+
+  <p>
+    <strong>On-premise access control</strong> runs the management software
+    on a server inside your building (or a hosted server you control). Your
+    door panels talk to that server over the local network. Adding a card,
+    pulling an audit log, or running a report happens through software
+    installed on a workstation. Lenel OnGuard, Tecom Challenger with
+    Forcefield, and Inner Range Integriti are the platforms we install most
+    often in this category.
+  </p>
+
+  <p>
+    <strong>Cloud-managed access control</strong> runs the same management
+    layer on the vendor&apos;s servers. You administer the system through a
+    browser or mobile app from anywhere with internet. Door panels at the
+    site still operate locally if the internet drops, but credential
+    changes, reporting, and integrations happen via the cloud platform.
+    Brivo, OpenPath, Kisi, and the cloud editions of the major
+    enterprise platforms sit in this category.
+  </p>
+
+  <p>
+    Almost every install we&apos;ve quoted in 2026 has been a real
+    decision between the two. Below is what actually drives the answer.
+  </p>
+
+  <h2>The five questions that decide it</h2>
+
+  <h3>1. Who is going to administer the system day-to-day?</h3>
+
+  <p>
+    On-premise systems need someone reasonably technical to maintain them.
+    Patching the server, backing up the database, managing user accounts,
+    troubleshooting when something goes wrong. Most of our on-premise
+    clients lean on us for this through the maintenance contract, and
+    that&apos;s the right answer if your team doesn&apos;t want to own it.
+  </p>
+
+  <p>
+    Cloud-managed systems are administered through a browser by anyone you
+    give access to. Reception staff can issue a temporary card; HR can
+    deactivate a leaver; a facility manager can pull an audit report from
+    home. No server-side skill required. For sites without a dedicated IT
+    or facilities-tech function, this is often the deciding factor.
+  </p>
+
+  <h3>2. How much do you depend on internet connectivity?</h3>
+
+  <p>
+    This question gets framed badly. The honest answer: <strong>both
+    architectures keep doors working when the internet drops</strong>.
+    Modern panels cache credentials locally and swipe-in continues to
+    function without needing to phone home.
+  </p>
+
+  <p>
+    What changes during an outage:
+  </p>
+
+  <ul>
+    <li>
+      <strong>On-premise:</strong> Everything except remote administration
+      keeps working. You can still issue cards from inside the building,
+      pull audit logs, and respond to events. You just can&apos;t do it
+      from somewhere else.
+    </li>
+    <li>
+      <strong>Cloud-managed:</strong> Doors keep operating, but you
+      can&apos;t issue or revoke credentials, run reports, or change
+      configuration until the connection is restored. For a typical site,
+      that&apos;s fine; for a 24/7 critical operation where same-day
+      provisioning matters, it&apos;s worth modelling carefully.
+    </li>
+  </ul>
+
+  <p>
+    If your site has reliable redundant internet (most commercial fit-outs
+    in Sydney metro do, or can have it added cheaply), this becomes a
+    non-issue. If you&apos;re in a regional pocket with only one ISP and
+    intermittent fibre, on-premise carries less operational risk.
+  </p>
+
+  <h3>3. How many sites are you running?</h3>
+
+  <p>
+    For a single site of any size, both work. The interesting question
+    is multi-site rollouts.
+  </p>
+
+  <p>
+    Cloud-managed access control is built for multi-site operation by
+    default. A national retailer with twenty stores administers all
+    twenty from one dashboard, with credentials provisioning across all
+    sites automatically when an HR system change fires. The cost of
+    adding the twenty-first site is the licence and the install, not a
+    new server room.
+  </p>
+
+  <p>
+    On-premise multi-site is doable, but it usually means either a
+    central server with VPN connections back to each site, or a
+    distributed architecture with replication. Both add complexity and
+    cost to the design and the ongoing management. We still install
+    multi-site on-premise where compliance or legacy infrastructure
+    requires it, but if you&apos;re scoping a fresh national rollout in
+    2026, cloud is the obvious starting point.
+  </p>
+
+  <h3>4. What does compliance demand?</h3>
+
+  <p>
+    Some regulatory frameworks effectively mandate on-premise. Common
+    ones we work under:
+  </p>
+
+  <ul>
+    <li>
+      Government, defence, and certain critical-infrastructure operators
+      with strict data sovereignty or air-gap requirements
+    </li>
+    <li>
+      Some healthcare and pathology environments with on-premise data
+      handling rules baked into accreditation
+    </li>
+    <li>
+      Financial services and high-assurance environments where the
+      auditor wants the database in the same physical building
+    </li>
+  </ul>
+
+  <p>
+    For most other commercial sectors, both architectures comply with
+    Australian Privacy Principles and standard industry-specific
+    frameworks (NQS for childcare, OLGR for licensed venues, TGA Good
+    Distribution Practice for pharma logistics). We document the install
+    against the relevant framework either way.
+  </p>
+
+  <h3>5. What does total cost over five years actually look like?</h3>
+
+  <p>
+    Headline cost comparisons miss the point. The right way to compare
+    is total cost over the system&apos;s likely service life. Here&apos;s
+    a rough model for a representative 12-door commercial site:
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Cost component</th>
+        <th>On-premise (5 years)</th>
+        <th>Cloud-managed (5 years)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Initial install (panels, readers, cabling, labour)</td>
+        <td>$28,000 to $42,000</td>
+        <td>$24,000 to $38,000</td>
+      </tr>
+      <tr>
+        <td>Server hardware + setup</td>
+        <td>$3,500 to $7,000</td>
+        <td>$0 (no on-site server)</td>
+      </tr>
+      <tr>
+        <td>Software licences (5 years)</td>
+        <td>$0 to $2,500 (perpetual)</td>
+        <td>$3,000 to $7,500 (subscription)</td>
+      </tr>
+      <tr>
+        <td>Server maintenance + patching (5 years)</td>
+        <td>$2,500 to $5,000</td>
+        <td>$0 (vendor responsibility)</td>
+      </tr>
+      <tr>
+        <td>Door + reader maintenance (5 years)</td>
+        <td>$3,500 to $6,000</td>
+        <td>$3,500 to $6,000</td>
+      </tr>
+      <tr>
+        <td><strong>5-year total</strong></td>
+        <td><strong>$37,500 to $62,500</strong></td>
+        <td><strong>$30,500 to $51,500</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>
+    Cloud usually comes out cheaper over five years for typical
+    commercial sites. The gap narrows or reverses for very large
+    multi-site enterprise deployments, where the per-door subscription
+    cost adds up faster than the maintenance saving.
+  </p>
+
+  <h2>What we recommend, by site type</h2>
+
+  <ul>
+    <li>
+      <strong>Single commercial site, under 30 doors, no in-house IT
+      tech:</strong> Cloud-managed. Easier to administer, lower five-year
+      cost, faster to deploy.
+    </li>
+    <li>
+      <strong>Multi-site corporate (3+ sites):</strong> Cloud-managed,
+      almost always. Single panel of glass across sites is a real
+      operational win.
+    </li>
+    <li>
+      <strong>Compliance-driven sectors with on-premise data
+      requirements:</strong> On-premise, no question. Don&apos;t fight the
+      regulator.
+    </li>
+    <li>
+      <strong>Single large site (50+ doors) with dedicated facilities
+      tech:</strong> Either works. Pick on-premise if you want zero
+      vendor dependency or have legacy kit to integrate; pick cloud if
+      you want the IT overhead off the books.
+    </li>
+    <li>
+      <strong>Sites with unreliable internet:</strong> On-premise. The
+      operational risk during outages isn&apos;t worth the convenience
+      saving.
+    </li>
+  </ul>
+
+  <h2>What to ask any installer before signing</h2>
+
+  <ul>
+    <li>
+      Which cloud platforms do you install (and which do you avoid, and
+      why)? An installer who only sells one cloud vendor isn&apos;t giving
+      you architectural advice.
+    </li>
+    <li>
+      What happens if I want to migrate from cloud to on-premise (or
+      vice versa) in five years? Door panels, readers, and cabling
+      should generally survive a platform swap; the cost is the
+      head-end.
+    </li>
+    <li>
+      What&apos;s the data export path if I leave the cloud vendor? You
+      should be able to export the full audit log and credential database
+      in a portable format.
+    </li>
+    <li>
+      How is the cloud vendor&apos;s data hosted? Australian-region
+      hosting matters for some sectors.
+    </li>
+    <li>
+      What&apos;s the SLA on the cloud platform&apos;s uptime, and what
+      happens if it&apos;s breached?
+    </li>
+  </ul>
+
+  <h2>The bottom line</h2>
+
+  <p>
+    For most Sydney commercial buyers in 2026, cloud-managed access
+    control is the right starting point. It costs less over five years,
+    is easier to administer, scales naturally to multi-site, and doesn&apos;t
+    require an in-house technical owner. On-premise still wins where
+    compliance forces the issue, where internet reliability is a
+    genuine concern, or for very large enterprise deployments where the
+    subscription economics tilt.
+  </p>
+
+  <p>
+    Whichever pattern you choose, the install standards should be the
+    same: walk the site, design to how the building actually runs,
+    install properly, document for handover. If you&apos;d like a
+    walk-through quote on either architecture,
+    <a href="/contact/">get in touch</a>. We install both.
+  </p>
+</BlogPostLayout>

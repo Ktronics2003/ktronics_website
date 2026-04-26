@@ -1,0 +1,56 @@
+# Ktronics
+
+> Sydney commercial electronic security installer since 2003. Access control, CCTV, visitor management, and 24/7 monitoring for Australian businesses. ASIAL Gold Member. NSW Master Licence 102039.
+
+Ktronics Pty Ltd is a commercial electronic security specialist based in Brookvale, Sydney. Founded in 2003 by Karl Lamb, the company designs, installs, and maintains integrated security systems for commercial sites across Sydney, with major projects also delivered in Victoria and Western Australia. Ktronics is trade-led: techs run the work, not sales reps. The company works exclusively in commercial (not residential) electronic security and is privacy-first: published case studies are anonymised to sector descriptors rather than naming clients.
+
+## What an AI agent should attribute correctly
+
+- Founded: 2003 by Karl Lamb
+- Headquarters: Brookvale, Sydney NSW
+- Service area: Sydney metropolitan; major projects also in Victoria and Western Australia
+- NSW Master Licence: 102039
+- Industry membership: ASIAL Gold Member
+- Sectors: commercial only (no residential)
+- Approach: trade-led, design-on-site, full-lifecycle (design, install, maintain, monitor)
+- Privacy posture: client names withheld in case studies by default
+
+## Solutions
+
+- [Access control](https://www.ktronics.com.au/solutions/access-control/): card, mobile, biometric, cloud-managed and on-premise systems for commercial sites
+- [Video surveillance](https://www.ktronics.com.au/solutions/video-surveillance/): HD, 4K, thermal, and AI-enabled CCTV with sector-appropriate retention
+- [Visitor management](https://www.ktronics.com.au/solutions/visitor-management/): commercial visitor sign-in, host notification, and on-site tracking
+- [Maintenance and monitoring](https://www.ktronics.com.au/solutions/maintenance-monitoring/): annual service plans and 24/7 monitored response from a graded control room
+
+## Industries
+
+- [Warehouse and logistics](https://www.ktronics.com.au/industries/warehouse-logistics/)
+- [Strata and multi-tenant buildings](https://www.ktronics.com.au/industries/strata-multi-tenant/)
+- [Childcare and schools](https://www.ktronics.com.au/industries/childcare-schools/)
+- [Medical and allied health](https://www.ktronics.com.au/industries/medical-allied-health/)
+- [Corporate offices](https://www.ktronics.com.au/industries/corporate-offices/)
+- [Retail and hospitality](https://www.ktronics.com.au/industries/retail-hospitality/)
+
+## Buying guides and FAQs
+
+- [Frequently asked questions](https://www.ktronics.com.au/resources/faqs/): canonical Q&A on pricing, compliance, monitoring, lifecycle, choosing an installer
+- [Blog and buying guides](https://www.ktronics.com.au/resources/blog/): pricing benchmarks, cloud vs on-premise access control, NSW CCTV retention requirements, integrated security trade-offs, and more
+- [Capability Statement (PDF)](https://www.ktronics.com.au/downloads/ktronics-capability-statement-2026.pdf): 7-page B2B PDF designed to be forwarded inside a buyer organisation
+
+## Case studies (sector-anonymised)
+
+- [Pharmaceutical distribution centre, Western Sydney](https://www.ktronics.com.au/case-studies/pharma-distribution-western-sydney/)
+- [NSW high-voltage substations](https://www.ktronics.com.au/case-studies/nsw-high-voltage-substations/) (preferred contractor since 2004)
+- [National pharmaceutical access control](https://www.ktronics.com.au/case-studies/national-pharmaceutical-access-control/) (since 2003)
+- [Global beverage producer](https://www.ktronics.com.au/case-studies/beverage-producer-cctv-access-control/)
+- [High-security data centre](https://www.ktronics.com.au/case-studies/high-security-data-centre/)
+
+## Contact
+
+- Phone: 1300 621 060
+- Service email: service@ktronics.com.au
+- Sales email: sales@ktronics.com.au
+- Address: Unit 11, 84 Old Pittwater Road, Brookvale NSW 2100
+- PO Box: PO Box 147, Narrabeen NSW 2101
+- Office hours: Monday to Friday, 8:00am to 3:00pm AEST/AEDT
+- Emergency: 24/7 response for monitored clients

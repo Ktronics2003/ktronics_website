@@ -1,0 +1,98 @@
+---
+/**
+ * Capabilities list — 2-column grid on desktop, 1-column on mobile.
+ * Each item: title (display font) + body paragraph.
+ *
+ * Designed to fit any solution page; the data comes from the solution's
+ * `capabilities` array.
+ */
+import Eyebrow from '@components/ui/Eyebrow.astro';
+import type { SolutionCapability } from '@lib/solutions';
+
+interface Props {
+  items: SolutionCapability[];
+  eyebrow?: string;
+  heading?: string;
+  text?: string;
+}
+const {
+  items,
+  eyebrow = 'Capabilities',
+  heading = "What it covers.",
+  text,
+} = Astro.props;
+---
+<section class="capabilities">
+  <div class="container">
+    <div class="capabilities-header reveal">
+      <Eyebrow>{eyebrow}</Eyebrow>
+      <h2 class="capabilities-heading">{heading}</h2>
+      {text && <p class="capabilities-text">{text}</p>}
+    </div>
+
+    <ul class="capabilities-grid reveal">
+      {items.map((cap) => (
+        <li class="capability">
+          <h3 class="capability-title">{cap.title}</h3>
+          <p class="capability-body">{cap.body}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .capabilities {
+    padding-block: clamp(80px, 10vw, 128px);
+  }
+  .capabilities-header {
+    max-width: 60ch;
+    margin-bottom: 48px;
+  }
+  .capabilities-heading {
+    margin: 16px 0 16px;
+    font-size: clamp(1.625rem, 3vw, 2.25rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+  .capabilities-text {
+    color: var(--ktx-ink-soft);
+    font-size: var(--t-lead);
+    margin: 0;
+  }
+
+  .capabilities-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--ktx-line);
+    border-left: 1px solid var(--ktx-line);
+  }
+  .capability {
+    border-right: 1px solid var(--ktx-line);
+    border-bottom: 1px solid var(--ktx-line);
+    padding: 28px 32px;
+  }
+  .capability-title {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    margin: 0 0 8px;
+    line-height: 1.3;
+  }
+  .capability-body {
+    color: var(--ktx-ink-soft);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  @media (max-width: 720px) {
+    .capabilities-grid { grid-template-columns: 1fr; }
+    .capability { padding: 24px 28px; }
+  }
+</style>

@@ -1,0 +1,90 @@
+---
+/**
+ * Industry challenges grid — 2-column on desktop, stacked on mobile.
+ * Same visual pattern as Capabilities but framed as problems Ktronics
+ * solves (rather than features Ktronics offers). Targeted at buyers
+ * who self-identify by sector first, then look for solutions.
+ */
+import Eyebrow from '@components/ui/Eyebrow.astro';
+import type { IndustryChallenge } from '@lib/industries';
+
+interface Props {
+  items: IndustryChallenge[];
+  eyebrow?: string;
+  heading?: string;
+}
+const {
+  items,
+  eyebrow = 'What we typically design for',
+  heading = "The considerations that shape every install in this sector.",
+} = Astro.props;
+---
+<section class="industry-challenges">
+  <div class="container">
+    <div class="ic-header reveal">
+      <Eyebrow>{eyebrow}</Eyebrow>
+      <h2 class="ic-heading">{heading}</h2>
+    </div>
+
+    <ul class="ic-grid reveal">
+      {items.map((c) => (
+        <li class="ic-card">
+          <h3 class="ic-title">{c.title}</h3>
+          <p class="ic-body">{c.body}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .industry-challenges {
+    padding-block: clamp(80px, 10vw, 128px);
+  }
+  .ic-header {
+    max-width: 60ch;
+    margin-bottom: 48px;
+  }
+  .ic-heading {
+    margin: 16px 0 0;
+    font-size: clamp(1.625rem, 3vw, 2.25rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+
+  .ic-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--ktx-line);
+    border-left: 1px solid var(--ktx-line);
+  }
+  .ic-card {
+    border-right: 1px solid var(--ktx-line);
+    border-bottom: 1px solid var(--ktx-line);
+    padding: 28px 32px;
+    background: var(--bg);
+  }
+  .ic-title {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    margin: 0 0 8px;
+    line-height: 1.3;
+  }
+  .ic-body {
+    color: var(--ktx-ink-soft);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  @media (max-width: 720px) {
+    .ic-grid { grid-template-columns: 1fr; }
+    .ic-card { padding: 24px 28px; }
+  }
+</style>

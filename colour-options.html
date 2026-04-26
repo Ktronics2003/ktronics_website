@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ktronics — Colour Background Options</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ktx-red: #E51838;
+    --ktx-red-hover: #C8142F;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: #2a2a2a;
+    color: white;
+    font-family: 'IBM Plex Sans', system-ui, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page-header {
+    padding: 48px 32px 24px;
+    max-width: 1280px;
+    margin: 0 auto;
+    color: white;
+  }
+  .page-header h1 {
+    margin: 0 0 8px;
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+  }
+  .page-header p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.65);
+    max-width: 65ch;
+  }
+  .page-header strong { color: white; }
+
+  /* ----- Per-option container ----- */
+  .option {
+    max-width: 1280px;
+    margin: 32px auto;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+  }
+  .option-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 24px;
+    background: #1a1a1a;
+    color: white;
+    flex-wrap: wrap;
+  }
+  .option-label-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .option-label-name strong { color: white; }
+  .option-label-stack {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6875rem;
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .option-label-stack span {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 4px 8px;
+    border-radius: 2px;
+    margin-left: 6px;
+    color: white;
+  }
+  .baseline .option-label-stack span:first-of-type {
+    background: var(--ktx-red);
+  }
+
+  /* ----- The banner ----- */
+  .banner {
+    /* Per-option overrides set --bg / --fg / --fg-mute / --line / --logo-mode */
+    background: var(--bg);
+    color: var(--fg);
+    padding: 0 32px 64px;
+  }
+  .banner-inner {
+    max-width: 1216px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 0;
+    gap: 32px;
+    border-bottom: 1px solid var(--line);
+  }
+  .banner-logo img {
+    height: 36px;
+    width: auto;
+    display: block;
+    /* default = full-colour logo */
+    filter: var(--logo-filter, none);
+  }
+  .banner-nav {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+  }
+  .banner-nav a {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--fg);
+    text-decoration: none;
+  }
+  .banner-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+    border-left: 1px solid var(--line);
+    padding-left: 24px;
+  }
+  .banner-cta-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--fg-mute);
+  }
+  .banner-cta a {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.0625rem;
+    font-weight: 500;
+    color: var(--fg);
+    text-decoration: none;
+  }
+
+  /* ----- Hero ----- */
+  .hero {
+    max-width: 1216px;
+    margin: 0 auto;
+    padding: 56px 0 0;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 48px;
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--line);
+    flex-wrap: wrap;
+  }
+  .hero-meta-item {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--fg-mute);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .hero-meta-item-label {
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .hero-meta-item strong {
+    color: var(--fg);
+    font-weight: 600;
+    font-size: 0.8125rem;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .hero h2 {
+    margin: 0 0 24px;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    font-weight: 600;
+    color: var(--fg);
+    max-width: 14ch;
+  }
+  .hero h2 em {
+    color: var(--ktx-red);
+    font-style: italic;
+  }
+  .hero-lead {
+    color: var(--fg-mute);
+    max-width: 50ch;
+    margin: 0 0 24px;
+  }
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 24px;
+    background: var(--ktx-red);
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    border-radius: 2px;
+  }
+  .hero-img {
+    aspect-ratio: 4/5;
+    background: var(--ink, #1E1A1B);
+    background-size: cover;
+    background-position: center 30%;
+    position: relative;
+  }
+  .hero-img-tag {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: var(--bg);
+    color: var(--fg);
+    padding: 8px 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* ==========================================================
+     COLOUR SCHEMES
+     ========================================================== */
+
+  /* OPTION 1 — BASELINE: Warm eggshell (current) */
+  .opt-1 .banner {
+    --bg: #FAFAF7;
+    --fg: #1E1A1B;
+    --fg-mute: #8A8682;
+    --line: #D9D7D2;
+  }
+
+  /* OPTION 2 — Pure white: clinical / corporate */
+  .opt-2 .banner {
+    --bg: #FFFFFF;
+    --fg: #0F0F10;
+    --fg-mute: #6B7280;
+    --line: #E5E7EB;
+  }
+
+  /* OPTION 3 — Vault dark: full dark mode, max security feel */
+  .opt-3 .banner {
+    --bg: #0A0908;
+    --fg: #FAFAF7;
+    --fg-mute: rgba(250, 250, 247, 0.6);
+    --line: rgba(250, 250, 247, 0.15);
+    --logo-filter: brightness(0) invert(1);
+  }
+
+  /* OPTION 4 — Charcoal: industrial, less stark than pure black */
+  .opt-4 .banner {
+    --bg: #1B1D1F;
+    --fg: #EDEDED;
+    --fg-mute: #8A8E93;
+    --line: #2D3033;
+    --logo-filter: brightness(0) invert(1);
+  }
+
+  /* OPTION 5 — Steel grey: engineering, infrastructure-grade */
+  .opt-5 .banner {
+    --bg: #E8EAED;
+    --fg: #1A1D21;
+    --fg-mute: #5F6368;
+    --line: #C4C7CC;
+  }
+
+  /* OPTION 6 — Concrete / warm grey: architectural, substantial */
+  .opt-6 .banner {
+    --bg: #DEDAD2;
+    --fg: #1E1A1B;
+    --fg-mute: #6F6A63;
+    --line: #BFBAB1;
+  }
+
+  /* OPTION 7 — Heritage stone: heavier neutral, established/permanent */
+  .opt-7 .banner {
+    --bg: #C9C2B5;
+    --fg: #1E1A1B;
+    --fg-mute: #5C564D;
+    --line: #A89F8E;
+  }
+
+  /* OPTION 8 — Two-tone: dark hero, light body (mocked as dark hero band only here) */
+  .opt-8 .banner {
+    --bg: #0A0908;
+    --fg: #FAFAF7;
+    --fg-mute: rgba(250, 250, 247, 0.65);
+    --line: rgba(229, 24, 56, 0.5);   /* red structural rule under nav */
+    --logo-filter: brightness(0) invert(1);
+  }
+  .opt-8 .banner-inner { border-bottom: 2px solid var(--ktx-red); }
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <h1>Banner colour options</h1>
+  <p>
+    Same logo, layout, copy, and typeface throughout. <strong>Only the background colour scheme changes</strong>
+    so you can compare voice, not visual hierarchy. Red brand accent stays in every option.
+    <strong>Option 1 is the current build (warm eggshell).</strong>
+    Pick one and I'll wire it into the project.
+  </p>
+</header>
+
+<!-- Re-usable banner template via JS would be ideal; we hand-roll for clarity. -->
+
+<!-- ===== OPTION 1: Baseline ===== -->
+<section class="option opt-1 baseline">
+  <div class="option-label">
+    <span class="option-label-name"><strong>Option 1 — Warm eggshell (current)</strong></span>
+    <span class="option-label-stack">
+      BG <span>#FAFAF7</span>
+      Text <span>#1E1A1B</span>
+    </span>
+  </div>
+  <div class="banner">
+    <div class="banner-inner">
+      <a class="banner-logo" href="#"><img src="./public/images/ktronics-logo.png" alt="Ktronics" /></a>
+      <nav class="banner-nav">
+        <a href="#">Solutions</a><a href="#">Industries</a><a href="#">Work</a>
+        <a href="#">About</a><a href="#">Resources</a><a href="#">Contact</a>
+      </nav>
+      <div class="banner-cta">
+        <span class="banner-cta-label">Sydney • Call</span>
+        <a href="tel:1300621060">1300 621 060</a>
+      </div>
+    </div>
+    <div class="hero">
+      <div class="hero-meta">
+        <span class="hero-meta-item"><span class="hero-meta-item-label">Established</span><strong>2003</strong></span>
+        <span class="hero-meta-item"><span class="hero-meta-item-label">Membership</span><strong>ASIAL Gold Member</strong></span>
+        <span class="hero-meta-item"><span class="hero-meta-item-label">NSW Master Licence</span><strong>102039</strong></span>
+      </div>
+      <div class="hero-grid">
+        <div>
+          <h2>Commercial security systems that <em>actually work</em> when you need them.</h2>
+          <p class="hero-lead">Sydney's trusted electronic security installer for two decades.</p>
+          <a class="hero-cta" href="#">Get a quote →</a>
+        </div>
+        <div class="hero-img" style="background-image:url('./src/assets/images/hero/hero-karl-ktronics-truck-sydney.jpg')">
+          <div class="hero-img-tag">● Karl Lamb / MD</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== OPTION 2: Pure white ===== -->
+<section class="option opt-2">
+  <div class="option-label">
+    <span class="option-label-name"><strong>Option 2 — Pure white</strong>  &nbsp;Clinical, modern, corporate. Cooler. No warmth at all.</span>
+    <span class="option-label-stack">
+      BG <span>#FFFFFF</span>
+      Text <span>#0F0F10</span>
+    </span>
+  </div>
+  <div class="banner">
+    <div class="banner-inner">
+      <a class="banner-logo" href="#"><img src="./public/images/ktronics-logo.png" alt="Ktronics" /></a>
+      <nav class="banner-nav">
+        <a href="#">Solutions</a><a href="#">Industries</a><a href="#">Work</a>
+        <a href="#">About</a><a href="#">Resources</a><a href="#">Contact</a>
+      </nav>
+      <div class="banner-cta">
+        <span class="banner-cta-label">Sydney • Call</span>
+        <a href="tel:1300621060">1300 621 060</a>
+      </div>
+    </div>
+    <div class="hero">
+      <div class="hero-meta">
+        <span class="hero-meta-item"><span class="hero-meta-item-label">Established</span><strong>2003</strong></span>
+        <span class="hero-meta-item"><span class="hero-meta-item-label">Membership</span><strong>ASIAL Gold Member</strong></span>
+        <span class="hero-meta-item"><span class="hero-meta-item-label">NSW Master Licence</span><strong>102039</strong></span>
+      </div>
+      <div class="hero-grid">
+        <div>
+          <h2>Commercial security systems that <em>actually work</em> when you need them.</h2>
+          <p class="hero-lead">Sydney's trusted electronic security installer for two decades.</p>
+          <a class="hero-cta" href="#">Get a quote →</a>
+        </div>
+        <div class="hero-img" style="background-image:url('./src/assets/images/hero/hero-karl-ktronics-truck-sydney.jpg')">
+          <div class="hero-img-tag">● Karl Lamb / MD</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== OPTION 3: Vault dark ===== -->
+<section class="option opt-3">
+  <div class="option-label">
+    <span class="option-label-name"><strong>Option 3 — Vault dark</strong>  &nbsp;Maximum strength. Security-vault energy. Bold but high-commitment.</span>
+    <span class="option-label-stack">
+      BG <span>#0A0908</span>
+      Text <span>#FAFAF7</span>
+    </span>
+  </div>
+  <div class="banner">
+    <div class="banner-inner">
+      <a class="banner-logo" href="#"><img src="./public/images/ktronics-logo.png" alt="Ktronics" /></a>
+      <nav class="banner-nav">
+        <a href="#">Solutions</a><a href="#">Industries</a><a href="#">Work</a>
+        <a href="#">About</a><a href="#">Resources</a><a href="#">Contact</a>
+      </nav>
+      <div class="banner-cta">
+        <span class="banner-cta-label">Sydney • Call</span>
+        <a href="tel:1300621060">1300 621 060</a>
+      </div>
+    </div>
+    <div class="hero">
+      <div class="hero-meta">
+        <span class="hero-meta-item"><span class="hero-meta-item-label">Established</span><strong>2003</strong></span>
+        <span class="hero-meta-item"><span class="hero-meta-item-label">Membership</span><strong>ASIAL Gold Member</strong></span>
+        <span class="hero-meta-item"><span class="hero-meta-item-label">NSW Master Licence</span><strong>102039</strong></span>
+      </div>
+      <div class="hero-grid">
+        <div>
+          <h2>Commercial security systems that <em>actually work</em> when you need them.</h2>
+          <p class="hero-lead">Sydney's trusted electronic security installer for two decades.</p>
+          <a class="hero-cta" href="#">Get a quote →</a>
+        </div>
+        <div class="hero-img" style="background-image:url('./src/assets/images/hero/hero-karl-ktronics-truck-sydney.jpg')">
+          <div class="hero-img-tag">● Karl Lamb / MD</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== OPTION 4: Charcoal ===== -->
+<section class="option opt-4">
+  <div class="option-label">
+    <span class="option-label-name"><strong>Option 4 — Charcoal</strong>  &nbsp;Industrial. Less stark than full black. Equipment-room feel.</span>
+    <span class="option-label-stack">
+      BG <span>#1B1D1F</span>
+      Text <span>#EDEDED</span>
+    </span>
+  </div>
+  <div class="banner">
+    <div class="banner-inner">
+      <a class="banner-logo" href="#"><img src="./public/images/ktronics-logo.png" alt="Ktronics" /></a>
+      <nav class="banner-nav">
+        <a href="#">Solutions</a><a href="#">Industries</a><a href="#">Work</a>
+        <a href="#">About</a><a href="#">Resources</a><a href="#">Contact</a>
+      </nav>
+      <div class="banner-cta">
+        <span class="banner-cta-label">Sydney • Call</span>
+        <a href="tel:1300621060">1300 621 060</a>
+      </div>
+    </div>
+    <div class="hero">
+      <div class="hero-meta">
+        <span class="hero-meta-item"><span class="hero-meta-item-label">Established</span><strong>2003</strong></span>
+        <span class="hero-meta-item"><span class="hero-meta-item-label">Membership</span><strong>ASIAL Gold Member</strong></span>
+        <span class="hero-meta-item"><span class="hero-meta-item-label">NSW Master Licence</span><strong>102039</strong></span>
+      </div>
+      <div class="hero-grid">
+        <div>
+          <h2>Commercial security systems that <em>actually work</em> when you need them.</h2>
+          <p class="hero-lead">Sydney's trusted electronic security installer for two decades.</p>
+          <a class="hero-cta" href="#">Get a quote →</a>
+        </div>
+        <div class="hero-img" style="background-image:url('./src/assets/images/hero/hero-karl-ktronics-truck-sydney.jpg')">
+          <div class="hero-img-tag">● Karl Lamb / MD</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== OPTION 5: Steel grey ===== -->
+<section class="option opt-5">
+  <div class="option-label">
+    <span class="option-label-name"><strong>Option 5 — Steel grey</strong>  &nbsp;Cool, engineering, infrastructure-grade. Less warm than current.</span>
+    <span class="option-label-stack">
+      BG <span>#E8EAED</span>
+      Text <span>#1A1D21</span>
+    </span>
+  </div>
+  <div class="banner">
+    <div class="banner-inner">
+      <a class="banner-logo" href="#"><img src="./public/images/ktronics-logo.png" alt="Ktronics" /></a>
+      <nav class="banner-nav">
+        <a href="#">Solutions</a><a href="#">Industries</a><a href="#">Work</a>
+        <a href="#">About</a><a href="#">Resources</a><a href="#">Contact</a>
+      </nav>
+      <div class="banner-cta">
+        <span class="banner-cta-label">Sydney • Call</span>
+        <a href="tel:1300621060">1300 621 060</a>
+      </div>
+    </div>
+    <div class="hero">
+      <div class="hero-meta">
+        <span class="hero-meta-item"><span class="hero-meta-item-label">Established</span><strong>2003</strong></span>
+        <span class="hero-meta-item"><span class="hero-meta-item-label">Membership</span><strong>ASIAL Gold Member</strong></span>
+        <span class="hero-meta-item"><span class="hero-meta-item-label">NSW Master Licence</span><strong>102039</strong></span>
+      </div>
+      <div class="hero-grid">
+        <div>
+          <h2>Commercial security systems that <em>actually work</em> when you need them.</h2>
+          <p class="hero-lead">Sydney's trusted electronic security installer for two decades.</p>
+          <a class="hero-cta" href="#">Get a quote →</a>
+        </div>
+        <div class="hero-img" style="background-image:url('./src/assets/images/hero/hero-karl-ktronics-truck-sydney.jpg')">
+          <div class="hero-img-tag">● Karl Lamb / MD</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== OPTION 6: Concrete ===== -->
+<section class="option opt-6">
+  <div class="option-label">
+    <span class="option-label-name"><strong>Option 6 — Concrete / warm grey</strong>  &nbsp;Architectural, substantial. More weight than the eggshell.</span>
+    <span class="option-label-stack">
+      BG <span>#DEDAD2</span>
+      Text <span>#1E1A1B</span>
+    </span>
+  </div>
+  <div class="banner">
+    <div class="banner-inner">
+      <a class="banner-logo" href="#"><img src="./public/images/ktronics-logo.png" alt="Ktronics" /></a>
+      <nav class="banner-nav">
+        <a href="#">Solutions</a><a href="#">Industries</a><a href="#">Work</a>
+        <a href="#">About</a><a href="#">Resources</a><a href="#">Contact</a>
+      </nav>
+      <div class="banner-cta">
+        <span class="banner-cta-label">Sydney • Call</span>
+        <a href="tel:1300621060">1300 621 060</a>
+      </div>
+    </div>
+    <div class="hero">
+      <div class="hero-meta">
+        <span class="hero-meta-item"><span class="hero-meta-item-label">Established</span><strong>2003</strong></span>
+        <span class="hero-meta-item"><span class="hero-meta-item-label">Membership</span><strong>ASIAL Gold Member</strong></span>
+        <span class="hero-meta-item"><span class="hero-meta-item-label">NSW Master Licence</span><strong>102039</strong></span>
+      </div>
+      <div class="hero-grid">
+        <div>
+          <h2>Commercial security systems that <em>actually work</em> when you need them.</h2>
+          <p class="hero-lead">Sydney's trusted electronic security installer for two decades.</p>
+          <a class="hero-cta" href="#">Get a quote →</a>
+        </div>
+        <div class="hero-img" style="background-image:url('./src/assets/images/hero/hero-karl-ktronics-truck-sydney.jpg')">
+          <div class="hero-img-tag">● Karl Lamb / MD</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== OPTION 7: Heritage stone ===== -->
+<section class="option opt-7">
+  <div class="option-label">
+    <span class="option-label-name"><strong>Option 7 — Heritage stone</strong>  &nbsp;Heavier neutral. Reads "established" / "permanent". Risk: muted.</span>
+    <span class="option-label-stack">
+      BG <span>#C9C2B5</span>
+      Text <span>#1E1A1B</span>
+    </span>
+  </div>
+  <div class="banner">
+    <div class="banner-inner">
+      <a class="banner-logo" href="#"><img src="./public/images/ktronics-logo.png" alt="Ktronics" /></a>
+      <nav class="banner-nav">
+        <a href="#">Solutions</a><a href="#">Industries</a><a href="#">Work</a>
+        <a href="#">About</a><a href="#">Resources</a><a href="#">Contact</a>
+      </nav>
+      <div class="banner-cta">
+        <span class="banner-cta-label">Sydney • Call</span>
+        <a href="tel:1300621060">1300 621 060</a>
+      </div>
+    </div>
+    <div class="hero">
+      <div class="hero-meta">
+        <span class="hero-meta-item"><span class="hero-meta-item-label">Established</span><strong>2003</strong></span>
+        <span class="hero-meta-item"><span class="hero-meta-item-label">Membership</span><strong>ASIAL Gold Member</strong></span>
+        <span class="hero-meta-item"><span class="hero-meta-item-label">NSW Master Licence</span><strong>102039</strong></span>
+      </div>
+      <div class="hero-grid">
+        <div>
+          <h2>Commercial security systems that <em>actually work</em> when you need them.</h2>
+          <p class="hero-lead">Sydney's trusted electronic security installer for two decades.</p>
+          <a class="hero-cta" href="#">Get a quote →</a>
+        </div>
+        <div class="hero-img" style="background-image:url('./src/assets/images/hero/hero-karl-ktronics-truck-sydney.jpg')">
+          <div class="hero-img-tag">● Karl Lamb / MD</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== OPTION 8: Dark hero / red rule ===== -->
+<section class="option opt-8">
+  <div class="option-label">
+    <span class="option-label-name"><strong>Option 8 — Dark hero + red structural rule</strong>  &nbsp;Hero only is dark; rest of site stays light. Best of both. Most "security".</span>
+    <span class="option-label-stack">
+      Hero <span>#0A0908</span>
+      Body pages <span>#FAFAF7</span>
+    </span>
+  </div>
+  <div class="banner">
+    <div class="banner-inner">
+      <a class="banner-logo" href="#"><img src="./public/images/ktronics-logo.png" alt="Ktronics" /></a>
+      <nav class="banner-nav">
+        <a href="#">Solutions</a><a href="#">Industries</a><a href="#">Work</a>
+        <a href="#">About</a><a href="#">Resources</a><a href="#">Contact</a>
+      </nav>
+      <div class="banner-cta">
+        <span class="banner-cta-label">Sydney • Call</span>
+        <a href="tel:1300621060">1300 621 060</a>
+      </div>
+    </div>
+    <div class="hero">
+      <div class="hero-meta">
+        <span class="hero-meta-item"><span class="hero-meta-item-label">Established</span><strong>2003</strong></span>
+        <span class="hero-meta-item"><span class="hero-meta-item-label">Membership</span><strong>ASIAL Gold Member</strong></span>
+        <span class="hero-meta-item"><span class="hero-meta-item-label">NSW Master Licence</span><strong>102039</strong></span>
+      </div>
+      <div class="hero-grid">
+        <div>
+          <h2>Commercial security systems that <em>actually work</em> when you need them.</h2>
+          <p class="hero-lead">Sydney's trusted electronic security installer for two decades.</p>
+          <a class="hero-cta" href="#">Get a quote →</a>
+        </div>
+        <div class="hero-img" style="background-image:url('./src/assets/images/hero/hero-karl-ktronics-truck-sydney.jpg')">
+          <div class="hero-img-tag">● Karl Lamb / MD</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

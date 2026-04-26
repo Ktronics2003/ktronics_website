@@ -1,0 +1,24 @@
+---
+/**
+ * PageLayout — wraps BaseLayout with the standard Header + Footer.
+ * Use for every public-facing page. Pass `seo` and `schemaBlocks` through.
+ */
+import BaseLayout from './BaseLayout.astro';
+import Header from '@components/layout/Header.astro';
+import Footer from '@components/layout/Footer.astro';
+import type { PageSEO } from '@lib/seo';
+
+interface Props {
+  seo: PageSEO;
+  schemaBlocks?: Record<string, unknown>[];
+  headExtra?: string;
+}
+const { seo, schemaBlocks, headExtra } = Astro.props;
+---
+<BaseLayout seo={seo} schemaBlocks={schemaBlocks} headExtra={headExtra}>
+  <Header />
+  <main id="main">
+    <slot />
+  </main>
+  <Footer />
+</BaseLayout>

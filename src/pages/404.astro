@@ -1,0 +1,133 @@
+---
+/**
+ * 404 — custom not-found page.
+ *
+ * Astro static builds: this file is built as /404.html and served by Netlify
+ * automatically when no other route matches. Configured via netlify.toml's
+ * default 404 fallback (no extra config needed; Netlify uses /404.html).
+ *
+ * UX brief: don't dead-end the visitor. Acknowledge the wrong-turn, offer
+ * the most likely paths back (home, solutions hub, contact, phone), and keep
+ * the brand voice consistent with the rest of the site.
+ *
+ * `noindex` — never appears in search results.
+ */
+import PageLayout from '@layouts/PageLayout.astro';
+import Button from '@components/ui/Button.astro';
+import { site } from '@lib/site';
+
+const seo = {
+  title: 'Page not found',
+  description: "That page isn't here. Try the homepage, or call us if you can't find what you're looking for.",
+  path: '/404/',
+  noindex: true,
+};
+---
+<PageLayout seo={seo}>
+  <section class="four-oh-four on-dark">
+    <div class="container">
+      <span class="error-code">404</span>
+      <h1 class="error-title">
+        We can&apos;t find that page.
+      </h1>
+      <p class="error-lead">
+        The link is broken, the page has moved, or it was never there to
+        begin with. Pick a fresh path below, or give us a call if it&apos;s
+        urgent.
+      </p>
+
+      <div class="error-actions">
+        <Button href="/" variant="primary">Back to home</Button>
+        <Button href="/solutions/" variant="secondary" arrow={false}>Browse solutions</Button>
+      </div>
+
+      <ul class="error-jumplinks">
+        <li><a href="/about/">About Ktronics</a></li>
+        <li><a href="/solutions/">Solutions</a></li>
+        <li><a href="/contact/">Contact</a></li>
+      </ul>
+
+      <p class="error-emergency">
+        System down right now? Call the 24/7 emergency line:&nbsp;
+        <a href={`tel:${site.contact.emergencyPhone.replace(/\s+/g, '')}`}>{site.contact.emergencyPhone}</a>
+      </p>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .four-oh-four {
+    background: var(--bg-dark);
+    color: var(--fg-on-dark);
+    padding-block: clamp(96px, 12vw, 160px);
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+  }
+  .error-code {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: clamp(3rem, 8vw, 5rem);
+    font-weight: 600;
+    color: var(--ktx-red);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+  .error-title {
+    font-size: clamp(1.875rem, 4vw, 2.75rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.04em;
+    color: var(--fg-on-dark);
+    text-wrap: balance;
+    margin: 0 0 24px;
+    max-width: 18ch;
+  }
+  .error-lead {
+    color: var(--fg-mute-on-dark);
+    font-size: var(--t-lead);
+    line-height: 1.6;
+    max-width: 60ch;
+    margin: 0 0 40px;
+  }
+  .error-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .error-jumplinks {
+    list-style: none;
+    margin: 0 0 40px;
+    padding: 24px 0;
+    border-top: 1px solid var(--rule-on-dark);
+    border-bottom: 1px solid var(--rule-on-dark);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 32px;
+  }
+  .error-jumplinks a {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    letter-spacing: 0.06em;
+    color: var(--fg-on-dark);
+    border-bottom: 1px solid var(--rule-on-dark);
+    padding-bottom: 2px;
+    transition: color 0.18s ease, border-color 0.18s ease;
+  }
+  .error-jumplinks a:hover { color: var(--ktx-red); border-color: var(--ktx-red); }
+
+  .error-emergency {
+    color: var(--fg-mute-on-dark);
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    margin: 0;
+    max-width: 56ch;
+  }
+  .error-emergency a {
+    color: var(--fg-on-dark);
+    border-bottom: 1px solid currentColor;
+  }
+  .error-emergency a:hover { color: var(--ktx-red); border-color: var(--ktx-red); }
+</style>

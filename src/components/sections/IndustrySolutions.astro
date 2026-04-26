@@ -1,0 +1,138 @@
+---
+/**
+ * Industry → Solutions cross-link strip.
+ *
+ * Sits on the dark charcoal surface as visual punctuation between two light
+ * sections on an Industry detail page. Pulls the actual Solution objects
+ * from solutions.ts so the icon, label, and description stay in sync if
+ * they change in one place.
+ *
+ * Order is preserved from the industry's `recommendedSolutions` array
+ * (most-relevant first).
+ */
+import Eyebrow from '@components/ui/Eyebrow.astro';
+import { getSolution } from '@lib/solutions';
+
+interface Props {
+  /** Slugs from the industry's recommendedSolutions array (already in priority order) */
+  slugs: string[];
+  eyebrow?: string;
+  heading?: string;
+  text?: string;
+}
+const {
+  slugs,
+  eyebrow = 'How we help',
+  heading = 'The Ktronics solutions that matter most here.',
+  text = "Most installs in this sector lean on one or two of the offerings below. We typically pull them together into a single integrated platform rather than running them as separate systems.",
+} = Astro.props;
+
+const solutions = slugs.map((slug) => getSolution(slug));
+---
+<section class="industry-solutions on-dark">
+  <div class="container">
+    <div class="is-header reveal">
+      <Eyebrow>{eyebrow}</Eyebrow>
+      <h2 class="is-heading">{heading}</h2>
+      {text && <p class="is-text">{text}</p>}
+    </div>
+
+    <ul class="is-grid reveal">
+      {solutions.map((s) => (
+        <li>
+          <a href={`/solutions/${s.slug}/`} class="is-card">
+            <img class="is-card-icon" src={s.icon} alt="" width="56" height="56" aria-hidden="true" />
+            <h3 class="is-card-title">{s.label}</h3>
+            <p class="is-card-body">{s.shortDescription}</p>
+            <span class="is-card-cta">Read more <span aria-hidden="true">↗</span></span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .industry-solutions {
+    background: var(--bg-dark);
+    color: var(--fg-on-dark);
+    padding-block: clamp(80px, 10vw, 128px);
+  }
+  .is-header {
+    max-width: 65ch;
+    margin-bottom: 48px;
+  }
+  .is-heading {
+    margin: 16px 0 16px;
+    font-size: clamp(1.625rem, 3vw, 2.25rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    color: var(--fg-on-dark);
+    text-wrap: balance;
+  }
+  .is-text {
+    color: var(--fg-mute-on-dark);
+    font-size: var(--t-lead);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .is-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .is-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 24px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--rule-on-dark);
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  .is-card:hover {
+    background: rgba(229, 24, 56, 0.1);
+    border-color: var(--ktx-red);
+  }
+  .is-card:hover .is-card-title { color: var(--ktx-red); }
+  .is-card:hover .is-card-cta { color: var(--ktx-red); }
+  .is-card:hover .is-card-icon { transform: scale(1.06); }
+
+  .is-card-icon {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 16px;
+    object-fit: contain;
+    transition: transform 0.25s var(--ease);
+  }
+  .is-card-title {
+    color: var(--fg-on-dark);
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    margin: 0 0 8px;
+    transition: color 0.2s ease;
+  }
+  .is-card-body {
+    color: var(--fg-mute-on-dark);
+    font-size: 0.875rem;
+    line-height: 1.55;
+    margin: 0 0 16px;
+    flex-grow: 1;
+  }
+  .is-card-cta {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg-mute-on-dark);
+    transition: color 0.2s ease;
+  }
+
+  @media (max-width: 1100px) { .is-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px)  { .is-grid { grid-template-columns: 1fr; } }
+</style>

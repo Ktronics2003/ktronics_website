@@ -1,0 +1,207 @@
+---
+/**
+ * /resources/blog/ — blog index.
+ *
+ * Lists every PUBLISHED post (drafts hidden via the publishedPosts() filter
+ * in lib/blog.ts). Newest first. Each card: hero image, tag, title, date,
+ * excerpt, read-more link.
+ *
+ * Empty-state ready: if no posts are published, the page falls back to a
+ * "first post coming soon" note rather than rendering an empty grid.
+ */
+import PageLayout from '@layouts/PageLayout.astro';
+import Eyebrow from '@components/ui/Eyebrow.astro';
+import CtaBlock from '@components/sections/CtaBlock.astro';
+import { publishedPosts } from '@lib/blog';
+import { breadcrumbSchema } from '@lib/schema';
+import { site } from '@lib/site';
+
+const posts = publishedPosts();
+
+const seo = {
+  title: 'Ktronics Blog: Commercial Security Articles & Buying Guides',
+  description:
+    "Plain-English articles, buying guides, and compliance explainers for Sydney commercial security buyers. Written by Ktronics, ASIAL Gold Member since 2003.",
+  path: '/resources/blog/',
+};
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: `${site.url}/` },
+  { name: 'Resources', url: `${site.url}/resources/` },
+  { name: 'Blog' },
+]);
+
+// Format ISO → "25 Apr 2026"
+const formatDate = (iso: string) => {
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' });
+};
+---
+<PageLayout seo={seo} schemaBlocks={[breadcrumbs]}>
+  {/* ----- Hero ----- */}
+  <section class="blog-hero on-dark">
+    <div class="container">
+      <Eyebrow>Blog</Eyebrow>
+      <h1 class="blog-title">
+        Articles, guides, and<br />
+        explainers <em>worth reading.</em>
+      </h1>
+      <p class="blog-lead">
+        Practical writing on commercial electronic security: pricing, kit,
+        compliance, lifecycle, and the questions worth asking before signing
+        a quote. New posts as we write them, no schedule.
+      </p>
+    </div>
+  </section>
+
+  {/* ----- Posts grid (or empty-state) ----- */}
+  <section class="blog-grid-section">
+    <div class="container">
+      {posts.length === 0 ? (
+        <div class="blog-empty">
+          <p>The first post is on its way. Check back soon.</p>
+        </div>
+      ) : (
+        <ul class="blog-grid">
+          {posts.map((p) => (
+            <li>
+              <a href={`/resources/blog/${p.slug}/`}>
+                <div class="blog-card-image">
+                  <img src={p.heroImage} alt={p.heroImageAlt} loading="lazy" decoding="async" />
+                </div>
+                <div class="blog-card-meta">
+                  <div class="blog-card-tagstrip">
+                    <span class="blog-card-tag">{p.tags[0]}</span>
+                    <span class="blog-card-date">{formatDate(p.publishDate)}</span>
+                    <span class="blog-card-readtime">{p.readTime}</span>
+                  </div>
+                  <h2 class="blog-card-title">{p.title}</h2>
+                  <p class="blog-card-excerpt">{p.excerpt}</p>
+                  <span class="blog-card-cta">Read article <span aria-hidden="true">↗</span></span>
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  </section>
+
+  <CtaBlock
+    heading="Got a topic you want us to write about? <em>Tell us.</em>"
+    buttonText="Get in touch"
+  />
+</PageLayout>
+
+<style>
+  /* ----- Hero ----- */
+  .blog-hero {
+    background: var(--bg-dark);
+    color: var(--fg-on-dark);
+    padding-block: clamp(72px, 9vw, 128px);
+  }
+  .blog-title {
+    margin: 16px 0 24px;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    color: var(--fg-on-dark);
+    text-wrap: balance;
+  }
+  .blog-title em { font-style: italic; font-weight: 500; color: var(--ktx-red); }
+  .blog-lead {
+    color: var(--fg-mute-on-dark);
+    font-size: var(--t-lead);
+    line-height: 1.6;
+    max-width: 64ch;
+    margin: 0;
+  }
+
+  /* ----- Posts grid ----- */
+  .blog-grid-section { padding-block: clamp(80px, 10vw, 128px); }
+  .blog-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+  /* Single post = full-width feature card */
+  .blog-grid:has(> li:only-child) { grid-template-columns: 1fr; }
+
+  .blog-grid a {
+    display: block;
+    background: var(--bg);
+    border: 1px solid var(--ktx-line);
+    transition: border-color 0.2s ease;
+    height: 100%;
+  }
+  .blog-grid a:hover { border-color: var(--ktx-red); }
+  .blog-grid a:hover .blog-card-title { color: var(--ktx-red); }
+  .blog-grid a:hover .blog-card-cta { color: var(--ktx-red); }
+  .blog-grid a:hover .blog-card-image img { transform: scale(1.03); }
+
+  .blog-card-image {
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    background: var(--ktx-charcoal);
+  }
+  .blog-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(0.06) contrast(1.04);
+    transition: transform 0.5s var(--ease);
+  }
+  .blog-card-meta { padding: 24px 28px 28px; }
+  .blog-card-tagstrip {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 12px;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ktx-mute);
+    flex-wrap: wrap;
+  }
+  .blog-card-tag { color: var(--accent-text); letter-spacing: 0.12em; }
+  .blog-card-title {
+    font-size: clamp(1.125rem, 2vw, 1.5rem);
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.025em;
+    margin: 0 0 12px;
+    transition: color 0.2s ease;
+    text-wrap: balance;
+  }
+  .blog-card-excerpt {
+    color: var(--ktx-ink-soft);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    margin: 0 0 20px;
+  }
+  .blog-card-cta {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ktx-mute);
+    transition: color 0.2s ease;
+  }
+
+  .blog-empty {
+    text-align: center;
+    padding: 64px 32px;
+    color: var(--ktx-mute);
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    letter-spacing: 0.04em;
+  }
+
+  @media (max-width: 800px) {
+    .blog-grid { grid-template-columns: 1fr; }
+  }
+</style>

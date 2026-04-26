@@ -1,0 +1,131 @@
+---
+/**
+ * Track record — dark surface. Generic-but-specific summary of the kind of
+ * work Ktronics has delivered over 22 years. Names are intentionally absent
+ * (security clients require discretion) but the categories and scale are real.
+ *
+ * Source: Ktronics Company Profile.
+ *
+ * Layout: editorial heading + supporting paragraph, then a 3-up "kinds of
+ * work" strip with a one-line proof point each.
+ */
+import Eyebrow from '@components/ui/Eyebrow.astro';
+
+interface SectorProof {
+  sector: string;
+  detail: string;
+  since?: string;
+}
+
+const sectors: SectorProof[] = [
+  {
+    sector: 'Critical infrastructure',
+    detail: 'NSW high-voltage substations and underground cable tunnels. Integrated alarm, CCTV, access control, intercom, and electric fence interfaced directly with the operator&apos;s SCADA network.',
+    since: 'Since 2004',
+  },
+  {
+    sector: 'Pharmaceutical &amp; logistics',
+    detail: 'Distribution facilities across Sydney designed for tight regulatory certification. Compliance-grade access control and full-site CCTV, monitored 24/7.',
+    since: 'Since 2003',
+  },
+  {
+    sector: 'Data centres &amp; multi-site',
+    detail: 'Co-located data centre fit-outs running Lenel OnGuard and Axis CCTV. National access control and alarm systems linking multiple corporate sites under central management.',
+    since: 'Since 2012',
+  },
+];
+---
+<section class="track-record on-dark">
+  <div class="container">
+    <div class="track-header reveal">
+      <Eyebrow>Track record</Eyebrow>
+      <h2 class="track-heading">
+        Twenty-two years of compliance-grade work.<br />
+        Most of it you&apos;ve never heard about.
+      </h2>
+      <p class="track-intro">
+        Our clients are private by definition. We work on the buildings,
+        sites, and infrastructure that need security precisely because
+        being known as a target is the problem. So we don&apos;t name them.
+        What we can tell you is the kind of work, the scale of it, and
+        how long we&apos;ve been doing it.
+      </p>
+    </div>
+
+    <div class="sectors reveal">
+      {sectors.map((s) => (
+        <article class="sector">
+          {s.since && <span class="sector-since">{s.since}</span>}
+          <h3 class="sector-name" set:html={s.sector} />
+          <p class="sector-detail" set:html={s.detail} />
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .track-record {
+    background: var(--bg-dark);
+    color: var(--fg-on-dark);
+    padding-block: clamp(80px, 10vw, 128px);
+  }
+  .track-header {
+    max-width: 70ch;
+    margin-bottom: 64px;
+  }
+  .track-heading {
+    margin: 16px 0 24px;
+    font-size: clamp(1.625rem, 3vw, 2.25rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.15;
+    text-wrap: balance;
+    color: var(--fg-on-dark);
+  }
+  .track-intro {
+    color: var(--fg-mute-on-dark);
+    font-size: var(--t-lead);
+    line-height: 1.6;
+    max-width: 60ch;
+    margin: 0;
+  }
+
+  .sectors {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    border-top: 1px solid var(--rule-on-dark);
+    padding-top: 48px;
+  }
+  .sector {
+    border-top: 2px solid var(--ktx-red);
+    padding-top: 20px;
+  }
+  .sector-since {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg-mute-on-dark);
+    margin-bottom: 16px;
+  }
+  .sector-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--fg-on-dark);
+    margin: 0 0 12px;
+    line-height: 1.2;
+  }
+  .sector-detail {
+    color: var(--fg-mute-on-dark);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  @media (max-width: 900px) {
+    .sectors { grid-template-columns: 1fr; gap: 40px; }
+  }
+</style>

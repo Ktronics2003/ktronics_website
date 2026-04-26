@@ -1,0 +1,145 @@
+---
+/**
+ * /resources/faqs/ — canonical FAQ page.
+ *
+ * The 10 strategic / cross-cutting questions buyers ask before signing.
+ * These DON'T duplicate the page-specific FAQs already on:
+ *   - Contact (response time, service area, after-hours)
+ *   - Solution pages (4 product-specific Qs each)
+ *   - Industry pages (3 sector-specific Qs each)
+ *
+ * Strategy: page-specific FAQs answer the tactical "in this context" Qs.
+ * The canonical FAQ answers the strategic / decision-making Qs that don't
+ * belong on any single page. Google's duplicate-FAQ-markup penalty avoided.
+ */
+import PageLayout from '@layouts/PageLayout.astro';
+import Eyebrow from '@components/ui/Eyebrow.astro';
+import Faqs from '@components/sections/Faqs.astro';
+import CtaBlock from '@components/sections/CtaBlock.astro';
+import { breadcrumbSchema, faqPageSchema } from '@lib/schema';
+import { site } from '@lib/site';
+
+const seo = {
+  title: 'Commercial Security FAQs: Pricing, Compliance, Lifecycle',
+  description:
+    "The strategic questions buyers ask before signing a commercial security quote in Sydney. Pricing, compliance, monitoring, lifecycle, and installer red flags.",
+  path: '/resources/faqs/',
+};
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: `${site.url}/` },
+  { name: 'Resources', url: `${site.url}/resources/` },
+  { name: 'FAQs' },
+]);
+
+const faqs = [
+  {
+    question: 'How do I budget for a commercial security upgrade?',
+    answer:
+      "Three line items: kit, labour, ongoing service. Kit is what most quotes itemise (cameras, panels, readers, software licences); labour is the install and commissioning; ongoing service is monitoring + scheduled maintenance + remote support. As a rough Sydney 2026 yardstick: a small office sits in the $10,000 to $25,000 range to install with a $1,500 to $4,000 per year service plan. A 50+ door warehouse with full CCTV is $80,000 to $200,000+ to install with $8,000 to $20,000 per year ongoing. Always ask for the three line items separately so you can compare quotes apples-to-apples.",
+  },
+  {
+    question: 'How does Ktronics work with our existing IT and network team?',
+    answer:
+      "Modern commercial security runs on the network, so this matters. We collaborate directly with your IT lead during design: we specify the network bandwidth, switch ports, and PoE budget the system needs; you confirm the VLANs, firewall rules, and storage location. Cameras, panels, and head-end servers can sit on a dedicated security VLAN or on existing corporate infrastructure depending on your security posture. We do this regularly with corporate IT teams; it's not a separate project.",
+  },
+  {
+    question: "What's the difference between a security installer and a security guard company?",
+    answer:
+      "A security installer (us) designs, installs, and maintains the electronic security infrastructure: cameras, access control, alarms, monitoring panels. A security guard company provides on-site human guards, mobile patrols, and crowd control. Both operate under separate NSW Master Licence classes and are entirely different businesses. Some clients use both; if your guards need access to footage or alarm events, we can scope the integration.",
+  },
+  {
+    question: 'Can I keep my existing CCTV cameras when upgrading other parts of the system?',
+    answer:
+      "Often, yes: provided the cameras are still supported by the manufacturer and meet your required resolution and analytics. We routinely take over and extend systems that have been in place for 10+ years. The first step is a written condition report on the existing kit so you know what's worth keeping and what's genuinely end-of-life. We'll never push a forklift replacement that isn't justified.",
+  },
+  {
+    question: "What's the difference between cloud-managed and on-premise access control?",
+    answer:
+      "Cloud-managed access control runs on a vendor-hosted server that you administer through a browser: no on-site server required. Faster to deploy, easier for non-technical staff to manage, but creates a hard dependency on internet connectivity and a recurring SaaS fee. On-premise access control runs on a local server you (or we) maintain: full control, no SaaS fee, no internet dependency, but requires more in-house technical capacity. For most small-to-mid commercial sites in 2026, cloud is the right default. For multi-site enterprise or compliance-sensitive sectors, on-premise still wins.",
+  },
+  {
+    question: "Are Ktronics systems compliant with my industry's regulations?",
+    answer:
+      "We design to whatever regulatory framework applies to your sector. Common ones we work with: National Quality Standard (childcare), Australian Privacy Principles + OAIC (medical and any health information), Liquor & Gaming OLGR (licensed venues), TGA Good Distribution Practice (pharmaceutical logistics), and various critical-infrastructure operator standards. We document the install accordingly so audit responses don't require digging. If your sector has a framework we haven't worked with, tell us during the brief and we'll scope to it.",
+  },
+  {
+    question: 'How does 24/7 monitoring actually work, and what does it cost?',
+    answer:
+      "Your alarm panels are connected to our 24/7 control room over the cellular network (with IP failover). When an alarm event fires, a trained operator verifies it: checks camera footage where available, references your written response plan: and dispatches according to that plan: police, your nominated key-holder, our on-call technician, or all three. Monitored events are logged and you receive a written incident report the next business day. Cost depends on the number of monitored panels and your response plan; for most commercial sites it sits in the $50 to $150 per month per panel range.",
+  },
+  {
+    question: 'What documentation should we expect from a security installer?',
+    answer:
+      "At handover, the standard pack should include: as-built drawings (camera positions, door zones, cable routes), kit list with model numbers and serial numbers, system passwords and admin credential handover, configuration backups, the operator manual, your maintenance plan if you have one, and licence + warranty documentation. For compliance-sensitive sectors, also expect: regulatory framework mapping, retention policy documentation, and any certifications relevant to the install. If a quote doesn't mention what handover documentation you'll receive, ask before you sign.",
+  },
+  {
+    question: 'What questions should we ask any commercial security installer before signing?',
+    answer:
+      "A short list: (1) What's your NSW Master Licence number? (2) Are you ASIAL members? (3) What's your warranty on workmanship and equipment? (4) Will the same techs who quote it be the ones who install and maintain it? (5) What documentation will we get at handover? (6) Who handles after-hours emergencies? (7) Can you take over from another installer if we change providers in future? (8) What's the typical lifecycle, and what does end-of-life replacement look like? Quotes that can't answer most of these in writing aren't worth comparing on price alone.",
+  },
+  {
+    question: 'What happens to our system when it reaches end-of-life?',
+    answer:
+      "Modern commercial security has a typical 8 to 12 year lifecycle for cameras and 10 to 15 years for access control panels. As that horizon approaches, we plan a staged upgrade rather than a forklift replacement: head-end equipment first, cabling extension where needed, then end-point devices in zones during scheduled maintenance windows. The goal is continuity of service, not a hard cutover. We surface end-of-life timing in your annual service review so you can budget for it 12 to 24 months out.",
+  },
+];
+
+const faqSchema = faqPageSchema(faqs);
+---
+<PageLayout seo={seo} schemaBlocks={[breadcrumbs, faqSchema]}>
+  {/* ----- Hero ----- */}
+  <section class="faq-hero on-dark">
+    <div class="container">
+      <Eyebrow>Frequently asked</Eyebrow>
+      <h1 class="faq-title">
+        The questions buyers ask<br />
+        before they <em>sign anything.</em>
+      </h1>
+      <p class="faq-lead">
+        The ten strategic questions we get most often. For tactical questions
+        about specific products or industries, the relevant
+        <a href="/solutions/">Solutions</a> or
+        <a href="/industries/">Industries</a> pages have their own FAQ blocks.
+      </p>
+    </div>
+  </section>
+
+  {/* ----- The FAQ accordion ----- */}
+  <Faqs items={faqs} eyebrow="" heading="" openFirst={true} />
+
+  <CtaBlock
+    heading="Got a question we haven&apos;t answered? <em>Just ask.</em>"
+    buttonText="Get in touch"
+  />
+</PageLayout>
+
+<style>
+  .faq-hero {
+    background: var(--bg-dark);
+    color: var(--fg-on-dark);
+    padding-block: clamp(72px, 9vw, 128px);
+  }
+  .faq-title {
+    margin: 16px 0 24px;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    color: var(--fg-on-dark);
+    text-wrap: balance;
+  }
+  .faq-title em { font-style: italic; font-weight: 500; color: var(--ktx-red); }
+  .faq-lead {
+    color: var(--fg-mute-on-dark);
+    font-size: var(--t-lead);
+    line-height: 1.6;
+    max-width: 64ch;
+    margin: 0;
+  }
+  .faq-lead a {
+    color: var(--fg-on-dark);
+    border-bottom: 1px solid var(--rule-on-dark);
+  }
+  .faq-lead a:hover { color: var(--ktx-red); border-color: var(--ktx-red); }
+</style>

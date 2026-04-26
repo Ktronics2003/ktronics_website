@@ -1,0 +1,439 @@
+---
+/**
+ * BlogPostLayout — shared shell for every blog post.
+ *
+ * Renders:
+ *   - Compact dark hero (eyebrow + title + meta strip with date / author / read-time)
+ *   - Hero image
+ *   - Long-form prose body (passed via <slot />, styled for reading)
+ *   - Author byline at end
+ *   - Related posts strip
+ *   - CTA
+ *
+ * Schema:
+ *   - Article JSON-LD (the right schema for blog posts; helps AI search citations)
+ *   - BreadcrumbList
+ *
+ * Pages: import this layout, pass the post's metadata, write the body in
+ * the slot. Long-form prose typography is tuned in the slotted region for
+ * comfortable 65ch reading width.
+ */
+import PageLayout from './PageLayout.astro';
+import Eyebrow from '@components/ui/Eyebrow.astro';
+import CtaBlock from '@components/sections/CtaBlock.astro';
+import { breadcrumbSchema } from '@lib/schema';
+import { site } from '@lib/site';
+import { relatedPosts, type BlogPost } from '@lib/blog';
+
+interface Props {
+  post: BlogPost;
+}
+const { post } = Astro.props;
+
+const url = `${site.url}/resources/blog/${post.slug}/`;
+
+const seo = {
+  title: post.pageTitle ?? post.title,
+  description: post.metaDescription,
+  path: `/resources/blog/${post.slug}/`,
+  ogType: 'article' as const,
+  ogImage: post.heroImage,
+  noindex: post.draft,
+};
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: `${site.url}/` },
+  { name: 'Resources', url: `${site.url}/resources/` },
+  { name: 'Blog', url: `${site.url}/resources/blog/` },
+  { name: post.title },
+]);
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: post.title,
+  description: post.metaDescription,
+  image: `${site.url}${post.heroImage}`,
+  datePublished: post.publishDate,
+  ...(post.updatedDate ? { dateModified: post.updatedDate } : {}),
+  author: {
+    '@type': 'Organization',
+    name: post.author,
+    '@id': `${site.url}/#organization`,
+  },
+  publisher: { '@id': `${site.url}/#organization` },
+  mainEntityOfPage: url,
+  keywords: post.tags.join(', '),
+};
+
+const related = relatedPosts(post.slug);
+
+// Format date for display: "25 Apr 2026"
+const formatDate = (iso: string) => {
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' });
+};
+---
+<PageLayout seo={seo} schemaBlocks={[breadcrumbs, articleSchema]}>
+  {/* ----- Compact hero ----- */}
+  <section class="post-hero on-dark">
+    <div class="container">
+      <Eyebrow>{post.tags[0] ?? 'Article'}</Eyebrow>
+      <h1 class="post-title">{post.title}</h1>
+
+      <ul class="post-meta">
+        <li><span class="post-meta-label">Published</span><strong>{formatDate(post.publishDate)}</strong></li>
+        {post.updatedDate && (
+          <li><span class="post-meta-label">Updated</span><strong>{formatDate(post.updatedDate)}</strong></li>
+        )}
+        <li><span class="post-meta-label">Author</span><strong>{post.author}</strong></li>
+        <li><span class="post-meta-label">Read time</span><strong>{post.readTime}</strong></li>
+      </ul>
+    </div>
+  </section>
+
+  {/* ----- Hero image ----- */}
+  <figure class="post-hero-image">
+    <img
+      src={post.heroImage}
+      alt={post.heroImageAlt}
+      loading="eager"
+      decoding="async"
+      width="1600"
+      height="900"
+    />
+  </figure>
+
+  {/* ----- Body (slotted) ----- */}
+  <article class="post-body">
+    <div class="container">
+      <div class="post-content">
+        <slot />
+      </div>
+
+      {/* Author byline + tags */}
+      <footer class="post-footer">
+        <p class="post-byline">
+          Written by {post.author}.
+          {post.updatedDate
+            ? <> Updated {formatDate(post.updatedDate)}.</>
+            : <> Published {formatDate(post.publishDate)}.</>}
+        </p>
+        {post.tags.length > 0 && (
+          <ul class="post-tags">
+            {post.tags.map((t) => <li><span>{t}</span></li>)}
+          </ul>
+        )}
+      </footer>
+    </div>
+  </article>
+
+  {/* ----- Related posts ----- */}
+  {related.length > 0 && (
+    <section class="post-related">
+      <div class="container">
+        <h2 class="post-related-heading">Read next.</h2>
+        <ul class="post-related-list">
+          {related.map((p) => (
+            <li>
+              <a href={`/resources/blog/${p.slug}/`}>
+                <div class="post-related-image">
+                  <img src={p.heroImage} alt={p.heroImageAlt} loading="lazy" decoding="async" />
+                </div>
+                <div class="post-related-meta">
+                  <span class="post-related-tag">{p.tags[0] ?? 'Article'}</span>
+                  <h3 class="post-related-title">{p.title}</h3>
+                  <p class="post-related-excerpt">{p.excerpt}</p>
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <CtaBlock
+    heading="Got a project to scope? <em>Let&apos;s talk specifics.</em>"
+    buttonText="Request a site assessment"
+  />
+</PageLayout>
+
+<style>
+  /* ----- Hero ----- */
+  .post-hero {
+    background: var(--bg-dark);
+    color: var(--fg-on-dark);
+    padding-top: 56px;
+    padding-bottom: 48px;
+  }
+  .post-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.04em;
+    margin: 16px 0 32px;
+    color: var(--fg-on-dark);
+    text-wrap: balance;
+    max-width: 22ch;
+  }
+  .post-meta {
+    list-style: none;
+    margin: 0;
+    padding: 24px 0 0;
+    border-top: 1px solid var(--rule-on-dark);
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    gap: 0 56px;
+    justify-content: start;
+  }
+  .post-meta li { display: flex; flex-direction: column; gap: 4px; }
+  .post-meta-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg-mute-on-dark);
+  }
+  .post-meta li strong {
+    color: var(--fg-on-dark);
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+  @media (max-width: 720px) {
+    .post-meta { grid-template-columns: 1fr 1fr; gap: 16px 32px; }
+  }
+
+  /* ----- Hero image ----- */
+  .post-hero-image {
+    margin: 0;
+    background: var(--ktx-charcoal);
+    line-height: 0;
+  }
+  .post-hero-image img {
+    width: 100%;
+    height: auto;
+    max-height: 520px;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(0.06) contrast(1.04);
+  }
+
+  /* ----- Body ----- */
+  .post-body {
+    padding-block: clamp(64px, 8vw, 112px);
+  }
+  .post-content {
+    max-width: 70ch;
+    margin: 0 auto;
+    color: var(--ktx-ink-soft);
+    font-size: 1.0625rem;
+    line-height: 1.75;
+  }
+
+  /* Long-form prose typography. All deeply-nested children are styled
+     via :global() because Astro's scoped styles don't reach slotted content
+     by default. */
+  .post-content :global(h2) {
+    font-size: clamp(1.5rem, 2.25vw, 1.875rem);
+    font-weight: 600;
+    color: var(--ktx-ink);
+    margin: 48px 0 16px;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+  .post-content :global(h3) {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--ktx-ink);
+    margin: 36px 0 12px;
+    letter-spacing: -0.025em;
+  }
+  .post-content :global(h2:first-child),
+  .post-content :global(h3:first-child) { margin-top: 0; }
+
+  .post-content :global(p) { margin: 0 0 18px; }
+  .post-content :global(p.lead) {
+    font-size: 1.1875rem;
+    line-height: 1.6;
+    color: var(--ktx-ink);
+    margin-bottom: 28px;
+  }
+
+  .post-content :global(ul),
+  .post-content :global(ol) {
+    padding-left: 24px;
+    margin: 0 0 24px;
+  }
+  .post-content :global(li) { margin-bottom: 10px; }
+  .post-content :global(li::marker) { color: var(--accent); }
+
+  .post-content :global(blockquote) {
+    margin: 32px 0;
+    padding: 20px 24px;
+    border-left: 3px solid var(--ktx-red);
+    background: var(--bg-alt);
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-style: italic;
+    color: var(--ktx-ink);
+    line-height: 1.5;
+  }
+  .post-content :global(blockquote p:last-child) { margin-bottom: 0; }
+
+  .post-content :global(a) {
+    color: var(--accent-text);
+    border-bottom: 1px solid currentColor;
+  }
+  .post-content :global(a:hover) { color: var(--accent); }
+  .post-content :global(strong) { color: var(--ktx-ink); }
+
+  .post-content :global(.callout) {
+    margin: 32px 0;
+    padding: 20px 24px;
+    background: var(--bg-alt);
+    border: 1px solid var(--ktx-line);
+    border-left: 3px solid var(--ktx-red);
+    font-size: 0.9375rem;
+  }
+  .post-content :global(.callout p:last-child) { margin-bottom: 0; }
+
+  .post-content :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+    margin: 24px 0;
+  }
+  .post-content :global(thead th) {
+    text-align: left;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ktx-mute);
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--ktx-line);
+  }
+  .post-content :global(tbody td) {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--ktx-line);
+    vertical-align: top;
+  }
+  .post-content :global(tbody tr:last-child td) { border-bottom: none; }
+
+  .post-content :global(hr) {
+    border: none;
+    border-top: 1px solid var(--ktx-line);
+    margin: 48px 0;
+  }
+
+  /* ----- Footer ----- */
+  .post-footer {
+    max-width: 70ch;
+    margin: 64px auto 0;
+    padding-top: 32px;
+    border-top: 1px solid var(--ktx-line);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .post-byline {
+    margin: 0;
+    color: var(--ktx-mute);
+    font-size: 0.875rem;
+    font-family: var(--font-mono);
+    letter-spacing: 0.04em;
+  }
+  .post-tags {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .post-tags span {
+    display: inline-block;
+    padding: 4px 10px;
+    background: var(--bg-alt);
+    border: 1px solid var(--ktx-line);
+    border-radius: 2px;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ktx-ink-soft);
+  }
+
+  /* ----- Related ----- */
+  .post-related {
+    background: var(--bg-alt);
+    padding-block: clamp(72px, 9vw, 112px);
+  }
+  .post-related-heading {
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    margin: 0 0 32px;
+  }
+  .post-related-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .post-related-list a {
+    display: block;
+    background: var(--bg);
+    border: 1px solid var(--ktx-line);
+    transition: border-color 0.2s ease;
+  }
+  .post-related-list a:hover { border-color: var(--ktx-red); }
+  .post-related-list a:hover .post-related-title { color: var(--ktx-red); }
+  .post-related-list a:hover .post-related-image img { transform: scale(1.03); }
+  .post-related-image {
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    background: var(--ktx-charcoal);
+  }
+  .post-related-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s var(--ease);
+  }
+  .post-related-meta { padding: 16px 20px 20px; }
+  .post-related-tag {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-text);
+    display: block;
+    margin-bottom: 8px;
+  }
+  .post-related-title {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.025em;
+    margin: 0 0 8px;
+    transition: color 0.2s ease;
+    text-wrap: balance;
+  }
+  .post-related-excerpt {
+    font-size: 0.875rem;
+    color: var(--ktx-ink-soft);
+    line-height: 1.55;
+    margin: 0;
+  }
+  @media (max-width: 800px) {
+    .post-related-list { grid-template-columns: 1fr; }
+  }
+</style>

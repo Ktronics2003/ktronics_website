@@ -1,0 +1,220 @@
+---
+/**
+ * /resources/blog/commercial-cctv-cost-sydney-2026/
+ *
+ * Sample / launch blog post. Full long-form content (~1500 words) targeting
+ * the highest-volume search query in the launch list per the handover spec.
+ *
+ * Body content lives inline in the slot below. Metadata (title, date, hero,
+ * SEO) is read from src/lib/blog.ts via getPost().
+ */
+import BlogPostLayout from '@layouts/BlogPostLayout.astro';
+import { getPost } from '@lib/blog';
+
+const post = getPost('commercial-cctv-cost-sydney-2026');
+---
+<BlogPostLayout post={post}>
+  <p class="lead">
+    The honest answer is: it depends on six things, and any installer who
+    quotes a number without asking about all six is guessing. Here&apos;s
+    what those things are, what realistic ranges look like in Sydney in
+    2026, and what to push back on when a quote lands.
+  </p>
+
+  <h2>What drives the cost of a commercial CCTV system?</h2>
+
+  <p>
+    A commercial CCTV install isn&apos;t a single product, it&apos;s a system.
+    The big variables that move the price up or down are:
+  </p>
+
+  <ol>
+    <li>
+      <strong>Number of cameras.</strong> The single biggest driver. A small
+      office might run six cameras; a 50-door warehouse easily runs sixty.
+    </li>
+    <li>
+      <strong>Resolution and analytics.</strong> 1080p HD is now the floor;
+      4K is common for outdoor, perimeter, and licence-plate work; thermal
+      and AI-enabled cameras cost more but reduce false alarms and headcount.
+    </li>
+    <li>
+      <strong>Storage retention.</strong> 30 days is the typical default, but
+      compliance-driven sectors (pharma, finance, government, licensed venues)
+      often need 60 or 90 days. Storage scales with both retention and
+      resolution : doubling either roughly doubles the cost of the NVR.
+    </li>
+    <li>
+      <strong>Cabling and infrastructure.</strong> Running cable through an
+      occupied site : especially through ceilings, conduits, and across
+      multiple floors : is often the most labour-intensive part of the job.
+      A new fit-out is cheaper to wire than a 1990s building.
+    </li>
+    <li>
+      <strong>Integration.</strong> Tying CCTV to access control, point-of-sale
+      data, alarm panels, or remote monitoring adds value but adds cost too.
+    </li>
+    <li>
+      <strong>Ongoing service.</strong> The kit and the install are a one-off
+      number; the maintenance plan, monitoring contract, and remote diagnostics
+      are recurring : and arguably more important to budget for than the
+      install itself.
+    </li>
+  </ol>
+
+  <h2>Realistic price ranges by site type (Sydney 2026)</h2>
+
+  <p>
+    These are honest, broad ranges based on the kind of jobs we&apos;ve been
+    quoting in 2026. Every site is different and we always provide a fixed
+    price after walking the site : but if you&apos;re building a budget,
+    these are the brackets to work with.
+  </p>
+
+  <h3>Small office (4 to 8 cameras)</h3>
+  <p>
+    HD cameras covering entry, reception, common areas. On-site NVR with
+    30-day retention. Optional remote viewing on phone. Installation
+    typically completes in 1 to 2 days.
+  </p>
+  <p>
+    <strong>Install:</strong> $5,000 to $12,000<br>
+    <strong>Annual service:</strong> $800 to $2,000
+  </p>
+
+  <h3>Medium retail or hospitality (10 to 25 cameras)</h3>
+  <p>
+    HD/4K cameras with point-of-sale tie-in for licensed venues. NVR with
+    30 to 60 day retention to satisfy OLGR conditions. Often integrated
+    with intruder alarm. Installation typically 3 to 5 days.
+  </p>
+  <p>
+    <strong>Install:</strong> $15,000 to $40,000<br>
+    <strong>Annual service:</strong> $2,400 to $6,000
+  </p>
+
+  <h3>Warehouse, logistics, or industrial (40 to 100+ cameras)</h3>
+  <p>
+    Mix of HD interior + 4K outdoor + thermal perimeter cameras. Hybrid
+    NVR with 60 to 90 day retention. AI analytics tuned for site-specific
+    events (vehicles stopped, persons crossing perimeter). Often integrated
+    with multi-door access control. Installation runs 2 to 6 weeks depending
+    on site size and operating-hours constraints.
+  </p>
+  <p>
+    <strong>Install:</strong> $40,000 to $150,000+<br>
+    <strong>Annual service:</strong> $5,000 to $15,000
+  </p>
+
+  <h3>Multi-site corporate or compliance-grade (200+ cameras)</h3>
+  <p>
+    Enterprise platforms (Genetec, Avigilon, Lenel) with central
+    monitoring, integrated access control, AI analytics, and 90+ day
+    retention. National rollouts running on a single platform. Installation
+    runs in stages, often over months.
+  </p>
+  <p>
+    <strong>Install:</strong> $150,000 to $500,000+<br>
+    <strong>Annual service:</strong> $15,000+
+  </p>
+
+  <div class="callout">
+    <p>
+      <strong>Bracket-buster items.</strong> A few things that can push
+      a quote out of these ranges quickly: heritage buildings (cabling
+      restrictions), multi-tenant CBD towers (base-building integration
+      fees), explosion-proof environments (specialist cameras), and
+      24/7 operating sites that need work scheduled around shifts.
+    </p>
+  </div>
+
+  <h2>How a CCTV quote typically breaks down</h2>
+
+  <p>
+    Most installers don&apos;t itemise their quotes the same way, but the
+    underlying line items are similar. If you&apos;re comparing quotes,
+    ask each installer to break their number into roughly these buckets so
+    you&apos;re comparing like with like.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Line item</th>
+        <th>Typical share of total install cost</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Cameras and lenses</td><td>25 to 40%</td></tr>
+      <tr><td>NVR / storage / network kit</td><td>15 to 25%</td></tr>
+      <tr><td>Cabling and infrastructure</td><td>15 to 30%</td></tr>
+      <tr><td>Software, licences, AI analytics</td><td>5 to 15%</td></tr>
+      <tr><td>Labour: install + commissioning</td><td>20 to 30%</td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    The shares vary by site. New fit-outs lean cheaper on cabling. Retrofits
+    in old buildings can flip cabling to 40% of the total. Heavily
+    AI-instrumented sites push the software share up.
+  </p>
+
+  <h2>What you should be asking before signing the quote</h2>
+
+  <p>
+    A list of questions that separate a good installer from a cheap one:
+  </p>
+
+  <ul>
+    <li>
+      <strong>Have you walked our site, or are you quoting from photos?</strong>
+      Quotes from photos miss things and almost always need revision after
+      install. Insist on a site walk.
+    </li>
+    <li>
+      <strong>What&apos;s your warranty on workmanship and equipment?</strong>
+      Standard is 12 months on workmanship and the manufacturer&apos;s warranty
+      on kit (typically 2 to 5 years). Be wary of anything shorter.
+    </li>
+    <li>
+      <strong>What ongoing service do we need, and what does it cost?</strong>
+      The install number is often the smaller part of total cost over five
+      years. Insist on the ongoing service number upfront.
+    </li>
+    <li>
+      <strong>Can we expand the system without replacing the head-end?</strong>
+      A platform that locks you into ripping out and replacing in five years
+      is a bad bet for any commercial site that&apos;s likely to grow.
+    </li>
+    <li>
+      <strong>What documentation do we get at handover?</strong>
+      As-built drawings, kit list with serials, configuration backups, admin
+      passwords, manuals. If a quote doesn&apos;t mention this, ask.
+    </li>
+    <li>
+      <strong>Who installs it : you, or a sub-contractor?</strong>
+      Installers who use sub-contractors aren&apos;t inherently bad, but
+      know who&apos;s actually going to be on your site, and whether
+      they&apos;ll be there for the lifetime of the system.
+    </li>
+  </ul>
+
+  <h2>The bottom line</h2>
+
+  <p>
+    Commercial CCTV in Sydney in 2026 is not as expensive as buyers often
+    fear, and not as cheap as the price-leader quotes suggest. A small office
+    sits in low five figures; a serious warehouse or multi-site rollout sits
+    in mid five to mid six figures. The most important number isn&apos;t the
+    install number : it&apos;s the total cost of ownership over five
+    to ten years, including maintenance, monitoring, and the lifecycle
+    upgrade you&apos;ll inevitably need somewhere around year eight.
+  </p>
+
+  <p>
+    If you want a fixed-price walk-through quote on your site,
+    <a href="/contact/">get in touch</a>. We&apos;ll tell you within
+    one business day whether it&apos;s a job we can scope and roughly
+    what bracket it sits in before you commit to anything.
+  </p>
+</BlogPostLayout>

@@ -1,0 +1,53 @@
+---
+/**
+ * /case-studies/high-security-data-centre/
+ * Short-format case study. Content lives in src/lib/caseStudies.ts.
+ */
+import PageLayout from '@layouts/PageLayout.astro';
+import CaseStudyHero from '@components/sections/CaseStudyHero.astro';
+import CaseStudyBody from '@components/sections/CaseStudyBody.astro';
+import CaseStudyStats from '@components/sections/CaseStudyStats.astro';
+import CaseStudyGallery from '@components/sections/CaseStudyGallery.astro';
+import CtaBlock from '@components/sections/CtaBlock.astro';
+import { breadcrumbSchema } from '@lib/schema';
+import { getCaseStudy } from '@lib/caseStudies';
+import { site } from '@lib/site';
+
+const cs = getCaseStudy('high-security-data-centre');
+const url = `${site.url}/case-studies/${cs.slug}/`;
+
+const seo = {
+  title: `${cs.label}: Ktronics case study`,
+  description: cs.metaDescription,
+  path: `/case-studies/${cs.slug}/`,
+};
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: `${site.url}/` },
+  { name: 'Case Studies', url: `${site.url}/case-studies/` },
+  { name: cs.label },
+]);
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: cs.title,
+  description: cs.metaDescription,
+  image: `${site.url}${cs.heroImage}`,
+  author: { '@id': `${site.url}/#organization` },
+  publisher: { '@id': `${site.url}/#organization` },
+  mainEntityOfPage: url,
+  about: cs.industry,
+  contentLocation: { '@type': 'Place', name: cs.location },
+};
+---
+<PageLayout seo={seo} schemaBlocks={[breadcrumbs, articleSchema]}>
+  <CaseStudyHero caseStudy={cs} />
+  <CaseStudyBody caseStudy={cs} />
+  <CaseStudyStats stats={cs.stats} />
+  <CaseStudyGallery images={cs.gallery} />
+  <CtaBlock
+    heading="Compliance-grade build? <em>Let&apos;s scope it properly.</em>"
+    buttonText="Request a site assessment"
+  />
+</PageLayout>

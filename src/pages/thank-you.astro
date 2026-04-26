@@ -1,0 +1,92 @@
+---
+/**
+ * Thank-you page — /thank-you/
+ *
+ * Where the Netlify Forms POST from /contact/ lands after a successful submission.
+ * Deliberately minimal: confirms receipt, sets expectations on response time,
+ * surfaces the emergency phone for urgent cases, and offers a path back home.
+ *
+ * `noindex` so this page never appears in search results.
+ */
+import PageLayout from '@layouts/PageLayout.astro';
+import Button from '@components/ui/Button.astro';
+import { site } from '@lib/site';
+
+const seo = {
+  title: 'Thanks, your enquiry is in',
+  description: "Thanks for getting in touch with Ktronics. We'll come back to you within one business day.",
+  path: '/thank-you/',
+  noindex: true,
+};
+---
+<PageLayout seo={seo}>
+  <section class="thanks on-dark">
+    <div class="container">
+      <h1 class="thanks-title">
+        Thanks. Your enquiry&apos;s with us.
+      </h1>
+      <p class="thanks-lead">
+        We&apos;ll come back to you within one business day. If you flagged
+        something urgent, expect a call sooner.
+      </p>
+
+      <div class="thanks-actions">
+        <Button href="/" variant="primary">Back to home</Button>
+        <Button href="/case-studies/" variant="secondary" arrow={false}>See our work</Button>
+      </div>
+
+      <p class="thanks-emergency">
+        System down right now? Call the 24/7 emergency line:&nbsp;
+        <a href={`tel:${site.contact.emergencyPhone.replace(/\s+/g, '')}`}>{site.contact.emergencyPhone}</a>
+      </p>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .thanks {
+    background: var(--bg-dark);
+    color: var(--fg-on-dark);
+    padding-block: clamp(96px, 12vw, 160px);
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+  }
+  .thanks-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.04em;
+    margin: 0 0 24px;
+    color: var(--fg-on-dark);
+    text-wrap: balance;
+    max-width: 18ch;
+  }
+  .thanks-lead {
+    color: var(--fg-mute-on-dark);
+    font-size: var(--t-lead);
+    line-height: 1.6;
+    max-width: 56ch;
+    margin: 0 0 40px;
+  }
+  .thanks-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+  .thanks-emergency {
+    padding-top: 24px;
+    border-top: 1px solid var(--rule-on-dark);
+    color: var(--fg-mute-on-dark);
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    margin: 0;
+    max-width: 56ch;
+  }
+  .thanks-emergency a {
+    color: var(--fg-on-dark);
+    border-bottom: 1px solid currentColor;
+  }
+  .thanks-emergency a:hover { color: var(--ktx-red); border-color: var(--ktx-red); }
+</style>

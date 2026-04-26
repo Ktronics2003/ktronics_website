@@ -1,0 +1,22 @@
+---
+/**
+ * DRAFT — body content pending. Marked draft=true in lib/blog.ts so this
+ * post doesn't appear on the blog index. The route still resolves (returns
+ * a noindex'd "draft" page) so internal links and previews work, but search
+ * engines won't index it.
+ *
+ * To publish: write the body in the slot below and flip draft=false in blog.ts.
+ */
+import BlogPostLayout from '@layouts/BlogPostLayout.astro';
+import { getPost } from '@lib/blog';
+
+const post = getPost('access-control-vs-cctv-which-first');
+---
+<BlogPostLayout post={post}>
+  <p class="lead">
+    This article is still in progress. We&apos;ll publish it shortly. In
+    the meantime, browse the published <a href="/resources/blog/">articles
+    and buying guides</a> or <a href="/contact/">get in touch</a> with a
+    specific question.
+  </p>
+</BlogPostLayout>

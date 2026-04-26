@@ -1,0 +1,360 @@
+---
+import BlogPostLayout from '@layouts/BlogPostLayout.astro';
+import { getPost } from '@lib/blog';
+
+const post = getPost('commercial-cctv-retention-nsw-2026');
+---
+<BlogPostLayout post={post}>
+  <p class="lead">
+    "How long do we need to keep the footage?" is one of the most common
+    questions a Sydney commercial buyer asks after their CCTV system goes
+    in. The honest answer is that it depends on the sector, the insurer,
+    and what the footage is actually for. Here&apos;s the 2026 picture for
+    NSW commercial sites, broken down so you can scope retention properly.
+  </p>
+
+  <h2>Why retention matters more than people realise</h2>
+
+  <p>
+    Retention isn&apos;t a hardware decision. It&apos;s a compliance, legal,
+    and operational decision that drives the hardware. Get it wrong in
+    either direction and you have a problem:
+  </p>
+
+  <ul>
+    <li>
+      <strong>Too short:</strong> A workplace incident happens on a Tuesday,
+      gets reported the following Monday, and the footage is already gone.
+      You can&apos;t respond to the SafeWork notice, the insurer&apos;s
+      claim assessor, or the police request. Your CCTV system is
+      effectively decorative for the events that matter most.
+    </li>
+    <li>
+      <strong>Too long:</strong> You&apos;re storing months of footage you
+      don&apos;t legally need, paying for the storage, and potentially
+      breaching the Australian Privacy Principles around minimum-necessary
+      data retention. Your exposure to a privacy complaint or notifiable
+      data breach scales with the volume of footage held.
+    </li>
+  </ul>
+
+  <p>
+    The right answer for your site is "the legal minimum, plus a buffer
+    for how incidents actually surface". Below is what that looks like by
+    sector.
+  </p>
+
+  <h2>Sector-by-sector retention requirements (NSW, 2026)</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Sector</th>
+        <th>Legal minimum</th>
+        <th>Common practice</th>
+        <th>What we recommend</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Liquor and gaming venues (OLGR)</td>
+        <td>30 days</td>
+        <td>30 to 90 days</td>
+        <td>60 days</td>
+      </tr>
+      <tr>
+        <td>Aged care (Commonwealth-funded)</td>
+        <td>No federal mandate; provider policy</td>
+        <td>30 to 90 days</td>
+        <td>60 to 90 days</td>
+      </tr>
+      <tr>
+        <td>Pharmaceutical distribution (TGA GDP)</td>
+        <td>No fixed period; "sufficient for traceability"</td>
+        <td>90 days</td>
+        <td>90 days</td>
+      </tr>
+      <tr>
+        <td>Healthcare and pathology</td>
+        <td>Variable by accreditation framework</td>
+        <td>30 to 60 days</td>
+        <td>60 days</td>
+      </tr>
+      <tr>
+        <td>Childcare (NQS)</td>
+        <td>No fixed period; provider risk policy</td>
+        <td>14 to 30 days</td>
+        <td>30 days</td>
+      </tr>
+      <tr>
+        <td>Warehousing and logistics</td>
+        <td>None</td>
+        <td>30 days</td>
+        <td>30 to 60 days</td>
+      </tr>
+      <tr>
+        <td>Corporate office</td>
+        <td>None</td>
+        <td>14 to 30 days</td>
+        <td>30 days</td>
+      </tr>
+      <tr>
+        <td>Retail and hospitality (non-licensed)</td>
+        <td>None</td>
+        <td>14 to 30 days</td>
+        <td>30 days</td>
+      </tr>
+      <tr>
+        <td>Critical infrastructure (SOCI Act)</td>
+        <td>Varies by sector designation</td>
+        <td>90+ days</td>
+        <td>Per regulator guidance</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>
+    Where there&apos;s no legal mandate, the right number is set by your
+    insurer, your incident-reporting cycle, and how long it typically takes
+    incidents to surface. We almost always recommend 30 days as a floor for
+    any commercial site, even where nothing requires it.
+  </p>
+
+  <h2>The sectors where retention is actually regulated</h2>
+
+  <h3>Liquor and gaming venues (OLGR)</h3>
+
+  <p>
+    NSW Liquor and Gaming licensing conditions for venues with gaming
+    machines or full hotel licences require CCTV coverage of specific
+    areas (gaming floors, cashier points, entrances) and retention of
+    footage for a minimum of 30 days. The retention obligation is
+    explicit in the licence conditions and is regularly checked at audit.
+    Most venues we work with run 60 days as a buffer because the lag
+    between an incident and a regulator query is often more than 30 days.
+  </p>
+
+  <h3>Pharmaceutical distribution and storage (TGA GDP)</h3>
+
+  <p>
+    The Therapeutic Goods Administration&apos;s Good Distribution
+    Practice requirements don&apos;t name a number of days, but they do
+    require "sufficient" coverage and retention to support product
+    traceability and incident investigation. In practice the sites we
+    install for under TGA GDP run 90 days minimum, often longer for
+    cold-chain or controlled-substance handling areas. The auditor
+    typically asks for evidence that retention is documented in your
+    quality system and matches your stated retention period.
+  </p>
+
+  <h3>Aged care</h3>
+
+  <p>
+    There&apos;s no Commonwealth mandate for CCTV retention in residential
+    aged care, but the Aged Care Quality Standards effectively require
+    that you can investigate complaints and incidents. In a sector where
+    a complaint can be lodged weeks after the event and the investigation
+    can take months, 30 days of footage is often not enough. Most providers
+    we work with run 60 to 90 days, with the policy formally documented
+    in their incident-management procedure.
+  </p>
+
+  <h3>Critical infrastructure (SOCI Act)</h3>
+
+  <p>
+    Operators designated under the Security of Critical Infrastructure
+    Act have sector-specific obligations that can include enhanced CCTV
+    coverage and longer retention periods. The Cyber and Infrastructure
+    Security Centre publishes sector guidance. If you&apos;re a designated
+    operator, the answer comes from your sector&apos;s risk-management
+    program rather than from this article.
+  </p>
+
+  <h2>Insurance often sets the floor</h2>
+
+  <p>
+    Even where there&apos;s no regulator requirement, your insurer
+    frequently has expectations baked into the policy. Common patterns
+    we see in commercial property and business-pack policies:
+  </p>
+
+  <ul>
+    <li>
+      Coverage of all entry points and cash-handling areas as a condition
+      of theft cover
+    </li>
+    <li>
+      Minimum 30 days of footage retention to support claims
+    </li>
+    <li>
+      Evidence the system is professionally maintained (a documented
+      annual service is often the minimum)
+    </li>
+  </ul>
+
+  <p>
+    If you&apos;re scoping a new commercial CCTV install, ask your broker
+    what the policy requires before you sign the install contract.
+    It&apos;s much cheaper to size the storage right at install than to
+    add capacity 18 months later when the insurer changes their mind.
+  </p>
+
+  <h2>What "30 days of footage" actually costs</h2>
+
+  <p>
+    Retention drives storage, and storage is one of the cost levers in a
+    CCTV install. Rough numbers for a typical 16-camera commercial site
+    running 4K at 15 fps with H.265 encoding:
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Retention period</th>
+        <th>Storage required (approx)</th>
+        <th>Hardware impact</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>14 days</td>
+        <td>~14 TB</td>
+        <td>Single NVR with 16 TB raw</td>
+      </tr>
+      <tr>
+        <td>30 days</td>
+        <td>~30 TB</td>
+        <td>Single NVR with 32 TB raw</td>
+      </tr>
+      <tr>
+        <td>60 days</td>
+        <td>~60 TB</td>
+        <td>NVR with expansion bay or larger drives</td>
+      </tr>
+      <tr>
+        <td>90 days</td>
+        <td>~90 TB</td>
+        <td>Multi-drive NVR or RAID array</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>
+    The numbers move significantly with camera count, resolution, frame
+    rate, and motion-only vs continuous recording. Modern encoders make
+    longer retention much cheaper than it was five years ago, but it
+    still scales linearly with retention period. Get this wrong at design
+    and you&apos;re either paying to retrofit storage later or running at
+    a lower retention than you think you are because the system is
+    overwriting earlier than expected.
+  </p>
+
+  <h2>Privacy obligations under the Australian Privacy Principles</h2>
+
+  <p>
+    CCTV footage of identifiable individuals is personal information
+    under the Privacy Act 1988. For organisations covered by the APPs
+    (most commercial businesses with annual turnover over $3 million,
+    plus all health service providers regardless of size), this triggers
+    a few obligations relevant to retention:
+  </p>
+
+  <ul>
+    <li>
+      <strong>APP 5:</strong> notification of collection. Visible CCTV
+      signage at site entrances satisfies most of this.
+    </li>
+    <li>
+      <strong>APP 11:</strong> security of personal information. Your
+      footage needs reasonable protection from unauthorised access. In
+      practice this means access-controlled NVR rooms, named user
+      accounts on the management software, and audit logging of who
+      pulled what footage when.
+    </li>
+    <li>
+      <strong>APP 11.2:</strong> destruction or de-identification when
+      no longer needed. This is the privacy-side argument against keeping
+      footage longer than you can justify. If you&apos;re holding 12
+      months of footage on a site where 30 days satisfies every legal
+      and operational need, you have exposure you don&apos;t need to have.
+    </li>
+  </ul>
+
+  <p>
+    The pragmatic answer is to set a retention policy in writing, size
+    the storage to match it, and let the system overwrite on schedule.
+    Don&apos;t hoard footage you don&apos;t need.
+  </p>
+
+  <h2>Frequently asked questions</h2>
+
+  <h3>Can I keep footage longer than the recommended period?</h3>
+
+  <p>
+    Yes, where you have a documented reason (active investigation, legal
+    hold, incident response). The expectation under APP 11.2 is that
+    you don&apos;t hold personal information indefinitely without a
+    purpose. A documented policy with a stated retention period and a
+    process for putting specific footage on legal hold satisfies the
+    principle in nearly all cases.
+  </p>
+
+  <h3>What if police request footage older than my retention period?</h3>
+
+  <p>
+    If the footage is gone, it&apos;s gone. There&apos;s no obligation to
+    retain footage beyond your stated retention period in case it might
+    be requested later. Document your retention policy and you&apos;re on
+    solid ground.
+  </p>
+
+  <h3>Does retention apply to access control event logs too?</h3>
+
+  <p>
+    Different framework. Access control event logs (who badged where, when)
+    are typically retained much longer than CCTV footage because the data
+    volume is trivial. We usually configure 12 to 24 months of audit-log
+    retention as standard, with longer retention for compliance-driven
+    sectors.
+  </p>
+
+  <h3>Can footage be exported and provided to a third party?</h3>
+
+  <p>
+    Yes, where there&apos;s a lawful basis (police request, insurer claim,
+    workplace investigation). The export should be documented (who
+    requested it, what timeframe was exported, who it was provided to)
+    and the integrity of the file should be preserved (most NVR
+    platforms produce a watermarked, hash-verified export for evidentiary
+    use).
+  </p>
+
+  <h3>What about cloud storage of CCTV footage?</h3>
+
+  <p>
+    Increasingly common, particularly for multi-site retailers. The
+    retention question doesn&apos;t change, but you add Australian-region
+    hosting and vendor SLA considerations. We&apos;ll cover that in a
+    separate article.
+  </p>
+
+  <h2>The practical answer</h2>
+
+  <p>
+    For a typical Sydney commercial site in 2026, 30 days of footage
+    retention is the right floor. Step it up to 60 or 90 days where
+    sector regulation, insurer requirements, or incident-reporting cycles
+    make the longer window worthwhile. Document the retention period in
+    a one-page policy, size your storage to match, and review it
+    annually. Don&apos;t over-retain footage you can&apos;t justify
+    holding.
+  </p>
+
+  <p>
+    If you&apos;d like a quote that prices a CCTV install around the
+    right retention period for your sector, <a href="/contact/">get in
+    touch</a>. We&apos;ll walk the site, ask the right compliance
+    questions, and put a system in that&apos;s sized properly the first
+    time.
+  </p>
+</BlogPostLayout>

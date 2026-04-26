@@ -1,0 +1,95 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# ---------------------------------------------------------------------------
+# Security headers (apply to every response)
+# ---------------------------------------------------------------------------
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+
+# Long-cache static assets (Astro fingerprints filenames in /_astro/)
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# ---------------------------------------------------------------------------
+# 301 redirects from the old Squarespace URL structure (see 04-sitemap-and-urls.md)
+# ---------------------------------------------------------------------------
+
+[[redirects]]
+  from = "/home-1"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/access-control"
+  to = "/solutions/access-control/"
+  status = 301
+
+[[redirects]]
+  from = "/video-surveillance"
+  to = "/solutions/video-surveillance/"
+  status = 301
+
+[[redirects]]
+  from = "/visitor-management"
+  to = "/solutions/visitor-management/"
+  status = 301
+
+[[redirects]]
+  from = "/maintenance-plans"
+  to = "/solutions/maintenance-monitoring/"
+  status = 301
+
+[[redirects]]
+  from = "/solutions-1"
+  to = "/solutions/"
+  status = 301
+
+[[redirects]]
+  from = "/faqs"
+  to = "/resources/faqs/"
+  status = 301
+
+[[redirects]]
+  from = "/privacy-policy-3"
+  to = "/privacy-policy/"
+  status = 301
+
+[[redirects]]
+  from = "/cart"
+  to = "/contact/"
+  status = 301
+
+# Trailing-slash normalisation
+[[redirects]]
+  from = "/about"
+  to = "/about/"
+  status = 301
+
+[[redirects]]
+  from = "/contact"
+  to = "/contact/"
+  status = 301
+
+[[redirects]]
+  from = "/careers"
+  to = "/careers/"
+  status = 301

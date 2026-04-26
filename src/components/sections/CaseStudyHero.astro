@@ -1,0 +1,130 @@
+---
+/**
+ * Case Study detail hero — dark surface.
+ *
+ * Editorial composition:
+ *   - "Featured project" eyebrow
+ *   - Project title (the work, not the client)
+ *   - Meta strip: industry / location / scope / year
+ *   - Full-bleed hero photo below
+ *
+ * Different shape to SolutionHero — case studies are about a specific
+ * project, so the hero leads with the headline + meta and shows the photo
+ * at scale below the fold (rather than two-column).
+ */
+import Eyebrow from '@components/ui/Eyebrow.astro';
+import type { CaseStudy } from '@lib/caseStudies';
+
+interface Props {
+  caseStudy: CaseStudy;
+  /** Eyebrow text override. Default "Case study". */
+  eyebrow?: string;
+}
+const { caseStudy, eyebrow = 'Case study' } = Astro.props;
+---
+<section class="cs-hero on-dark">
+  <div class="container">
+    <div class="cs-hero-text">
+      <Eyebrow>{eyebrow}</Eyebrow>
+      <h1 class="cs-hero-title">{caseStudy.title}</h1>
+
+      <dl class="cs-meta">
+        <div class="cs-meta-item">
+          <dt>Industry</dt>
+          <dd>{caseStudy.industry}</dd>
+        </div>
+        <div class="cs-meta-item">
+          <dt>Location</dt>
+          <dd>{caseStudy.location}</dd>
+        </div>
+        <div class="cs-meta-item">
+          <dt>Scope</dt>
+          <dd>{caseStudy.scope}</dd>
+        </div>
+        <div class="cs-meta-item">
+          <dt>Engagement</dt>
+          <dd>{caseStudy.year}</dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+
+  <figure class="cs-hero-image">
+    <img
+      src={caseStudy.heroImage}
+      alt={caseStudy.heroImageAlt}
+      loading="eager"
+      decoding="async"
+      width="1800"
+      height="1200"
+    />
+  </figure>
+</section>
+
+<style>
+  .cs-hero {
+    background: var(--bg-dark);
+    color: var(--fg-on-dark);
+    padding-top: 56px;
+    padding-bottom: 0;            /* image flush against next section */
+  }
+
+  .cs-hero-text {
+    max-width: 80ch;
+    margin-bottom: 56px;
+  }
+  .cs-hero-title {
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.04em;
+    margin: 16px 0 32px;
+    color: var(--fg-on-dark);
+    text-wrap: balance;
+    max-width: 22ch;
+  }
+
+  .cs-meta {
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    gap: 0 56px;
+    margin: 0;
+    padding: 24px 0 0;
+    border-top: 1px solid var(--rule-on-dark);
+    justify-content: start;
+  }
+  .cs-meta-item { display: flex; flex-direction: column; gap: 6px; }
+  .cs-meta dt {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg-mute-on-dark);
+    margin: 0;
+  }
+  .cs-meta dd {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--fg-on-dark);
+  }
+  @media (max-width: 800px) {
+    .cs-meta { grid-template-columns: 1fr 1fr; gap: 20px 32px; }
+  }
+
+  .cs-hero-image {
+    margin: 64px 0 0;
+    line-height: 0;
+    background: var(--ktx-charcoal);
+  }
+  .cs-hero-image img {
+    width: 100%;
+    height: auto;
+    max-height: 640px;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    filter: grayscale(0.06) contrast(1.04);
+  }
+</style>

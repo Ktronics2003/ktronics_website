@@ -1,0 +1,106 @@
+---
+/**
+ * Related industries strip — bottom of every Industry detail page.
+ * Shows the OTHER industries (excluding current).
+ *
+ * Same hairline-border list pattern as the homepage IndustriesList so the
+ * two sections feel like the same component family.
+ */
+import Eyebrow from '@components/ui/Eyebrow.astro';
+import { relatedIndustries } from '@lib/industries';
+
+interface Props {
+  currentSlug: string;
+}
+const { currentSlug } = Astro.props;
+const others = relatedIndustries(currentSlug);
+---
+<section class="related-industries">
+  <div class="container">
+    <div class="ri-header reveal">
+      <Eyebrow>Other industries we serve</Eyebrow>
+      <h2 class="ri-heading">More sectors. Same approach.</h2>
+    </div>
+
+    <ul class="ri-list reveal">
+      {others.map((item) => (
+        <li>
+          <a href={`/industries/${item.slug}/`}>
+            <img class="ri-icon" src={item.icon} alt="" width="44" height="44" aria-hidden="true" />
+            <span class="ri-name">{item.label}</span>
+            <span class="ri-desc">{item.shortDescription}</span>
+            <span class="ri-arrow" aria-hidden="true">→</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .related-industries {
+    padding-block: clamp(80px, 10vw, 128px);
+    background: var(--bg-alt);
+  }
+  .ri-header {
+    max-width: 60ch;
+    margin-bottom: 40px;
+  }
+  .ri-heading {
+    margin: 16px 0 0;
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+  }
+
+  .ri-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid var(--ktx-line);
+  }
+  .ri-list li { border-top: 1px solid var(--ktx-line); }
+  .ri-list a {
+    display: grid;
+    grid-template-columns: 56px 1fr 2fr auto;
+    gap: 24px;
+    align-items: center;
+    padding: 24px 0;
+    transition: padding 0.2s ease;
+  }
+  .ri-list a:hover { padding-left: 16px; }
+  .ri-list a:hover .ri-name { color: var(--ktx-red); }
+  .ri-list a:hover .ri-arrow { transform: translateX(8px); color: var(--ktx-red); }
+  .ri-list a:hover .ri-icon { transform: scale(1.06); }
+
+  .ri-icon {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+    transition: transform 0.25s var(--ease);
+  }
+  .ri-name {
+    font-family: var(--font-display);
+    font-size: clamp(1.125rem, 2vw, 1.5rem);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    transition: color 0.2s ease;
+  }
+  .ri-desc {
+    color: var(--ktx-mute);
+    font-size: 0.9375rem;
+  }
+  .ri-arrow {
+    color: var(--ktx-ink);
+    transition: transform 0.2s ease, color 0.2s ease;
+    display: inline-block;
+  }
+  @media (max-width: 800px) {
+    .ri-list a {
+      grid-template-columns: auto 1fr auto;
+      gap: 16px;
+      padding: 20px 0;
+    }
+    .ri-desc { display: none; }
+  }
+</style>

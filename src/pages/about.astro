@@ -1,0 +1,57 @@
+---
+/**
+ * About page — /about/
+ *
+ * Section composition:
+ *   AboutHero (dark)        — intro + team group photo
+ *   FounderStory (light)    — Karl's NZ → Sydney founder story
+ *   ValuesGrid (paper-2)    — four brand principles
+ *   TrackRecord (dark)      — generic critical-infrastructure proof
+ *   TeamGrid (light)        — portraits, name + role
+ *   CareersNudge (light)    — link to /careers/
+ *   CtaBlock (dark)         — final CTA
+ *
+ * (CredentialsStrip removed — ASIAL badge + Master Licence are carried in
+ * the footer site-wide, so the dedicated strip read as thin/empty here.)
+ *
+ * SEO:
+ *   - About-specific title + description
+ *   - Canonical /about/
+ *   - BreadcrumbList schema
+ *   - Organization + LocalBusiness schema injected by BaseLayout
+ */
+import PageLayout from '@layouts/PageLayout.astro';
+import AboutHero from '@components/sections/AboutHero.astro';
+import FounderStory from '@components/sections/FounderStory.astro';
+import ValuesGrid from '@components/sections/ValuesGrid.astro';
+import TrackRecord from '@components/sections/TrackRecord.astro';
+import TeamGrid from '@components/sections/TeamGrid.astro';
+import CareersNudge from '@components/sections/CareersNudge.astro';
+import CtaBlock from '@components/sections/CtaBlock.astro';
+import { breadcrumbSchema } from '@lib/schema';
+import { site } from '@lib/site';
+
+const seo = {
+  title: 'About Ktronics: Sydney Commercial Security Specialists Since 2003',
+  description:
+    "Sydney commercial electronic security since 2003. Trade-led, end-to-end ownership, no offshore help desk. ASIAL Gold Member, NSW Master Licence 102039.",
+  path: '/about/',
+};
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: `${site.url}/` },
+  { name: 'About' },
+]);
+---
+<PageLayout seo={seo} schemaBlocks={[breadcrumbs]}>
+  <AboutHero />
+  <FounderStory />
+  <ValuesGrid />
+  <TrackRecord />
+  <TeamGrid />
+  <CareersNudge />
+  <CtaBlock
+    heading="Got a brief? Let&apos;s <em>walk the site</em>."
+    buttonText="Request a site assessment"
+  />
+</PageLayout>

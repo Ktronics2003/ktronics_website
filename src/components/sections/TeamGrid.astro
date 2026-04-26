@@ -1,0 +1,147 @@
+---
+/**
+ * Team grid — 3-column portrait grid (collapses 2 then 1 on smaller widths).
+ *
+ * Each card is a portrait (4:5), name (display font), role (mono caps).
+ * No bios on launch — matches the existing site.
+ *
+ * Photos are referenced via /public path strings so non-developers can drop
+ * replacement files into /public/images/team/ without rebuilding the project.
+ *
+ * Default fallbacks point at neutral placeholder portraits so the page works
+ * before the real headshots land.
+ */
+import Eyebrow from '@components/ui/Eyebrow.astro';
+
+interface TeamMember {
+  name: string;
+  role: string;
+  photo: string;       // path under /public
+  photoAlt?: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  text?: string;
+  members?: TeamMember[];
+}
+
+// First names only (per Karl's preference). All techs share the same title —
+// no internal ranks. Drop a new portrait at /public/images/team/<name>.jpg
+// to replace any of these.
+const defaultMembers: TeamMember[] = [
+  { name: 'Karl',   role: 'Managing Director', photo: '/images/team/karl.jpg' },
+  { name: 'Lesley', role: 'General Manager',   photo: '/images/team/lesley.jpg' },
+  { name: 'Mark',   role: 'Technician',        photo: '/images/team/mark.jpg' },
+  { name: 'Mitch',  role: 'Technician',        photo: '/images/team/mitch.jpg' },
+  { name: 'Rhys',   role: 'Technician',        photo: '/images/team/rhys.jpg' },
+  { name: 'Maya',   role: 'Apprentice',        photo: '/images/team/maya.jpg' },
+];
+
+const {
+  eyebrow = 'The team',
+  heading = 'The people behind every install.',
+  text = 'Lesley keeps the business running. The technicians do the work. Every quote, install, and service call comes from one of them.',
+  members = defaultMembers,
+} = Astro.props;
+---
+<section class="team">
+  <div class="container">
+    <div class="team-header reveal">
+      <Eyebrow>{eyebrow}</Eyebrow>
+      <h2 set:html={heading} />
+      {text && <p class="team-intro" set:html={text} />}
+    </div>
+
+    <ul class="team-grid reveal">
+      {members.map((m) => (
+        <li class="team-card">
+          <div class="team-photo-wrap">
+            <img
+              class="team-photo"
+              src={m.photo}
+              alt={m.photoAlt ?? `${m.name}, ${m.role} at Ktronics`}
+              width="800"
+              height="1000"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="team-meta">
+            <h3 class="team-name">{m.name}</h3>
+            <p class="team-role">{m.role}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .team-header {
+    margin-bottom: 56px;
+    max-width: 64ch;
+  }
+  .team-header h2 {
+    margin: 16px 0 16px;
+    text-wrap: balance;
+  }
+  .team-intro {
+    color: var(--ktx-ink-soft);
+    font-size: var(--t-lead);
+    margin: 0;
+  }
+
+  .team-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+  .team-card {
+    display: flex;
+    flex-direction: column;
+  }
+  .team-photo-wrap {
+    aspect-ratio: 4/5;
+    overflow: hidden;
+    background: var(--ktx-charcoal);
+    margin-bottom: 16px;
+  }
+  .team-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 18%;       /* favour the top of the frame so heads aren't clipped */
+    filter: grayscale(0.08) contrast(1.04);
+    transition: transform 0.45s var(--ease);
+  }
+  .team-card:hover .team-photo { transform: scale(1.03); }
+
+  .team-meta {
+    padding-top: 4px;
+  }
+  .team-name {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0 0 4px;
+  }
+  .team-role {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ktx-mute);
+    margin: 0;
+  }
+
+  @media (max-width: 800px) {
+    .team-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  }
+  @media (max-width: 480px) {
+    .team-grid { grid-template-columns: 1fr; }
+  }
+</style>

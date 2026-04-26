@@ -1,0 +1,326 @@
+---
+import BlogPostLayout from '@layouts/BlogPostLayout.astro';
+import { getPost } from '@lib/blog';
+
+const post = getPost('integrated-security-when-it-pays-off');
+---
+<BlogPostLayout post={post}>
+  <p class="lead">
+    "Integrated security" sells well in pitches. One platform, one
+    dashboard, all your access control, CCTV, and alarms talking to each
+    other. The reality is more nuanced. Integration genuinely pays off in
+    some scenarios and adds cost without proportionate benefit in others.
+    Here&apos;s an honest read on when it&apos;s worth doing, and when
+    separate systems are the smarter call.
+  </p>
+
+  <h2>What "integrated" actually means</h2>
+
+  <p>
+    The word gets used loosely. There are three different things that
+    might be on the table when an installer talks about an integrated
+    system, and they&apos;re not the same.
+  </p>
+
+  <p>
+    <strong>1. Single-platform integration.</strong> Access control,
+    CCTV, and intrusion all run on one management software platform from
+    one vendor. This is what most people mean by "fully integrated".
+    Examples: Inner Range Integriti with their CCTV add-on; Lenel
+    OnGuard with integrated video.
+  </p>
+
+  <p>
+    <strong>2. Cross-platform integration via APIs.</strong> Best-of-breed
+    products from different vendors connected through documented APIs or
+    middleware. Genetec Security Center is a common umbrella here,
+    pulling video from one vendor and access from another into one
+    operator view.
+  </p>
+
+  <p>
+    <strong>3. Loose integration via event triggers.</strong> Separate
+    systems that pass a few key events to each other. A door-forced alarm
+    on the access platform triggers a camera on the CCTV platform to
+    bookmark the clip. The systems otherwise run independently.
+  </p>
+
+  <p>
+    These three patterns have very different cost profiles, very
+    different operational characteristics, and very different
+    failure modes. Knowing which one you&apos;re actually being sold is
+    the first thing to clarify.
+  </p>
+
+  <h2>Where integration genuinely pays off</h2>
+
+  <h3>Operations centres with active monitoring</h3>
+
+  <p>
+    If your site has an operator watching screens, integration is a
+    significant productivity gain. When an alarm fires, the operator
+    sees the camera feed of the relevant area pop up automatically,
+    sees who badged in last, and can act in seconds rather than alt-tabbing
+    between three different applications. This is where the integrated
+    pitch is at its most legitimate. Critical infrastructure, large
+    distribution centres, hospital security, university campuses, all
+    benefit visibly from this.
+  </p>
+
+  <h3>Investigations and incident response</h3>
+
+  <p>
+    The post-event workflow is where integration earns its keep on
+    smaller sites too. A door-forced alarm that automatically bookmarks
+    the matching CCTV clip and links it to the cardholder record turns a
+    half-hour investigation into a five-minute one. If your site has more
+    than a handful of incidents a year that need investigating, this is
+    real value.
+  </p>
+
+  <h3>Multi-site enterprise rollouts</h3>
+
+  <p>
+    For organisations running 10+ sites, integration gives you a
+    single-pane-of-glass view across the estate. National retailers,
+    aged care providers, distribution networks, and healthcare groups
+    benefit from being able to see the security posture of every site in
+    one place, with consistent role-based permissions and consistent
+    incident workflows.
+  </p>
+
+  <h3>Compliance-heavy environments</h3>
+
+  <p>
+    Where audit requires you to demonstrate that "this person accessed
+    this area at this time, here&apos;s the corresponding video", an
+    integrated platform makes the evidence trivially exportable. Pharma,
+    high-security data, and licensed venues are the clearest cases.
+    Pulling the same evidence from disconnected systems is doable but
+    much slower and more error-prone.
+  </p>
+
+  <h2>Where integration is oversold</h2>
+
+  <h3>Small to mid-size single-site commercial</h3>
+
+  <p>
+    A 12-door office or warehouse with no on-site monitoring rarely
+    extracts the value to justify the integration cost. The CCTV gets
+    looked at when something happens. The access control runs in the
+    background. The integration premium pays for capability nobody is
+    actually using day-to-day. We routinely install separate systems on
+    sites like this and the operational impact is zero.
+  </p>
+
+  <h3>Sites with mixed legacy hardware</h3>
+
+  <p>
+    Trying to integrate a 10-year-old access control platform with a new
+    CCTV system, or vice versa, often costs more than replacing the older
+    system outright. The integration work, the licensing for the
+    middleware, and the ongoing maintenance complexity can quietly
+    eclipse the saving from keeping the legacy gear. A plan to upgrade
+    the older platform first and integrate at the next refresh is
+    usually a better long-term call.
+  </p>
+
+  <h3>Buyers who want "future-proofing"</h3>
+
+  <p>
+    "We might want to integrate in five years, so let&apos;s buy
+    integration-capable kit now" is a tempting argument that often
+    doesn&apos;t survive contact with reality. Five years on, the
+    platform you bought has evolved, your needs have evolved, and the
+    integration you actually want may not be the one the original
+    architecture supported. Buy what you need now from products with
+    documented APIs. The future will look after itself.
+  </p>
+
+  <h2>The three questions that actually decide it</h2>
+
+  <h3>1. Is anyone watching?</h3>
+
+  <p>
+    Integration delivers most of its value to live operators. If your
+    security platform is checked only when something has already
+    happened, the integrated workflow benefits are mostly theoretical.
+    If you have an active control room, dispatch desk, or even a
+    full-time receptionist who triages alerts, integration earns its
+    cost.
+  </p>
+
+  <h3>2. How often do you investigate incidents?</h3>
+
+  <p>
+    A site that runs three incidents a year doesn&apos;t need
+    one-click cross-system evidence retrieval. A site that runs three
+    incidents a week absolutely does. The volume of investigations is
+    the strongest predictor of integration ROI on the post-event side.
+  </p>
+
+  <h3>3. How many sites?</h3>
+
+  <p>
+    Integration scales. The cost of integrating two systems on one site
+    might not be justified, but the cost of integrating two systems
+    across thirty sites almost always is, because the consistency and
+    centralised reporting compound across the estate.
+  </p>
+
+  <h2>The cost difference (rough numbers)</h2>
+
+  <p>
+    For a representative 12-door commercial site, here&apos;s how the
+    economics typically shake out at install:
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Pattern</th>
+        <th>Install cost</th>
+        <th>Annual platform cost</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Separate access + CCTV (no integration)</td>
+        <td>$45,000 to $65,000</td>
+        <td>$0 to $1,500</td>
+        <td>Two management interfaces, no cross-system events</td>
+      </tr>
+      <tr>
+        <td>Loose integration (event triggers)</td>
+        <td>$48,000 to $72,000</td>
+        <td>$0 to $2,000</td>
+        <td>One-way event handoff; mostly free with modern platforms</td>
+      </tr>
+      <tr>
+        <td>Single-vendor integrated platform</td>
+        <td>$58,000 to $90,000</td>
+        <td>$2,000 to $6,000</td>
+        <td>One operator interface; vendor lock-in trade-off</td>
+      </tr>
+      <tr>
+        <td>Best-of-breed via Genetec or similar</td>
+        <td>$70,000 to $110,000</td>
+        <td>$3,500 to $9,000</td>
+        <td>Most flexibility; highest setup and licensing cost</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>
+    Numbers vary widely with site complexity, camera count, door count,
+    and chosen vendors. Use these as orientation, not a quote.
+  </p>
+
+  <h2>The under-discussed downside: vendor lock-in</h2>
+
+  <p>
+    Single-vendor integrated platforms tie your access control, CCTV,
+    and alarm hardware decisions together. When the vendor pushes a
+    licence price increase, you don&apos;t have the option of keeping
+    the access platform and switching the CCTV. When a competitor
+    releases better cameras at a better price, the integration cost of
+    swapping eats most of the saving. When the vendor sunsets a product
+    line (which happens), you&apos;re sometimes forced into a forklift
+    upgrade you didn&apos;t want.
+  </p>
+
+  <p>
+    Best-of-breed via an umbrella platform mitigates this but
+    doesn&apos;t eliminate it; you&apos;re now dependent on the umbrella
+    vendor instead. Separate systems with loose integration give you the
+    most replacement flexibility at the cost of the integrated workflow
+    benefits.
+  </p>
+
+  <p>
+    None of this is a reason to avoid integration. It&apos;s a reason to
+    go in with eyes open about the trade-off.
+  </p>
+
+  <h2>What we usually recommend</h2>
+
+  <ul>
+    <li>
+      <strong>Small commercial single-site (under 30 doors, no operator):</strong>
+      Separate systems with loose event-trigger integration. Keep it
+      simple, keep the platforms swappable.
+    </li>
+    <li>
+      <strong>Mid-size with active reception or facilities team:</strong>
+      Single-vendor integrated platform. The operator workflow benefit
+      starts to justify the cost.
+    </li>
+    <li>
+      <strong>Multi-site (3+ sites) corporate or retail:</strong>
+      Single-vendor integrated platform with cloud management. The
+      consistency win across sites is real.
+    </li>
+    <li>
+      <strong>Critical infrastructure, control rooms, large enterprise:</strong>
+      Best-of-breed via Genetec or equivalent umbrella platform. The
+      flexibility and the depth of operator workflow justify the
+      premium.
+    </li>
+    <li>
+      <strong>Heritage building, hard-to-cable, mixed legacy kit:</strong>
+      Whatever pattern lets you keep what works and replace what doesn&apos;t,
+      one piece at a time. Don&apos;t let an integration ambition force a
+      forklift you can&apos;t justify.
+    </li>
+  </ul>
+
+  <h2>Questions to ask before signing</h2>
+
+  <ul>
+    <li>
+      What pattern of integration are you proposing (single platform,
+      umbrella, or event triggers)?
+    </li>
+    <li>
+      What does the integration cost in licence fees and maintenance over
+      five years?
+    </li>
+    <li>
+      If we want to swap one component (say, cameras) in three years,
+      what does the integration cost us?
+    </li>
+    <li>
+      What happens to the integration if one vendor changes their API or
+      sunsets a product line?
+    </li>
+    <li>
+      Walk me through a real workflow that integration improves on our
+      site. Specific operator action, specific time saving.
+    </li>
+  </ul>
+
+  <p>
+    A good installer will be comfortable with all five questions. The
+    last one in particular separates installers selling capability from
+    installers selling outcomes.
+  </p>
+
+  <h2>The honest summary</h2>
+
+  <p>
+    Integration is a real productivity and investigation gain in
+    operationally active environments and across multi-site rollouts. It
+    delivers less than promised on small single-site commercial
+    installations where nobody is actively watching. The cost premium is
+    significant and locks you into a tighter vendor relationship.
+    Decide based on whether you&apos;ll actually use the integrated
+    workflow, not on the principle that more is better.
+  </p>
+
+  <p>
+    If you&apos;d like a no-pressure walk-through of which pattern suits
+    your site, <a href="/contact/">get in touch</a>. We install all
+    three, and we&apos;ll tell you honestly which one fits.
+  </p>
+</BlogPostLayout>

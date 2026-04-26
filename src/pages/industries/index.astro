@@ -1,0 +1,157 @@
+---
+/**
+ * /industries/ — hub page listing every industry Ktronics serves.
+ *
+ * Same hairline-list pattern as the homepage IndustriesList, but with the
+ * full descriptions visible (no abbreviation needed since this is the
+ * destination, not a teaser).
+ */
+import PageLayout from '@layouts/PageLayout.astro';
+import Eyebrow from '@components/ui/Eyebrow.astro';
+import CtaBlock from '@components/sections/CtaBlock.astro';
+import { allIndustries } from '@lib/industries';
+import { breadcrumbSchema } from '@lib/schema';
+import { site } from '@lib/site';
+
+const industries = allIndustries();
+
+const seo = {
+  title: 'Commercial Security by Industry: Sydney',
+  description:
+    "Sector-specific commercial security in Sydney: warehouse, strata, childcare, medical, corporate, retail. Designed to your industry's regulations and workflows.",
+  path: '/industries/',
+};
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: `${site.url}/` },
+  { name: 'Industries' },
+]);
+---
+<PageLayout seo={seo} schemaBlocks={[breadcrumbs]}>
+  {/* ----- Hero ----- */}
+  <section class="industries-hub-hero on-dark">
+    <div class="container">
+      <Eyebrow>Industries</Eyebrow>
+      <h1 class="ih-title">
+        A childcare centre&apos;s needs<br />
+        are not <em>a warehouse&apos;s.</em>
+      </h1>
+      <p class="ih-lead">
+        Ktronics designs commercial electronic security around the regulations,
+        risks, and real-world workflows of your industry. Pick the sector
+        closest to your site below for the deeper read on what we typically
+        design for and how the kit usually fits together.
+      </p>
+    </div>
+  </section>
+
+  {/* ----- Industries list ----- */}
+  <section class="industries-hub-list-section">
+    <div class="container">
+      <ul class="ihl-list">
+        {industries.map((item) => (
+          <li>
+            <a href={`/industries/${item.slug}/`}>
+              <img class="ihl-icon" src={item.icon} alt="" width="56" height="56" aria-hidden="true" />
+              <div class="ihl-meta">
+                <h2 class="ihl-name">{item.label}</h2>
+                <p class="ihl-desc">{item.shortDescription}</p>
+              </div>
+              <span class="ihl-arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <CtaBlock
+    heading="Sector not on this list? <em>Get in touch anyway.</em>"
+    buttonText="Request a site assessment"
+  />
+</PageLayout>
+
+<style>
+  /* ----- Hero ----- */
+  .industries-hub-hero {
+    background: var(--bg-dark);
+    color: var(--fg-on-dark);
+    padding-block: clamp(72px, 9vw, 128px);
+  }
+  .ih-title {
+    margin: 16px 0 24px;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    color: var(--fg-on-dark);
+    text-wrap: balance;
+  }
+  .ih-title em {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--ktx-red);
+  }
+  .ih-lead {
+    color: var(--fg-mute-on-dark);
+    font-size: var(--t-lead);
+    line-height: 1.6;
+    max-width: 64ch;
+    margin: 0;
+  }
+
+  /* ----- List ----- */
+  .industries-hub-list-section {
+    padding-block: clamp(80px, 10vw, 128px);
+  }
+  .ihl-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--ktx-line);
+  }
+  .ihl-list li { border-bottom: 1px solid var(--ktx-line); }
+  .ihl-list a {
+    display: grid;
+    grid-template-columns: 64px 1fr auto;
+    gap: 32px;
+    align-items: center;
+    padding: 28px 0;
+    transition: padding 0.2s ease;
+  }
+  .ihl-list a:hover { padding-left: 16px; }
+  .ihl-list a:hover .ihl-name { color: var(--ktx-red); }
+  .ihl-list a:hover .ihl-arrow { transform: translateX(8px); color: var(--ktx-red); }
+  .ihl-list a:hover .ihl-icon { transform: scale(1.06); }
+
+  .ihl-icon {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    transition: transform 0.25s var(--ease);
+  }
+  .ihl-meta { display: flex; flex-direction: column; gap: 6px; }
+  .ihl-name {
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    margin: 0;
+    transition: color 0.2s ease;
+  }
+  .ihl-desc {
+    color: var(--ktx-mute);
+    font-size: 0.9375rem;
+    margin: 0;
+    max-width: 70ch;
+  }
+  .ihl-arrow {
+    color: var(--ktx-ink);
+    transition: transform 0.2s ease, color 0.2s ease;
+    display: inline-block;
+  }
+  @media (max-width: 800px) {
+    .ihl-list a { grid-template-columns: 48px 1fr auto; gap: 16px; padding: 24px 0; }
+    .ihl-icon { width: 40px; height: 40px; }
+  }
+</style>

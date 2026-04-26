@@ -1,0 +1,233 @@
+---
+/**
+ * Featured project — full-bleed dark section. Two columns: text (left) + image (right).
+ * Includes a stats strip (3 numbers) and a meta dl (Industry/Location/Scope).
+ *
+ * Defaults to the pharma distribution centre — the launch anchor case study.
+ */
+import { Image } from 'astro:assets';
+import Eyebrow from '@components/ui/Eyebrow.astro';
+import Button from '@components/ui/Button.astro';
+import featureImage from '@/assets/images/case-studies/ktronics-techs-walking-warehouse-pharma.jpg';
+
+interface FeatureStat {
+  value: string;
+  suffix?: string;
+  label: string;
+}
+
+const stats: FeatureStat[] = [
+  { value: '40', label: 'Access<br>control doors' },
+  { value: '200', suffix: '+', label: 'CCTV cameras<br>across the site' },
+  { value: '24/7', label: 'Monitoring<br>&amp; response' },
+];
+---
+<section class="feature on-dark">
+  <div class="feature-inner">
+    <div class="feature-text">
+      <Eyebrow>Featured project</Eyebrow>
+      <h2>Locking down a multinational pharmaceutical distribution centre.</h2>
+      <p>
+        When a global pharmaceutical supplies distributor needed compliance-grade
+        security for their Western Sydney distribution facility, they called Ktronics.
+        We designed and installed an integrated access control and surveillance system
+        spanning the full site. Built for tight regulatory certification, insurance
+        requirements, and absolute control over who enters which zone.
+      </p>
+
+      <div class="feature-stats">
+        {stats.map((s) => (
+          <div>
+            <div class="feature-stat-num tnum">
+              {s.value}{s.suffix && <span>{s.suffix}</span>}
+            </div>
+            <div class="feature-stat-label" set:html={s.label} />
+          </div>
+        ))}
+      </div>
+
+      <dl class="feature-meta">
+        <div>
+          <dt>Industry</dt>
+          <dd>Pharma logistics</dd>
+        </div>
+        <div>
+          <dt>Location</dt>
+          <dd>Western Sydney</dd>
+        </div>
+        <div>
+          <dt>Scope</dt>
+          <dd>Design, install, monitor</dd>
+        </div>
+      </dl>
+
+      <div class="feature-actions">
+        <Button href="/case-studies/pharma-distribution-western-sydney/" variant="primary">Read this case study</Button>
+        <Button href="/case-studies/" variant="link" arrow={true} class="feature-actions-secondary">See all our work</Button>
+      </div>
+    </div>
+
+    <div class="feature-image">
+      <Image
+        src={featureImage}
+        alt="Two Ktronics technicians walking through the pharmaceutical distribution facility in Western Sydney during a security install"
+        widths={[640, 960, 1280, 1600]}
+        sizes="(min-width: 900px) 660px, 100vw"
+        loading="lazy"
+        decoding="async"
+        format="webp"
+        quality={78}
+        class="feature-photo"
+      />
+      <div class="feature-image-overlay">Compliance-grade install</div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .feature {
+    background: var(--ktx-black);
+    color: var(--fg-on-dark);
+    padding-block: 0;
+    overflow: hidden;
+  }
+  .feature-inner {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    align-items: stretch;
+    min-height: 540px;
+  }
+  .feature-text {
+    padding: clamp(48px, 6vw, 96px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .feature-text h2 {
+    color: var(--fg-on-dark);
+    margin-block: 24px 32px;
+  }
+  .feature-text p {
+    color: var(--fg-mute-on-dark);
+    max-width: 50ch;
+    margin: 0 0 40px;
+  }
+
+  .feature-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin: 8px 0 40px;
+    padding: 32px 0;
+    border-top: 1px solid var(--rule-on-dark);
+    border-bottom: 1px solid var(--rule-on-dark);
+  }
+  .feature-stat-num {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 3.75rem);
+    font-weight: 600;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    color: var(--fg-on-dark);
+    display: flex;
+    align-items: baseline;
+  }
+  .feature-stat-num span {
+    color: var(--ktx-red);
+    font-size: 0.55em;
+    font-weight: 500;
+    margin-left: 2px;
+  }
+  .feature-stat-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--fg-mute-on-dark);
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+
+  .feature-meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 40px;
+  }
+  .feature-meta dt {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-mute-on-dark);
+    margin-bottom: 6px;
+  }
+  .feature-meta dd {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 500;
+  }
+
+  .feature-image {
+    position: relative;
+    background: #2a2424;
+    overflow: hidden;
+  }
+  .feature-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(0.2);
+  }
+  .feature-actions {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .feature-actions :global(.feature-actions-secondary) {
+    color: var(--fg-on-dark);
+    border-bottom-color: var(--fg-mute-on-dark);
+  }
+  .feature-actions :global(.feature-actions-secondary:hover) {
+    color: var(--ktx-red);
+    border-bottom-color: var(--ktx-red);
+  }
+  .feature-image-overlay {
+    position: absolute;
+    bottom: 32px;
+    right: 32px;
+    background: var(--ktx-charcoal);
+    color: var(--fg-on-dark);
+    padding: 12px 16px;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  /* Red dot prefix — matches the .hero-image-tag pattern */
+  .feature-image-overlay::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: var(--ktx-red);
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+
+  @media (max-width: 900px) {
+    .feature-inner { grid-template-columns: 1fr; }
+    .feature-image {
+      min-height: 280px;
+      max-height: 380px;
+      order: -1;             /* Photo first on mobile for "wow" effect */
+    }
+  }
+  @media (max-width: 480px) {
+    .feature-stats { grid-template-columns: 1fr; gap: 24px; }
+  }
+</style>

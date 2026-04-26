@@ -1,0 +1,127 @@
+---
+/**
+ * Brand values — 4-up card grid on a light surface.
+ * Each card: a numbered eyebrow, a one-line title, a short paragraph.
+ * No icons — the typography does the work.
+ *
+ * Values pulled from the company profile + brand voice rules:
+ *   - Custom-engineered (not off-the-shelf)
+ *   - End-to-end ownership (one team, whole lifecycle)
+ *   - Best-in-class kit, not flashy kit
+ *   - Long-term partnership (decades, not deals)
+ */
+import Eyebrow from '@components/ui/Eyebrow.astro';
+
+interface Value {
+  num: string;
+  title: string;
+  body: string;
+}
+
+const values: Value[] = [
+  {
+    num: '01',
+    title: 'Custom-engineered, every site.',
+    body: 'No catalogue packages. We walk your site, map your operations, and design to the way your people actually work.',
+  },
+  {
+    num: '02',
+    title: 'One team, whole lifecycle.',
+    body: 'Design, install, commission, monitor, maintain, upgrade. Same techs across all of it. No hand-offs to a stranger six months in.',
+  },
+  {
+    num: '03',
+    title: 'Best-in-class, not flashiest.',
+    body: 'We integrate Lenel, Genetec, Avigilon, Tecom, Axis. We pick the kit that fits the job, not the kit on the rep&apos;s commission ladder.',
+  },
+  {
+    num: '04',
+    title: 'Decades, not deals.',
+    body: 'Our oldest clients have been with us since 2003. We&apos;d rather have you for twenty years than win a one-off install.',
+  },
+];
+---
+<section class="values">
+  <div class="container">
+    <div class="values-header reveal">
+      <Eyebrow>What we stand for</Eyebrow>
+      <h2 class="values-heading">
+        Four principles. Every job. No exceptions.
+      </h2>
+    </div>
+
+    <div class="values-grid reveal">
+      {values.map((v) => (
+        <article class="value-card">
+          <div class="value-num">{v.num}</div>
+          <h3 class="value-title">{v.title}</h3>
+          <p class="value-body" set:html={v.body} />
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .values {
+    background: var(--bg-alt);
+    padding-block: clamp(80px, 10vw, 128px);
+  }
+
+  .values-header {
+    margin-bottom: 56px;
+    max-width: 64ch;
+  }
+  .values-heading {
+    margin: 16px 0 0;
+    font-size: clamp(1.625rem, 3vw, 2.25rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--ktx-line);
+  }
+  .value-card {
+    border-right: 1px solid var(--ktx-line);
+    padding: 32px 28px;
+  }
+  .value-card:last-child { border-right: none; }
+
+  .value-num {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent-text);
+    letter-spacing: 0.12em;
+    margin-bottom: 24px;
+  }
+  .value-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.025em;
+    margin: 0 0 12px;
+  }
+  .value-body {
+    color: var(--ktx-ink-soft);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  @media (max-width: 900px) {
+    .values-grid { grid-template-columns: repeat(2, 1fr); }
+    .value-card:nth-child(2) { border-right: none; }
+    .value-card:nth-child(1),
+    .value-card:nth-child(2) { border-bottom: 1px solid var(--ktx-line); }
+  }
+  @media (max-width: 480px) {
+    .values-grid { grid-template-columns: 1fr; }
+    .value-card { border-right: none; border-bottom: 1px solid var(--ktx-line); }
+    .value-card:last-child { border-bottom: none; }
+  }
+</style>

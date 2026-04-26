@@ -1,0 +1,65 @@
+---
+/**
+ * Careers nudge — light surface, two-column.
+ * Sits on the About page above the closing CTA. Replaces the existing
+ * "are you a tech looking for work" line on the legacy site, but pushes
+ * the actual application content to /careers/.
+ */
+import Button from '@components/ui/Button.astro';
+import Eyebrow from '@components/ui/Eyebrow.astro';
+---
+<section class="careers">
+  <div class="container">
+    <div class="careers-inner reveal">
+      <div class="careers-text">
+        <Eyebrow>Careers</Eyebrow>
+        <h2 class="careers-heading">
+          Experienced tech or apprentice<br />
+          looking for the right fit?
+        </h2>
+        <p>
+          We hire deliberately and keep people for a long time. If
+          that sounds like the kind of place you&apos;d work, get in touch.
+        </p>
+      </div>
+      <div class="careers-action">
+        <Button href="/careers/" variant="primary">See current openings</Button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .careers {
+    padding-block: clamp(72px, 8vw, 112px);
+  }
+  .careers-inner {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 48px;
+    align-items: center;
+    padding-top: 48px;
+    border-top: 1px solid var(--ktx-line);
+  }
+  .careers-heading {
+    margin: 16px 0 16px;
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+  .careers-text p {
+    color: var(--ktx-ink-soft);
+    font-size: var(--t-lead);
+    margin: 0;
+    max-width: 50ch;
+  }
+  .careers-action {
+    justify-self: end;
+  }
+  @media (max-width: 800px) {
+    .careers-inner { grid-template-columns: 1fr; gap: 24px; }
+    .careers-action { justify-self: start; }
+  }
+</style>

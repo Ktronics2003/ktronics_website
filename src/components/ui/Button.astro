@@ -1,0 +1,51 @@
+---
+/**
+ * Button — three variants, three sizes (per design system §6).
+ * Renders as <a> when `href` is provided, otherwise <button>.
+ *
+ * Variants: 'primary' (filled red), 'secondary' (outline ink), 'link' (underlined text).
+ * Sizes: 'sm' | 'md' (default) | 'lg'.
+ * Set `arrow={false}` to hide the trailing arrow on primary/secondary.
+ */
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'secondary' | 'link';
+  size?: 'sm' | 'md' | 'lg';
+  arrow?: boolean;
+  type?: 'button' | 'submit' | 'reset';
+  class?: string;
+  ariaLabel?: string;
+  /** Pass-through for analytics hooks etc. */
+  rest?: Record<string, string>;
+}
+const {
+  href,
+  variant = 'primary',
+  size = 'md',
+  arrow = true,
+  type = 'button',
+  class: className = '',
+  ariaLabel,
+  rest = {},
+} = Astro.props;
+
+const isLink = !!href;
+const Tag = isLink ? 'a' : 'button';
+
+const baseClass = variant === 'link' ? 'btn-link' : 'btn';
+const variantClass =
+  variant === 'primary' ? 'btn-primary' : variant === 'secondary' ? 'btn-secondary' : '';
+const sizeClass = size === 'sm' ? 'btn-sm' : size === 'lg' ? 'btn-lg' : '';
+
+const showArrow = arrow; // arrow rendered for all variants when true
+---
+<Tag
+  class:list={[baseClass, variantClass, sizeClass, className]}
+  href={isLink ? href : undefined}
+  type={isLink ? undefined : type}
+  aria-label={ariaLabel}
+  {...rest}
+>
+  <slot />
+  {showArrow && <span class="btn-arrow" aria-hidden="true">→</span>}
+</Tag>

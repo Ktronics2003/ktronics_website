@@ -1,0 +1,271 @@
+---
+/**
+ * Contact form — wired to Netlify Forms (no JS required, works as a
+ * progressive enhancement candidate too).
+ *
+ * Spec: handover/02-tech-spec.md → Contact form section.
+ *
+ * Fields:
+ *   - Full name (required)
+ *   - Email (required, type=email validates client-side)
+ *   - Phone (optional)
+ *   - Company / Organisation (optional)
+ *   - Site type (select)
+ *   - "What are you trying to solve?" (textarea, required)
+ *   - Honeypot (data-netlify-honeypot)
+ *
+ * Netlify Forms integration:
+ *   - The HTML form name attribute ("contact") is what Netlify shows in the dashboard.
+ *   - data-netlify="true" tells Netlify to capture submissions.
+ *   - Honeypot field name "bot-field" is the standard Netlify spam-trap pattern.
+ *   - Static-site builds: Netlify scans the rendered HTML at deploy and registers the
+ *     form automatically. No build-time config needed.
+ *
+ * Accessibility:
+ *   - Every field has an associated <label>.
+ *   - Required fields use aria-required + a visible asterisk + screen-reader text.
+ *   - Site-type select has a pre-selected blank option that works as the placeholder
+ *     without using disabled/hidden tricks (so it submits a clean empty value if
+ *     skipped, and validation is purely on the truly-required fields).
+ */
+import { site } from '@lib/site';
+
+const SITE_TYPES = [
+  'Office',
+  'Warehouse / logistics',
+  'Strata / multi-tenant',
+  'Childcare / school',
+  'Medical / healthcare',
+  'Retail / hospitality',
+  'Other',
+] as const;
+---
+<form
+  class="contact-form"
+  name="contact"
+  method="POST"
+  action="/thank-you/"
+  data-netlify="true"
+  data-netlify-honeypot="bot-field"
+>
+  {/* Netlify needs this hidden input to identify which form was submitted */}
+  <input type="hidden" name="form-name" value="contact" />
+
+  {/* Honeypot — invisible to humans, bots auto-fill it and get binned */}
+  <p class="visually-hidden" aria-hidden="true">
+    <label>Don&apos;t fill this in if you&apos;re human: <input name="bot-field" tabindex="-1" autocomplete="off" /></label>
+  </p>
+
+  <div class="form-row form-row--two">
+    <div class="form-field">
+      <label for="cf-name">
+        Your name
+        <span class="req" aria-hidden="true">*</span>
+        <span class="visually-hidden">required</span>
+      </label>
+      <input
+        id="cf-name"
+        name="name"
+        type="text"
+        autocomplete="name"
+        required
+        aria-required="true"
+      />
+    </div>
+
+    <div class="form-field">
+      <label for="cf-email">
+        Email
+        <span class="req" aria-hidden="true">*</span>
+        <span class="visually-hidden">required</span>
+      </label>
+      <input
+        id="cf-email"
+        name="email"
+        type="email"
+        autocomplete="email"
+        required
+        aria-required="true"
+      />
+    </div>
+  </div>
+
+  <div class="form-row form-row--two">
+    <div class="form-field">
+      <label for="cf-phone">Phone <span class="opt">(optional)</span></label>
+      <input
+        id="cf-phone"
+        name="phone"
+        type="tel"
+        inputmode="tel"
+        autocomplete="tel"
+      />
+    </div>
+
+    <div class="form-field">
+      <label for="cf-company">Company / organisation <span class="opt">(optional)</span></label>
+      <input
+        id="cf-company"
+        name="company"
+        type="text"
+        autocomplete="organization"
+      />
+    </div>
+  </div>
+
+  <div class="form-field">
+    <label for="cf-sitetype">Site type</label>
+    <select id="cf-sitetype" name="site_type">
+      <option value="">Select one</option>
+      {SITE_TYPES.map((t) => <option value={t}>{t}</option>)}
+    </select>
+  </div>
+
+  <div class="form-field">
+    <label for="cf-message">
+      What are you trying to solve?
+      <span class="req" aria-hidden="true">*</span>
+      <span class="visually-hidden">required</span>
+    </label>
+    <textarea
+      id="cf-message"
+      name="message"
+      rows="6"
+      required
+      aria-required="true"
+      placeholder="Briefly: what's the site, what's prompting the enquiry, and what's your timeframe?"
+    ></textarea>
+  </div>
+
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary form-submit">
+      Send enquiry
+      <span class="btn-arrow" aria-hidden="true">→</span>
+    </button>
+    <p class="form-fineprint">
+      We&apos;ll come back to you within one business day. If it&apos;s urgent,
+      call <a href={`tel:${site.contact.phone.replace(/\s+/g, '')}`}>{site.contact.phone}</a>.
+    </p>
+  </div>
+</form>
+
+<style>
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .form-row { display: contents; }
+  .form-row--two {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  @media (max-width: 640px) {
+    .form-row--two { grid-template-columns: 1fr; gap: 24px; }
+  }
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .form-field label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ktx-mute);
+    line-height: 1.3;
+  }
+  .req {
+    color: var(--accent-text);
+    margin-left: 2px;
+  }
+  .opt {
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--ktx-mute);
+    font-size: 0.6875rem;
+    margin-left: 4px;
+    font-family: var(--font-sans);
+  }
+
+  /* Inputs share a single base style — flat, ink border, no rounded corners */
+  .contact-form input,
+  .contact-form select,
+  .contact-form textarea {
+    font: inherit;
+    font-size: 1rem;
+    line-height: 1.4;
+    color: var(--ktx-ink);
+    background: white;
+    border: 1.5px solid var(--ktx-ink);
+    border-radius: 2px;
+    padding: 12px 14px;
+    width: 100%;
+    transition: border-color 0.18s var(--ease);
+  }
+  .contact-form input:focus,
+  .contact-form select:focus,
+  .contact-form textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    border-width: 2px;
+    padding: 11.5px 13.5px;          /* compensate for thicker border */
+  }
+  .contact-form textarea {
+    resize: vertical;
+    min-height: 140px;
+    font-family: var(--font-sans);
+  }
+  .contact-form input:invalid:not(:placeholder-shown),
+  .contact-form textarea:invalid:not(:placeholder-shown) {
+    border-color: var(--ktx-red);
+  }
+
+  /* Native select reset + chevron */
+  .contact-form select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none' stroke='%231E1A1B' stroke-width='1.5'><path d='M1 1L6 6L11 1'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 12px 8px;
+    padding-right: 40px;
+  }
+
+  .form-actions {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .form-submit { padding-block: 16px; }
+  .form-fineprint {
+    margin: 0;
+    color: var(--ktx-ink-soft);
+    font-size: 0.875rem;
+    max-width: 40ch;
+  }
+  .form-fineprint a {
+    color: var(--accent-text);
+    border-bottom: 1px solid currentColor;
+  }
+  .form-fineprint a:hover { color: var(--accent); }
+
+  /* Hide the honeypot row from sighted users without removing it from the DOM */
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>

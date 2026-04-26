@@ -1,0 +1,54 @@
+---
+import BlogPostLayout from '@layouts/BlogPostLayout.astro';
+import { getPost } from '@lib/blog';
+
+const post = getPost('asial-sydney-2024');
+---
+<BlogPostLayout post={post}>
+  <p class="lead">
+    A short recap of the 2024 ASIAL Security Conference &amp;
+    Exhibition at ICC Sydney : and the moment a visiting
+    technician walked off with the title of <strong>Fastest Tech in
+    Sydney</strong>.
+  </p>
+
+  <h2>The expo</h2>
+
+  <p>
+    We had a fantastic time at the 2024 ASIAL Security Conference &amp;
+    Exhibition at ICC Sydney. Three days, the entire NSW security
+    industry under one roof, and a lot of conversations about where
+    integrated commercial security is heading over the next five years.
+  </p>
+
+  <p>
+    For us, the standout themes from the floor were the maturing of
+    cloud-managed access control for commercial sites, the noticeable
+    jump in AI analytics actually delivering on the marketing pitch
+    (rather than mostly producing false-positive alerts), and a
+    long-overdue convergence of monitoring platforms with the same
+    operator console.
+  </p>
+
+  <h2>The Fastest Tech in Sydney challenge</h2>
+
+  <p>
+    A big highlight was our &ldquo;Fastest Tech in Sydney&rdquo;
+    challenge at the Ktronics stand. Visiting technicians and aspiring
+    apprentices took turns running a timed practical task. The winning
+    technician completed it in an impressive
+    <strong>2 minutes and 10 seconds</strong>.
+  </p>
+
+  <p>
+    A pretty solid number to beat at SecTech 2026 next May, if any
+    Australian techs reading this are up for the challenge.
+  </p>
+
+  <p>
+    Thank you to everyone who visited our stand and took part. If you
+    want to catch us at the next event, we&apos;re exhibiting at the
+    <a href="/resources/blog/sectech-roadshow-2026/">SecTech Roadshow 2026</a>
+    across five Australian cities this May.
+  </p>
+</BlogPostLayout>

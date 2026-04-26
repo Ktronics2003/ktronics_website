@@ -1,0 +1,117 @@
+---
+/**
+ * Founder origin story — light surface. Karl portrait left, narrative right.
+ * Asymmetric editorial layout: portrait runs slightly wider than text column
+ * so it feels weighty rather than incidental.
+ */
+import { Image } from 'astro:assets';
+import Eyebrow from '@components/ui/Eyebrow.astro';
+import karlImage from '@/assets/images/team/karl-lamb-managing-director.jpg';
+---
+<section class="founder">
+  <div class="container">
+    <div class="founder-grid">
+      <div class="founder-image">
+        <Image
+          src={karlImage}
+          alt="Karl, founder and Managing Director of Ktronics, in the Brookvale workshop"
+          widths={[480, 720, 960]}
+          sizes="(min-width: 900px) 480px, 100vw"
+          loading="lazy"
+          decoding="async"
+          format="webp"
+          quality={80}
+          class="founder-photo"
+        />
+        <figcaption class="founder-caption">
+          Karl, Founder &amp; MD
+        </figcaption>
+      </div>
+
+      <div class="founder-text">
+        <Eyebrow>Founder</Eyebrow>
+        <h2 class="founder-heading">
+          Started by a Kiwi who saw<br />
+          a better way to do<br />
+          commercial security.
+        </h2>
+
+        <p>
+          Karl came over from New Zealand in the late nineties with a trade
+          background and a clear idea of what good looked like: walk the
+          site first, design to how the building actually runs, install
+          properly, and stand behind the work for the life of the system.
+        </p>
+        <p>
+          He founded Ktronics in 2003 to build a business around that
+          standard. Twenty-two years on, that&apos;s still how every job
+          gets done. Karl now spends his time on direction and
+          long-standing client relationships rather than day-to-day
+          delivery.
+        </p>
+        <p>
+          The team behind him runs the design, install, monitoring, and
+          maintenance work. Same standard. Same approach. Same answer when
+          you call.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .founder {
+    padding-block: clamp(80px, 10vw, 128px);
+  }
+  .founder-grid {
+    display: grid;
+    grid-template-columns: 0.85fr 1fr;
+    gap: clamp(40px, 6vw, 96px);
+    align-items: start;
+  }
+
+  .founder-image {
+    position: sticky;
+    top: 96px;                    /* sits with the text as the user scrolls */
+    margin: 0;
+  }
+  .founder-photo {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    filter: grayscale(0.08) contrast(1.04);
+  }
+  .founder-caption {
+    margin-top: 12px;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ktx-mute);
+  }
+
+  .founder-text {
+    max-width: 60ch;
+  }
+  .founder-heading {
+    margin: 16px 0 32px;
+    font-size: clamp(1.625rem, 3vw, 2.25rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+  .founder-text p {
+    color: var(--ktx-ink-soft);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    margin: 0 0 20px;
+  }
+  .founder-text p:last-child { margin-bottom: 0; }
+
+  @media (max-width: 900px) {
+    .founder-grid { grid-template-columns: 1fr; }
+    .founder-image { position: static; max-width: 360px; }
+  }
+</style>

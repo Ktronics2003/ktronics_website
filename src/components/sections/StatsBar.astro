@@ -1,0 +1,86 @@
+---
+/**
+ * Horizontal stat strip — sits between Hero and Solutions.
+ * Tabular numerals; superscript "+" or "%" in red.
+ *
+ * Stats are passed in as data so this component is reusable on Industry/About pages.
+ */
+interface Stat {
+  value: string;     // "22", "90", "24/7", "100"
+  suffix?: string;   // "+", "%" — rendered red, smaller
+  label: string;     // line-broken with <br>
+}
+
+interface Props {
+  stats?: Stat[];
+}
+
+// Stats here favour concrete, verifiable facts over generic claims.
+// Client names withheld at clients' request — security industry discretion.
+const defaultStats: Stat[] = [
+  { value: '22', suffix: '+', label: 'Years protecting<br>Sydney businesses' },
+  { value: '90', suffix: '+', label: 'Years combined<br>technical experience' },
+  { value: '20', suffix: '+', label: 'Years with our<br>longest-standing clients' },
+  { value: '24/7', label: 'Monitoring &amp; emergency<br>response available' },
+];
+
+const { stats = defaultStats } = Astro.props;
+---
+<section class="stats">
+  <div class="container">
+    <div class="stats-grid">
+      {stats.map((stat) => (
+        <div>
+          <div class="stat-num tnum">
+            {stat.value}{stat.suffix && <small>{stat.suffix}</small>}
+          </div>
+          <div class="stat-label" set:html={stat.label} />
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .stats {
+    border-top: 1px solid var(--ktx-line);
+    border-bottom: 1px solid var(--ktx-line);
+    padding-block: 48px;
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(24px, 4vw, 64px);
+  }
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 3.75rem);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--ktx-ink);
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+  }
+  .stat-num small {
+    font-size: 0.5em;
+    color: var(--ktx-red);
+    font-weight: 500;
+  }
+  .stat-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ktx-mute);
+    margin-top: 8px;
+    line-height: 1.4;
+  }
+  @media (max-width: 720px) {
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+    }
+  }
+</style>

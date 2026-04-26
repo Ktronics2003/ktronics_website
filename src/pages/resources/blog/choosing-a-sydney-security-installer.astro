@@ -1,0 +1,17 @@
+---
+/**
+ * DRAFT — body content pending. See lib/blog.ts (draft=true).
+ */
+import BlogPostLayout from '@layouts/BlogPostLayout.astro';
+import { getPost } from '@lib/blog';
+
+const post = getPost('choosing-a-sydney-security-installer');
+---
+<BlogPostLayout post={post}>
+  <p class="lead">
+    This article is still in progress. We&apos;ll publish it shortly. In
+    the meantime, browse the published <a href="/resources/blog/">articles
+    and buying guides</a> or <a href="/contact/">get in touch</a> with a
+    specific question.
+  </p>
+</BlogPostLayout>

@@ -1,0 +1,120 @@
+---
+/**
+ * Solution detail page hero — dark surface, scoped to one solution.
+ * Two-column: text + CTA on the left, photo on the right.
+ *
+ * Reads everything it needs from the Solution object so the same component
+ * works across all 4 (eventually 6) solution pages.
+ */
+import Eyebrow from '@components/ui/Eyebrow.astro';
+import Button from '@components/ui/Button.astro';
+import type { Solution } from '@lib/solutions';
+
+interface Props {
+  solution: Solution;
+}
+const { solution } = Astro.props;
+---
+<section class="solution-hero on-dark">
+  <div class="container">
+    <div class="solution-hero-meta">
+      <Eyebrow>Solution</Eyebrow>
+      <img class="solution-hero-icon" src={solution.icon} alt="" width="64" height="64" aria-hidden="true" />
+    </div>
+
+    <div class="solution-hero-grid">
+      <div class="solution-hero-text">
+        <h1 class="solution-hero-title">{solution.cardHeadline}</h1>
+        <p class="solution-hero-lead">{solution.heroLead}</p>
+
+        <div class="solution-hero-actions">
+          <Button href="/contact/" variant="primary">Get a quote</Button>
+          <Button href="/case-studies/" variant="secondary" arrow={false}>See our work</Button>
+        </div>
+      </div>
+
+      <div class="solution-hero-image">
+        <img
+          src={solution.heroPhotoPath}
+          alt={solution.heroPhotoAlt}
+          width="900"
+          height="1200"
+          loading="eager"
+          decoding="async"
+          class="solution-hero-photo"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .solution-hero {
+    background: var(--bg-dark);
+    color: var(--fg-on-dark);
+    padding-top: 56px;
+    padding-bottom: 96px;
+  }
+
+  .solution-hero-meta {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--rule-on-dark);
+  }
+  .solution-hero-icon {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    /* Icons are red-on-transparent — work fine on dark, no inversion needed */
+  }
+
+  .solution-hero-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: clamp(40px, 6vw, 96px);
+    align-items: center;
+  }
+
+  .solution-hero-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    margin: 0 0 24px;
+    color: var(--fg-on-dark);
+    text-wrap: balance;
+    max-width: 18ch;
+  }
+  .solution-hero-lead {
+    font-size: var(--t-lead);
+    color: var(--fg-mute-on-dark);
+    line-height: 1.6;
+    max-width: 56ch;
+    margin: 0 0 32px;
+  }
+  .solution-hero-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .solution-hero-image {
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    background: var(--ktx-charcoal);
+  }
+  .solution-hero-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(0.06) contrast(1.04);
+  }
+
+  @media (max-width: 900px) {
+    .solution-hero-grid { grid-template-columns: 1fr; gap: 32px; }
+    .solution-hero-image { aspect-ratio: 16/9; max-height: 360px; order: -1; }
+  }
+</style>

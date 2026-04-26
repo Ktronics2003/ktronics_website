@@ -1,0 +1,66 @@
+---
+/**
+ * Real Ktronics logo (transparent PNG: black K-chevron + red TRONICS,
+ * with "Electronic Security Solutions" lockup beneath).
+ *
+ * Two visual variants:
+ *   variant="default"  — full-colour logo (black K + red TRONICS). For light backgrounds.
+ *   variant="light"    — entire logo forced white (CSS filter). For dark backgrounds (footer).
+ *
+ * The logo image is hosted in /public so it can be referenced as an <img>
+ * directly (faster path; no Astro Image processing needed for a small static brand asset).
+ */
+interface Props {
+  variant?: 'default' | 'light';
+  /** Visual height of the lockup. Width follows aspect ratio. */
+  height?: number;
+  /** Render as a non-link (e.g. inside a card). Default: link to /. */
+  asLink?: boolean;
+  label?: string;
+  class?: string;
+}
+const {
+  variant = 'default',
+  height = 36,
+  asLink = true,
+  label = 'Ktronics Electronic Security Solutions, home',
+  class: className = '',
+} = Astro.props;
+
+const Tag = asLink ? 'a' : 'span';
+const href = asLink ? '/' : undefined;
+---
+<Tag
+  class:list={['ktx-logo', `ktx-logo--${variant}`, className]}
+  href={href}
+  aria-label={label}
+  style={`--logo-h:${height}px`}
+>
+  <img
+    src="/images/ktronics-logo.png"
+    alt="Ktronics Electronic Security Solutions"
+    width="1275"
+    height="425"
+    loading="eager"
+    decoding="async"
+  />
+</Tag>
+
+<style>
+  .ktx-logo {
+    display: inline-block;
+    line-height: 0;
+  }
+  .ktx-logo img {
+    height: var(--logo-h);
+    width: auto;
+    display: block;
+  }
+  /* Force the entire logo to white for use on dark backgrounds.
+     This collapses both the black "K" and red "TRONICS" to white —
+     intentional, so the lockup reads as a single object on dark surfaces.
+     The footer's red top-rule still carries the brand accent. */
+  .ktx-logo--light img {
+    filter: brightness(0) invert(1);
+  }
+</style>

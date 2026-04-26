@@ -1,0 +1,80 @@
+---
+/**
+ * /terms/ — Terms of Service.
+ *
+ * PLACEHOLDER. Per handover/06-content-inventory.md the real terms text
+ * needs to come from Karl/Lesley's legal counsel. Page is structured and
+ * styled so the real copy can be dropped into the slot below.
+ *
+ * Replace the placeholder body with the lawyer-supplied terms before launch.
+ * Don't ship to production with the placeholder visible.
+ */
+import LegalLayout from '@layouts/LegalLayout.astro';
+import { site } from '@lib/site';
+
+const seo = {
+  title: 'Terms of Service',
+  description: `Terms of service for ${site.legalName}, commercial electronic security solutions in Sydney.`,
+  path: '/terms/',
+  noindex: true,   // remove this once final copy lands
+};
+---
+<LegalLayout
+  title="Terms of Service"
+  intro="The terms governing use of this website and any commercial engagement with Ktronics."
+  lastUpdated="Pending review by legal counsel"
+  seo={seo}
+>
+  <div style="border:2px dashed var(--ktx-red); padding:20px; margin-bottom:32px; background:rgba(229,24,56,0.05); border-radius:2px;">
+    <p style="margin:0; font-family: var(--font-mono); font-size:0.8125rem; color: var(--ktx-ink); letter-spacing:0.04em;">
+      <strong>Placeholder &mdash; do not ship.</strong> The body of this page
+      needs to be supplied by Ktronics&apos; legal counsel. Once the
+      lawyer-reviewed text is ready, replace this notice and the dummy headings
+      below with the real content, then remove <code>noindex</code> from the
+      page&apos;s SEO config so it can be indexed.
+    </p>
+  </div>
+
+  <h2>1. About these terms</h2>
+  <p>
+    [Lawyer-supplied copy goes here. Typically covers: who Ktronics is,
+    what these terms govern, when they apply, who may agree to them.]
+  </p>
+
+  <h2>2. Use of the website</h2>
+  <p>
+    [Lawyer-supplied copy. Typically covers: acceptable use, intellectual
+    property, links to third-party sites, no warranty of accuracy.]
+  </p>
+
+  <h2>3. Engagement of services</h2>
+  <p>
+    [Lawyer-supplied copy. Typically covers: how a quote becomes a contract,
+    payment terms, scope variations, warranty on workmanship and equipment,
+    the master licence under which work is performed (NSW {site.credentials.nswMasterLicence}).]
+  </p>
+
+  <h2>4. Liability and limitations</h2>
+  <p>
+    [Lawyer-supplied copy. Typically covers: limitation of liability, exclusions,
+    consumer-law non-excludable rights, indemnities.]
+  </p>
+
+  <h2>5. Privacy</h2>
+  <p>
+    Personal information collected through this website is handled in accordance
+    with our <a href="/privacy-policy/">Privacy Policy</a>.
+  </p>
+
+  <h2>6. Governing law</h2>
+  <p>
+    [Lawyer-supplied copy. Typically: governed by the laws of New South Wales,
+    Australia, with exclusive jurisdiction.]
+  </p>
+
+  <h2>7. Contact</h2>
+  <p>
+    Questions about these terms? Contact us at <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>
+    or call <a href={`tel:${site.contact.phone.replace(/\s+/g, '')}`}>{site.contact.phone}</a>.
+  </p>
+</LegalLayout>

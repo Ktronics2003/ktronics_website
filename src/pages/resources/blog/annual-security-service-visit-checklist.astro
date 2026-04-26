@@ -1,0 +1,246 @@
+---
+import BlogPostLayout from '@layouts/BlogPostLayout.astro';
+import { getPost } from '@lib/blog';
+
+const post = getPost('annual-security-service-visit-checklist');
+---
+<BlogPostLayout post={post}>
+  <p class="lead">
+    Most commercial security maintenance contracts include an annual
+    on-site service visit. The quality varies wildly. We&apos;ve walked
+    onto sites where the previous installer&apos;s "annual service" was a
+    15-minute drive-by with no documentation. Here&apos;s what a proper
+    annual visit looks like, so you can audit what you&apos;re actually
+    paying for.
+  </p>
+
+  <h2>Why this matters</h2>
+
+  <p>
+    Security hardware doesn&apos;t fail dramatically. It degrades quietly.
+    A camera lens slowly fogs over. A reader&apos;s sensitivity drifts. A
+    backup battery loses capacity. A door strike develops play. None of
+    these will trigger an alarm or a fault. They just mean that when you
+    actually need the system to work, it doesn&apos;t.
+  </p>
+
+  <p>
+    The annual service visit is the formal opportunity to catch this
+    drift before it becomes a problem. If your installer is treating it
+    as a box-tick, you&apos;re paying for compliance theatre. Use this
+    article as a checklist to compare what you&apos;re getting against
+    what you should be getting.
+  </p>
+
+  <h2>What a proper annual visit covers</h2>
+
+  <p>
+    A real commercial security service visit takes between half a day and
+    a full day for a typical site, depending on size and system
+    complexity. It covers four areas: hardware health, software health,
+    documentation, and a compliance walkover.
+  </p>
+
+  <h3>1. Hardware health checks</h3>
+
+  <p>
+    Every device on the site gets a physical inspection. For each
+    category, here&apos;s what should actually happen:
+  </p>
+
+  <p>
+    <strong>CCTV cameras:</strong>
+  </p>
+
+  <ul>
+    <li>Lens cleaned (every camera, no exceptions)</li>
+    <li>Housing seals checked, weatherproofing verified on external units</li>
+    <li>Field of view confirmed against the as-built drawings (cameras drift, get knocked, get partially obscured by signage or stock)</li>
+    <li>Image quality reviewed at full resolution on the recorder, not just thumbnails</li>
+    <li>IR illumination tested at night-equivalent light levels</li>
+    <li>Mounts and brackets checked for movement, corrosion, rust</li>
+  </ul>
+
+  <p>
+    <strong>Access control hardware:</strong>
+  </p>
+
+  <ul>
+    <li>Every reader tested with a known-good credential and a known-bad credential</li>
+    <li>Door contacts and REX (request-to-exit) sensors tested at every door</li>
+    <li>Strike and maglock function tested under both normal and fail-safe/fail-secure modes</li>
+    <li>Door alignment checked (a door that&apos;s starting to sag will eventually fail to latch reliably)</li>
+    <li>Auto-closer function and timing verified</li>
+    <li>Tamper switches tested on every panel, reader, and external device</li>
+  </ul>
+
+  <p>
+    <strong>Alarm and intrusion:</strong>
+  </p>
+
+  <ul>
+    <li>Every PIR, dual-tech, glass-break, and shock sensor tested by walk-test or simulation</li>
+    <li>Siren and strobe tested (and yes, the building should be informed first)</li>
+    <li>Backup battery load-tested, not just voltage-checked. A battery can read full voltage on a multimeter and still fail under load.</li>
+    <li>Communication path to monitoring tested (whether IP, GSM, or both)</li>
+    <li>Failover path tested where dual-path monitoring is in place</li>
+  </ul>
+
+  <p>
+    <strong>Cabling and racks:</strong>
+  </p>
+
+  <ul>
+    <li>Visual inspection of comms cabinets, panels, and head-end equipment</li>
+    <li>Fan filters cleaned, internal temperature checked</li>
+    <li>UPS tested where present</li>
+    <li>Cable terminations spot-checked for tightness and oxidation</li>
+  </ul>
+
+  <h3>2. Software health checks</h3>
+
+  <p>
+    The platform side of the system needs as much attention as the
+    hardware. Most installers under-do this part because it&apos;s less
+    visible to the client.
+  </p>
+
+  <ul>
+    <li>Firmware versions reviewed across cameras, panels, and recorders, with security updates applied where needed</li>
+    <li>Management software updated to the current supported release</li>
+    <li>Database integrity check on the access control platform</li>
+    <li>Backup of the management database verified (i.e. the backup is taken and then restored to a test environment to confirm it&apos;s actually usable)</li>
+    <li>User accounts reviewed: any leavers still on the system, any orphan service accounts, any over-privileged users</li>
+    <li>Audit log review for unusual access patterns or repeated failed credential attempts</li>
+    <li>Storage capacity and retention period verified against the documented retention policy</li>
+  </ul>
+
+  <h3>3. Documentation refresh</h3>
+
+  <p>
+    A site&apos;s documentation drifts from reality faster than people
+    expect. The annual visit is when it gets pulled back into alignment.
+  </p>
+
+  <ul>
+    <li>As-built drawings updated to reflect any changes since last visit</li>
+    <li>Cable schedule reconciled (especially after fitouts, refurbs, or tenancy changes)</li>
+    <li>Credential database reviewed against current staff list</li>
+    <li>Access groups and time schedules reviewed against current operational hours</li>
+    <li>Emergency contact list verified and updated</li>
+    <li>Service log updated with the visit findings, all faults raised, all parts replaced</li>
+  </ul>
+
+  <h3>4. Compliance walkover</h3>
+
+  <p>
+    Sector-specific compliance items get checked against the relevant
+    framework. The detail varies by site type, but typically includes:
+  </p>
+
+  <ul>
+    <li>Signage at all CCTV-monitored entrances (APP 5 obligation)</li>
+    <li>Camera coverage of regulated areas (gaming floor, pharmacy, cash handling, controlled-substance storage, etc.)</li>
+    <li>Retention period configured to match the documented policy</li>
+    <li>Access control coverage of restricted areas matches the asset register</li>
+    <li>Any sector-specific evidence the auditor will want at next inspection</li>
+  </ul>
+
+  <h2>What you should receive after the visit</h2>
+
+  <p>
+    A proper annual service generates a written report. Not a stapled
+    invoice. The report should include:
+  </p>
+
+  <ul>
+    <li>The date and the technician&apos;s name</li>
+    <li>The full checklist with each item ticked or noted</li>
+    <li>Photographs of any defects found</li>
+    <li>Parts replaced and parts recommended for replacement</li>
+    <li>Any software or firmware updates applied</li>
+    <li>Recommendations for remedial work, with a priority rating</li>
+    <li>An updated version of the as-built drawings if anything has changed</li>
+  </ul>
+
+  <p>
+    If your current installer doesn&apos;t produce something like this,
+    the annual visit is happening on paper but not in practice. It&apos;s
+    the single biggest red flag we look for when reviewing an inherited
+    installation.
+  </p>
+
+  <h2>Red flags worth raising with your current installer</h2>
+
+  <ul>
+    <li>
+      <strong>The visit takes less than two hours on a multi-door site.</strong>
+      A proper inspection of even a small commercial install takes longer
+      than that.
+    </li>
+    <li>
+      <strong>No camera lens cleaning.</strong> If you can run a finger
+      along the housing of an external camera and find dust on the
+      glass, the lens hasn&apos;t been touched.
+    </li>
+    <li>
+      <strong>No load-tested batteries.</strong> Voltage check only is
+      not a battery test. A 12V SLA battery will read 13.4V open-circuit
+      while being unable to hold a load for 30 seconds.
+    </li>
+    <li>
+      <strong>No software/firmware update history.</strong> If your
+      camera fleet is on firmware from 2022, something has gone wrong
+      with the maintenance regime.
+    </li>
+    <li>
+      <strong>No access control user audit.</strong> Leavers should be
+      removed from the system as part of the offboarding process, but in
+      practice this is patchy at most sites. The annual visit is when
+      it gets cleaned up.
+    </li>
+    <li>
+      <strong>No written report.</strong> If all you get is an invoice
+      saying "annual service complete", you have no evidence of what
+      was actually done.
+    </li>
+  </ul>
+
+  <h2>What it should cost</h2>
+
+  <p>
+    For a typical commercial site, an annual service visit on a managed
+    maintenance contract is usually included in the contract fee rather
+    than billed separately. Standalone annual visits, where there&apos;s
+    no ongoing contract, typically run between $1,200 and $3,500
+    depending on site size, system complexity, and the breadth of the
+    inspection.
+  </p>
+
+  <p>
+    Significantly cheaper than that and the corners are being cut.
+    Significantly more and the scope should be detailed enough to justify
+    it (very large sites, integrated multi-discipline systems, or
+    compliance-heavy environments).
+  </p>
+
+  <h2>If you&apos;re due for a visit and not sure what to expect</h2>
+
+  <p>
+    Print this checklist. Walk it with your current installer&apos;s
+    technician on the day. Ask the questions: when was the last firmware
+    update, can I see a load-test on the backup battery, can I see the
+    written report from last year&apos;s visit, how many leavers are
+    still active in the access control system. If the answers are
+    confident and documented, you&apos;ve got a serious maintainer. If
+    the answers are vague, it&apos;s time to either reset the
+    expectations with your current installer or get a second opinion.
+  </p>
+
+  <p>
+    If you want a second opinion on the state of an existing commercial
+    security installation, <a href="/contact/">get in touch</a>. We do
+    site audits as a standalone piece of work, separate from any quote to
+    take on the maintenance.
+  </p>
+</BlogPostLayout>

@@ -1,0 +1,123 @@
+---
+/**
+ * Related solutions strip — bottom of every Solution detail page.
+ * Shows the OTHER solutions (excluding the one you're currently reading).
+ *
+ * Card structure mirrors the homepage SolutionsGrid for visual consistency,
+ * but at smaller scale and with no "Read more" footer (the whole card is the link).
+ */
+import Eyebrow from '@components/ui/Eyebrow.astro';
+import { relatedSolutions } from '@lib/solutions';
+
+interface Props {
+  /** Slug of the solution currently being viewed (excluded from the list). */
+  currentSlug: string;
+}
+const { currentSlug } = Astro.props;
+const others = relatedSolutions(currentSlug);
+---
+<section class="related">
+  <div class="container">
+    <div class="related-header reveal">
+      <Eyebrow>Related solutions</Eyebrow>
+      <h2 class="related-heading">More of what we do.</h2>
+    </div>
+
+    <div class="related-grid reveal">
+      {others.map((s) => (
+        <a href={`/solutions/${s.slug}/`} class="related-card">
+          <img class="related-icon" src={s.icon} alt="" width="56" height="56" aria-hidden="true" />
+          <h3 class="related-title">{s.label}</h3>
+          <p class="related-body">{s.shortDescription}</p>
+          <span class="related-cta">Read more <span aria-hidden="true">↗</span></span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .related {
+    padding-block: clamp(80px, 10vw, 128px);
+    background: var(--bg-alt);
+  }
+  .related-header {
+    max-width: 60ch;
+    margin-bottom: 48px;
+  }
+  .related-heading {
+    margin: 16px 0 0;
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--ktx-line);
+    border-left: 1px solid var(--ktx-line);
+  }
+  .related-card {
+    border-right: 1px solid var(--ktx-line);
+    border-bottom: 1px solid var(--ktx-line);
+    padding: 28px 28px 24px;
+    background: var(--bg-alt);
+    display: flex;
+    flex-direction: column;
+    transition: background 0.2s ease;
+    position: relative;
+  }
+  .related-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 0;
+    background: var(--ktx-red);
+    transition: height 0.25s var(--ease);
+  }
+  .related-card:hover { background: var(--ktx-paper-hover); }
+  .related-card:hover::before { height: 3px; }
+  .related-card:hover .related-title { color: var(--ktx-red); }
+  .related-card:hover .related-cta { color: var(--ktx-red); }
+
+  .related-icon {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 16px;
+    object-fit: contain;
+    transition: transform 0.25s var(--ease);
+  }
+  .related-card:hover .related-icon { transform: scale(1.06); }
+
+  .related-title {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    margin: 0 0 8px;
+    transition: color 0.2s ease;
+  }
+  .related-body {
+    color: var(--ktx-ink-soft);
+    font-size: 0.875rem;
+    line-height: 1.55;
+    margin: 0 0 20px;
+    flex-grow: 1;
+  }
+  .related-cta {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ktx-mute);
+    transition: color 0.2s ease;
+  }
+
+  @media (max-width: 800px) {
+    .related-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 480px) {
+    .related-grid { grid-template-columns: 1fr; }
+  }
+</style>

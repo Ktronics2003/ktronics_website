@@ -1,0 +1,75 @@
+---
+/**
+ * Case study stats strip — dark surface, 3-up large numbers.
+ *
+ * Same visual pattern as the homepage StatsBar but inverted (light text on
+ * dark) and used as a punctuation block between the editorial body and the
+ * gallery on a case study page.
+ */
+import type { CaseStudyStat } from '@lib/caseStudies';
+
+interface Props {
+  stats: CaseStudyStat[];
+}
+const { stats } = Astro.props;
+---
+<section class="cs-stats on-dark">
+  <div class="container">
+    <ul class="cs-stats-grid">
+      {stats.map((s) => (
+        <li>
+          <div class="cs-stat-num tnum">
+            {s.value}{s.suffix && <span>{s.suffix}</span>}
+          </div>
+          <div class="cs-stat-label" set:html={s.label} />
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .cs-stats {
+    background: var(--bg-dark);
+    color: var(--fg-on-dark);
+    padding-block: clamp(48px, 6vw, 72px);
+    border-top: 2px solid var(--ktx-red);
+  }
+  .cs-stats-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(24px, 4vw, 64px);
+  }
+  .cs-stat-num {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 3.75rem);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.035em;
+    color: var(--fg-on-dark);
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+  }
+  .cs-stat-num span {
+    color: var(--ktx-red);
+    font-size: 0.5em;
+    font-weight: 500;
+    margin-left: 2px;
+  }
+  .cs-stat-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--fg-mute-on-dark);
+    margin-top: 12px;
+    line-height: 1.4;
+  }
+  @media (max-width: 720px) {
+    .cs-stats-grid { grid-template-columns: 1fr; gap: 32px; }
+  }
+</style>

@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ktronics — Charcoal + Concrete Pairings</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ktx-red: #E51838;
+    --ktx-red-hover: #C8142F;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: #2a2a2a;
+    color: white;
+    font-family: 'IBM Plex Sans', system-ui, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+
+  .page-header {
+    padding: 48px 32px 24px;
+    max-width: 1280px;
+    margin: 0 auto;
+    color: white;
+  }
+  .page-header h1 {
+    margin: 0 0 8px;
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+  }
+  .page-header p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.65);
+    max-width: 70ch;
+  }
+
+  /* Per-option container */
+  .option {
+    max-width: 1280px;
+    margin: 32px auto;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+  }
+
+  .option-label {
+    padding: 16px 24px;
+    background: #1a1a1a;
+    color: white;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    align-items: center;
+  }
+  .option-label-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .option-label-name strong { color: white; font-size: 0.875rem; }
+  .swatches {
+    display: flex;
+    gap: 12px;
+  }
+  .swatch {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6875rem;
+    color: rgba(255, 255, 255, 0.65);
+    min-width: 84px;
+  }
+  .swatch-chip {
+    height: 32px;
+    border-radius: 2px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+  .swatch-label {
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .swatch-hex {
+    color: white;
+    font-weight: 500;
+  }
+
+  /* ---- Banner + sections ---- */
+  .surface { padding: 0 32px; }
+  .surface .inner { max-width: 1216px; margin: 0 auto; }
+
+  .banner-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 0;
+    gap: 32px;
+    border-bottom: 1px solid var(--line);
+  }
+  .banner-logo img {
+    height: 36px;
+    width: auto;
+    filter: var(--logo-filter, none);
+  }
+  .banner-nav {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+  }
+  .banner-nav a {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--fg);
+  }
+  .banner-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+    border-left: 1px solid var(--line);
+    padding-left: 24px;
+  }
+  .banner-cta-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--fg-mute);
+  }
+  .banner-cta a {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.0625rem;
+    font-weight: 500;
+    color: var(--fg);
+  }
+
+  .hero {
+    padding: 56px 0 64px;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 48px;
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--line);
+    flex-wrap: wrap;
+  }
+  .hero-meta-item {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--fg-mute);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .hero-meta-item-label {
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .hero-meta-item strong {
+    color: var(--fg);
+    font-weight: 600;
+    font-size: 0.8125rem;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .hero h2 {
+    margin: 0 0 24px;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    font-weight: 600;
+    color: var(--fg);
+    max-width: 14ch;
+  }
+  .hero h2 em {
+    color: var(--ktx-red);
+    font-style: italic;
+  }
+  .hero-lead {
+    color: var(--fg-mute);
+    max-width: 50ch;
+    margin: 0 0 24px;
+  }
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 24px;
+    background: var(--ktx-red);
+    color: white;
+    font-weight: 500;
+    border-radius: 2px;
+  }
+  .hero-img {
+    aspect-ratio: 4/5;
+    background-color: #1E1A1B;
+    background-size: cover;
+    background-position: center 30%;
+    background-image: url('./src/assets/images/hero/hero-karl-ktronics-truck-sydney.jpg');
+    position: relative;
+  }
+  .hero-img-tag {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: var(--bg);
+    color: var(--fg);
+    padding: 8px 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* Stats bar */
+  .stats {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 40px 0;
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+  }
+  .stat-num {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 600;
+    line-height: 1;
+    color: var(--fg);
+    letter-spacing: -0.035em;
+  }
+  .stat-num small { font-size: 0.5em; color: var(--ktx-red); margin-left: 4px; }
+  .stat-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--fg-mute);
+    margin-top: 8px;
+    line-height: 1.4;
+  }
+
+  /* Solutions strip */
+  .solutions {
+    padding: 64px 0 80px;
+  }
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ktx-red);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 24px;
+    height: 1px;
+    background: currentColor;
+  }
+  .sol-h2 {
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    color: var(--fg);
+    margin: 0 0 32px;
+    max-width: 18ch;
+  }
+  .solutions-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+  }
+  .solution-card {
+    padding: 32px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .solution-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--fg-mute);
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+  }
+  .solution-card h3 {
+    font-size: 1.125rem;
+    color: var(--fg);
+    margin: 0 0 12px;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+  }
+  .solution-card p {
+    color: var(--fg-mute);
+    font-size: 0.9375rem;
+    margin: 0;
+  }
+
+  /* ----------- DARK / LIGHT BASE BEHAVIOUR ----------- */
+  .surface.dark {
+    background: var(--dark-bg);
+    color: var(--dark-fg);
+    --bg: var(--dark-bg);
+    --fg: var(--dark-fg);
+    --fg-mute: var(--dark-mute);
+    --line: var(--dark-line);
+    --logo-filter: brightness(0) invert(1);
+  }
+  .surface.dark .banner-inner { border-bottom: 2px solid var(--ktx-red); }
+  .surface.light {
+    background: var(--light-bg);
+    color: var(--light-fg);
+    --bg: var(--light-bg);
+    --fg: var(--light-fg);
+    --fg-mute: var(--light-mute);
+    --line: var(--light-line);
+  }
+
+  /* ============================
+     PAIRING A — Warm charcoal + warm concrete
+     Both warm, slight brown undertone, very tonally related
+     ============================ */
+  .pair-a {
+    --dark-bg: #221E1C;
+    --dark-fg: #F4F1EC;
+    --dark-mute: rgba(244, 241, 236, 0.65);
+    --dark-line: rgba(244, 241, 236, 0.13);
+    --light-bg: #DEDAD2;
+    --light-fg: #221E1C;
+    --light-mute: #6F6A62;
+    --light-line: #BFB9AE;
+  }
+
+  /* ============================
+     PAIRING B — Deep espresso + light putty
+     Slightly darker hero, lighter body. More contrast = more breathable.
+     ============================ */
+  .pair-b {
+    --dark-bg: #1A1513;
+    --dark-fg: #F2EDE6;
+    --dark-mute: rgba(242, 237, 230, 0.65);
+    --dark-line: rgba(242, 237, 230, 0.13);
+    --light-bg: #E6E1D7;
+    --light-fg: #1A1513;
+    --light-mute: #6B6557;
+    --light-line: #C9C2B5;
+  }
+
+  /* ============================
+     PAIRING C — Cool charcoal + greige
+     Slight blue/grey undertone in the dark, mid-warmth concrete.
+     More "tech" / less "trade".
+     ============================ */
+  .pair-c {
+    --dark-bg: #1B1D20;
+    --dark-fg: #ECEDEF;
+    --dark-mute: rgba(236, 237, 239, 0.6);
+    --dark-line: rgba(236, 237, 239, 0.13);
+    --light-bg: #D7D3CB;
+    --light-fg: #1B1D20;
+    --light-mute: #6A6A66;
+    --light-line: #BAB5AB;
+  }
+
+  /* ============================
+     PAIRING D — Soft charcoal + warm sand (more contrast)
+     Lighter dark, warmer body. Most approachable. Maximum warmth.
+     ============================ */
+  .pair-d {
+    --dark-bg: #2A2422;
+    --dark-fg: #F5F0E8;
+    --dark-mute: rgba(245, 240, 232, 0.7);
+    --dark-line: rgba(245, 240, 232, 0.14);
+    --light-bg: #E2DBCB;
+    --light-fg: #2A2422;
+    --light-mute: #6E665A;
+    --light-line: #C5BCA8;
+  }
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <h1>Charcoal + Concrete pairings</h1>
+  <p>
+    Same layout, same fonts, same red accent. Only the dark and light surfaces shift.
+    Each pairing is tuned so the two tones share an undertone (warm with warm, cool with cool)
+    so the transition between hero and body feels intentional, not jarring.
+    Pick one (or tell me what to adjust) and I'll wire it through.
+  </p>
+</header>
+
+<!-- ===== PAIRING A: Warm charcoal + warm concrete ===== -->
+<section class="option pair-a">
+  <div class="option-label">
+    <span class="option-label-name">
+      <strong>Pairing A — Warm charcoal + warm concrete</strong><br>
+      Tightly related warm tones. Reads as one material at two temperatures. Most cohesive.
+    </span>
+    <div class="swatches">
+      <div class="swatch"><div class="swatch-chip" style="background:#221E1C"></div><div class="swatch-label">Hero</div><div class="swatch-hex">#221E1C</div></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#DEDAD2"></div><div class="swatch-label">Body</div><div class="swatch-hex">#DEDAD2</div></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#E51838"></div><div class="swatch-label">Accent</div><div class="swatch-hex">#E51838</div></div>
+    </div>
+  </div>
+
+  <div class="surface dark"><div class="inner">
+    <div class="banner-inner">
+      <a class="banner-logo" href="#"><img src="./public/images/ktronics-logo.png" alt="Ktronics" /></a>
+      <nav class="banner-nav"><a href="#">Solutions</a><a href="#">Industries</a><a href="#">Work</a><a href="#">About</a><a href="#">Resources</a><a href="#">Contact</a></nav>
+      <div class="banner-cta"><span class="banner-cta-label">Sydney • Call</span><a href="tel:1300621060">1300 621 060</a></div>
+    </div>
+    <div class="hero">
+      <div class="hero-meta">
+        <span class="hero-meta-item"><span class="hero-meta-item-label">Established</span><strong>2003</strong></span>
+        <span class="hero-meta-item"><span class="hero-meta-item-label">Membership</span><strong>ASIAL Gold Member</strong></span>
+        <span class="hero-meta-item"><span class="hero-meta-item-label">NSW Master Licence</span><strong>102039</strong></span>
+      </div>
+      <div class="hero-grid">
+        <div>
+          <h2>Commercial security systems that <em>actually work</em> when you need them.</h2>
+          <p class="hero-lead">Sydney's trusted electronic security installer for two decades.</p>
+          <a class="hero-cta" href="#">Get a quote →</a>
+        </div>
+        <div class="hero-img"><div class="hero-img-tag">● Karl Lamb / MD</div></div>
+      </div>
+    </div>
+  </div></div>
+
+  <div class="surface light"><div class="inner">
+    <div class="stats"><div class="stats-grid">
+      <div><div class="stat-num">22<small>+</small></div><div class="stat-label">Years protecting<br>Sydney businesses</div></div>
+      <div><div class="stat-num">90<small>+</small></div><div class="stat-label">Years combined<br>technical experience</div></div>
+      <div><div class="stat-num">20<small>+</small></div><div class="stat-label">Years with our<br>longest-standing clients</div></div>
+      <div><div class="stat-num">24/7</div><div class="stat-label">Monitoring &amp; emergency<br>response available</div></div>
+    </div></div>
+  </div></div>
+
+  <div class="surface light"><div class="inner">
+    <div class="solutions">
+      <span class="eyebrow">01 / What we do</span>
+      <h2 class="sol-h2">Four pillars of commercial electronic security.</h2>
+      <div class="solutions-grid">
+        <div class="solution-card"><div class="solution-num">01 / Access Control</div><h3>Control who goes where, and when.</h3><p>Smart, scalable access systems tailored to your operations and compliance needs.</p></div>
+        <div class="solution-card"><div class="solution-num">02 / Video Surveillance</div><h3>Eyes on every corner of your site.</h3><p>HD, 4K, thermal, and AI-enabled CCTV systems with mobile alerts.</p></div>
+        <div class="solution-card"><div class="solution-num">03 / Visitor Management</div><h3>Know who's on-site, in real time.</h3><p>Streamlined check-in systems that make a strong first impression.</p></div>
+        <div class="solution-card"><div class="solution-num">04 / Maintenance</div><h3>Always-on systems. Always-on support.</h3><p>Tailored maintenance plans, 24/7 monitoring, and emergency response.</p></div>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<!-- ===== PAIRING B: Deep espresso + light putty ===== -->
+<section class="option pair-b">
+  <div class="option-label">
+    <span class="option-label-name">
+      <strong>Pairing B — Espresso + light putty</strong><br>
+      Darker hero, brighter body. Bigger contrast jump = more breathable for long content.
+    </span>
+    <div class="swatches">
+      <div class="swatch"><div class="swatch-chip" style="background:#1A1513"></div><div class="swatch-label">Hero</div><div class="swatch-hex">#1A1513</div></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#E6E1D7"></div><div class="swatch-label">Body</div><div class="swatch-hex">#E6E1D7</div></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#E51838"></div><div class="swatch-label">Accent</div><div class="swatch-hex">#E51838</div></div>
+    </div>
+  </div>
+
+  <div class="surface dark"><div class="inner">
+    <div class="banner-inner">
+      <a class="banner-logo" href="#"><img src="./public/images/ktronics-logo.png" alt="Ktronics" /></a>
+      <nav class="banner-nav"><a href="#">Solutions</a><a href="#">Industries</a><a href="#">Work</a><a href="#">About</a><a href="#">Resources</a><a href="#">Contact</a></nav>
+      <div class="banner-cta"><span class="banner-cta-label">Sydney • Call</span><a href="tel:1300621060">1300 621 060</a></div>
+    </div>
+    <div class="hero">
+      <div class="hero-meta">
+        <span class="hero-meta-item"><span class="hero-meta-item-label">Established</span><strong>2003</strong></span>
+        <span class="hero-meta-item"><span class="hero-meta-item-label">Membership</span><strong>ASIAL Gold Member</strong></span>
+        <span class="hero-meta-item"><span class="hero-meta-item-label">NSW Master Licence</span><strong>102039</strong></span>
+      </div>
+      <div class="hero-grid">
+        <div>
+          <h2>Commercial security systems that <em>actually work</em> when you need them.</h2>
+          <p class="hero-lead">Sydney's trusted electronic security installer for two decades.</p>
+          <a class="hero-cta" href="#">Get a quote →</a>
+        </div>
+        <div class="hero-img"><div class="hero-img-tag">● Karl Lamb / MD</div></div>
+      </div>
+    </div>
+  </div></div>
+
+  <div class="surface light"><div class="inner">
+    <div class="stats"><div class="stats-grid">
+      <div><div class="stat-num">22<small>+</small></div><div class="stat-label">Years protecting<br>Sydney businesses</div></div>
+      <div><div class="stat-num">90<small>+</small></div><div class="stat-label">Years combined<br>technical experience</div></div>
+      <div><div class="stat-num">20<small>+</small></div><div class="stat-label">Years with our<br>longest-standing clients</div></div>
+      <div><div class="stat-num">24/7</div><div class="stat-label">Monitoring &amp; emergency<br>response available</div></div>
+    </div></div>
+  </div></div>
+
+  <div class="surface light"><div class="inner">
+    <div class="solutions">
+      <span class="eyebrow">01 / What we do</span>
+      <h2 class="sol-h2">Four pillars of commercial electronic security.</h2>
+      <div class="solutions-grid">
+        <div class="solution-card"><div class="solution-num">01 / Access Control</div><h3>Control who goes where, and when.</h3><p>Smart, scalable access systems tailored to your operations and compliance needs.</p></div>
+        <div class="solution-card"><div class="solution-num">02 / Video Surveillance</div><h3>Eyes on every corner of your site.</h3><p>HD, 4K, thermal, and AI-enabled CCTV systems with mobile alerts.</p></div>
+        <div class="solution-card"><div class="solution-num">03 / Visitor Management</div><h3>Know who's on-site, in real time.</h3><p>Streamlined check-in systems that make a strong first impression.</p></div>
+        <div class="solution-card"><div class="solution-num">04 / Maintenance</div><h3>Always-on systems. Always-on support.</h3><p>Tailored maintenance plans, 24/7 monitoring, and emergency response.</p></div>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<!-- ===== PAIRING C: Cool charcoal + greige ===== -->
+<section class="option pair-c">
+  <div class="option-label">
+    <span class="option-label-name">
+      <strong>Pairing C — Cool charcoal + greige</strong><br>
+      Slight cool/blue undertone. More "tech / engineering", less "trade workshop".
+    </span>
+    <div class="swatches">
+      <div class="swatch"><div class="swatch-chip" style="background:#1B1D20"></div><div class="swatch-label">Hero</div><div class="swatch-hex">#1B1D20</div></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#D7D3CB"></div><div class="swatch-label">Body</div><div class="swatch-hex">#D7D3CB</div></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#E51838"></div><div class="swatch-label">Accent</div><div class="swatch-hex">#E51838</div></div>
+    </div>
+  </div>
+
+  <div class="surface dark"><div class="inner">
+    <div class="banner-inner">
+      <a class="banner-logo" href="#"><img src="./public/images/ktronics-logo.png" alt="Ktronics" /></a>
+      <nav class="banner-nav"><a href="#">Solutions</a><a href="#">Industries</a><a href="#">Work</a><a href="#">About</a><a href="#">Resources</a><a href="#">Contact</a></nav>
+      <div class="banner-cta"><span class="banner-cta-label">Sydney • Call</span><a href="tel:1300621060">1300 621 060</a></div>
+    </div>
+    <div class="hero">
+      <div class="hero-meta">
+        <span class="hero-meta-item"><span class="hero-meta-item-label">Established</span><strong>2003</strong></span>
+        <span class="hero-meta-item"><span class="hero-meta-item-label">Membership</span><strong>ASIAL Gold Member</strong></span>
+        <span class="hero-meta-item"><span class="hero-meta-item-label">NSW Master Licence</span><strong>102039</strong></span>
+      </div>
+      <div class="hero-grid">
+        <div>
+          <h2>Commercial security systems that <em>actually work</em> when you need them.</h2>
+          <p class="hero-lead">Sydney's trusted electronic security installer for two decades.</p>
+          <a class="hero-cta" href="#">Get a quote →</a>
+        </div>
+        <div class="hero-img"><div class="hero-img-tag">● Karl Lamb / MD</div></div>
+      </div>
+    </div>
+  </div></div>
+
+  <div class="surface light"><div class="inner">
+    <div class="stats"><div class="stats-grid">
+      <div><div class="stat-num">22<small>+</small></div><div class="stat-label">Years protecting<br>Sydney businesses</div></div>
+      <div><div class="stat-num">90<small>+</small></div><div class="stat-label">Years combined<br>technical experience</div></div>
+      <div><div class="stat-num">20<small>+</small></div><div class="stat-label">Years with our<br>longest-standing clients</div></div>
+      <div><div class="stat-num">24/7</div><div class="stat-label">Monitoring &amp; emergency<br>response available</div></div>
+    </div></div>
+  </div></div>
+
+  <div class="surface light"><div class="inner">
+    <div class="solutions">
+      <span class="eyebrow">01 / What we do</span>
+      <h2 class="sol-h2">Four pillars of commercial electronic security.</h2>
+      <div class="solutions-grid">
+        <div class="solution-card"><div class="solution-num">01 / Access Control</div><h3>Control who goes where, and when.</h3><p>Smart, scalable access systems tailored to your operations and compliance needs.</p></div>
+        <div class="solution-card"><div class="solution-num">02 / Video Surveillance</div><h3>Eyes on every corner of your site.</h3><p>HD, 4K, thermal, and AI-enabled CCTV systems with mobile alerts.</p></div>
+        <div class="solution-card"><div class="solution-num">03 / Visitor Management</div><h3>Know who's on-site, in real time.</h3><p>Streamlined check-in systems that make a strong first impression.</p></div>
+        <div class="solution-card"><div class="solution-num">04 / Maintenance</div><h3>Always-on systems. Always-on support.</h3><p>Tailored maintenance plans, 24/7 monitoring, and emergency response.</p></div>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<!-- ===== PAIRING D: Soft charcoal + warm sand ===== -->
+<section class="option pair-d">
+  <div class="option-label">
+    <span class="option-label-name">
+      <strong>Pairing D — Soft charcoal + warm sand</strong><br>
+      Lighter, warmer dark. Body has more pigment / yellow. Most approachable / human.
+    </span>
+    <div class="swatches">
+      <div class="swatch"><div class="swatch-chip" style="background:#2A2422"></div><div class="swatch-label">Hero</div><div class="swatch-hex">#2A2422</div></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#E2DBCB"></div><div class="swatch-label">Body</div><div class="swatch-hex">#E2DBCB</div></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#E51838"></div><div class="swatch-label">Accent</div><div class="swatch-hex">#E51838</div></div>
+    </div>
+  </div>
+
+  <div class="surface dark"><div class="inner">
+    <div class="banner-inner">
+      <a class="banner-logo" href="#"><img src="./public/images/ktronics-logo.png" alt="Ktronics" /></a>
+      <nav class="banner-nav"><a href="#">Solutions</a><a href="#">Industries</a><a href="#">Work</a><a href="#">About</a><a href="#">Resources</a><a href="#">Contact</a></nav>
+      <div class="banner-cta"><span class="banner-cta-label">Sydney • Call</span><a href="tel:1300621060">1300 621 060</a></div>
+    </div>
+    <div class="hero">
+      <div class="hero-meta">
+        <span class="hero-meta-item"><span class="hero-meta-item-label">Established</span><strong>2003</strong></span>
+        <span class="hero-meta-item"><span class="hero-meta-item-label">Membership</span><strong>ASIAL Gold Member</strong></span>
+        <span class="hero-meta-item"><span class="hero-meta-item-label">NSW Master Licence</span><strong>102039</strong></span>
+      </div>
+      <div class="hero-grid">
+        <div>
+          <h2>Commercial security systems that <em>actually work</em> when you need them.</h2>
+          <p class="hero-lead">Sydney's trusted electronic security installer for two decades.</p>
+          <a class="hero-cta" href="#">Get a quote →</a>
+        </div>
+        <div class="hero-img"><div class="hero-img-tag">● Karl Lamb / MD</div></div>
+      </div>
+    </div>
+  </div></div>
+
+  <div class="surface light"><div class="inner">
+    <div class="stats"><div class="stats-grid">
+      <div><div class="stat-num">22<small>+</small></div><div class="stat-label">Years protecting<br>Sydney businesses</div></div>
+      <div><div class="stat-num">90<small>+</small></div><div class="stat-label">Years combined<br>technical experience</div></div>
+      <div><div class="stat-num">20<small>+</small></div><div class="stat-label">Years with our<br>longest-standing clients</div></div>
+      <div><div class="stat-num">24/7</div><div class="stat-label">Monitoring &amp; emergency<br>response available</div></div>
+    </div></div>
+  </div></div>
+
+  <div class="surface light"><div class="inner">
+    <div class="solutions">
+      <span class="eyebrow">01 / What we do</span>
+      <h2 class="sol-h2">Four pillars of commercial electronic security.</h2>
+      <div class="solutions-grid">
+        <div class="solution-card"><div class="solution-num">01 / Access Control</div><h3>Control who goes where, and when.</h3><p>Smart, scalable access systems tailored to your operations and compliance needs.</p></div>
+        <div class="solution-card"><div class="solution-num">02 / Video Surveillance</div><h3>Eyes on every corner of your site.</h3><p>HD, 4K, thermal, and AI-enabled CCTV systems with mobile alerts.</p></div>
+        <div class="solution-card"><div class="solution-num">03 / Visitor Management</div><h3>Know who's on-site, in real time.</h3><p>Streamlined check-in systems that make a strong first impression.</p></div>
+        <div class="solution-card"><div class="solution-num">04 / Maintenance</div><h3>Always-on systems. Always-on support.</h3><p>Tailored maintenance plans, 24/7 monitoring, and emergency response.</p></div>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,182 @@
+---
+/**
+ * 2x2 grid of solution cards. Hairline borders only — no shadows.
+ * Hover: white wash, red top-rule slides in (3px), title shifts red,
+ * trailing arrow translates ↗.
+ */
+import SectionHeader from '@components/ui/SectionHeader.astro';
+
+interface Solution {
+  num: string;     // "01"
+  label: string;   // "Access Control"
+  href: string;
+  title: string;
+  description: string;
+  icon: string;    // path under /public
+}
+
+const solutions: Solution[] = [
+  {
+    num: '01',
+    label: 'Access Control',
+    href: '/solutions/access-control/',
+    title: 'Control who goes where, and when.',
+    description:
+      'Smart, scalable access systems. Card, mobile, biometric, or cloud-managed, tailored to your operations and compliance needs.',
+    icon: '/images/icons/access-control.png',
+  },
+  {
+    num: '02',
+    label: 'Video Surveillance',
+    href: '/solutions/video-surveillance/',
+    title: 'Eyes on every corner of your site.',
+    description:
+      'HD, 4K, thermal, and AI-enabled CCTV systems. Real-time monitoring, evidence-grade footage, mobile alerts.',
+    icon: '/images/icons/video-surveillance.png',
+  },
+  {
+    num: '03',
+    label: 'Visitor Management',
+    href: '/solutions/visitor-management/',
+    title: 'Know who\u2019s on-site, in real time.',
+    description:
+      'Streamlined check-in systems that make a strong first impression while keeping site security tight.',
+    icon: '/images/icons/visitor-management.png',
+  },
+  {
+    num: '04',
+    label: 'Maintenance & Monitoring',
+    href: '/solutions/maintenance-monitoring/',
+    title: 'Always-on systems. Always-on support.',
+    description:
+      'Tailored maintenance plans, 24/7 monitoring, and emergency response. Compliance and uptime, guaranteed.',
+    icon: '/images/icons/maintenance-monitoring.png',
+  },
+];
+---
+<section id="solutions">
+  <div class="container">
+    <SectionHeader
+      eyebrow="What we do"
+      heading="Four pillars of commercial electronic security."
+      text="Every site is different. Every install is custom. We design to your operations, your compliance needs, and the way your people actually work."
+    />
+    <div class="solutions-grid reveal">
+      {solutions.map((s) => (
+        <a href={s.href} class="solution-card">
+          <img
+            class="solution-icon"
+            src={s.icon}
+            alt=""
+            width="64"
+            height="64"
+            loading="lazy"
+            decoding="async"
+            aria-hidden="true"
+          />
+          <div class="solution-num">{s.num} / {s.label}</div>
+          <h3>{s.title}</h3>
+          <p>{s.description}</p>
+          <div class="solution-foot">
+            <span>Read more</span>
+            <span class="solution-arrow" aria-hidden="true">↗</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .solutions-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--ktx-line);
+    border-left: 1px solid var(--ktx-line);
+  }
+  .solution-card {
+    padding: 40px;
+    border-right: 1px solid var(--ktx-line);
+    border-bottom: 1px solid var(--ktx-line);
+    background: var(--ktx-paper);
+    position: relative;
+    transition: background 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    min-height: 280px;
+  }
+  .solution-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 0;
+    background: var(--ktx-red);
+    transition: height 0.25s var(--ease);
+  }
+  .solution-card:hover { background: var(--ktx-paper-hover); }
+  .solution-card:hover::before { height: 3px; }
+  .solution-card:hover h3 { color: var(--ktx-red); }
+  .solution-card:hover .solution-arrow {
+    transform: translate(4px, -4px);
+    border-color: var(--ktx-red);
+    color: var(--ktx-red);
+  }
+
+  .solution-icon {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 24px;
+    object-fit: contain;
+    transition: transform 0.25s var(--ease);
+  }
+  .solution-card:hover .solution-icon {
+    transform: scale(1.05);
+  }
+  .solution-num {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--ktx-mute);
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+  }
+  .solution-card h3 {
+    margin-bottom: 12px;
+    transition: color 0.2s ease;
+  }
+  .solution-card p {
+    color: var(--ktx-ink-soft);
+    margin: 0 0 24px;
+    flex-grow: 1;
+  }
+  .solution-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+  }
+  .solution-foot span:first-child {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--ktx-mute);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .solution-arrow {
+    width: 32px;
+    height: 32px;
+    border: 1.5px solid var(--ktx-ink);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ktx-ink);
+    transition: transform 0.25s var(--ease), color 0.2s ease, border-color 0.2s ease;
+  }
+  @media (max-width: 720px) {
+    .solutions-grid { grid-template-columns: 1fr; }
+    .solution-card { padding: 32px; min-height: 0; }
+  }
+</style>

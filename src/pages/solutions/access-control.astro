@@ -1,0 +1,64 @@
+---
+/**
+ * /solutions/access-control/
+ *
+ * Composition:
+ *   SolutionHero (dark)        — hero with icon, headline, lead, CTA
+ *   Capabilities (light)       — 6-up capability grid
+ *   HowItWorks (dark)          — 4-stage process
+ *   Faqs (light)               — 4 page-specific Qs (FAQPage schema in head)
+ *   RelatedSolutions (paper-2) — cross-sell to the other 3 solutions
+ *   CtaBlock (dark)            — final CTA
+ *
+ * Schema:
+ *   - Service JSON-LD (this is a service page)
+ *   - FAQPage JSON-LD (per-page FAQs)
+ *   - BreadcrumbList JSON-LD
+ *   - Organization + LocalBusiness via BaseLayout
+ */
+import PageLayout from '@layouts/PageLayout.astro';
+import SolutionHero from '@components/sections/SolutionHero.astro';
+import Capabilities from '@components/sections/Capabilities.astro';
+import HowItWorks from '@components/sections/HowItWorks.astro';
+import Faqs from '@components/sections/Faqs.astro';
+import RelatedSolutions from '@components/sections/RelatedSolutions.astro';
+import CtaBlock from '@components/sections/CtaBlock.astro';
+import { breadcrumbSchema, faqPageSchema, serviceSchema } from '@lib/schema';
+import { getSolution } from '@lib/solutions';
+import { site } from '@lib/site';
+
+const solution = getSolution('access-control');
+const url = `${site.url}/solutions/${solution.slug}/`;
+
+const seo = {
+  title: `${solution.pageTitle} | Ktronics`,
+  description:
+    'Commercial access control in Sydney: card, mobile, biometric, cloud-managed. Lenel, Tecom, Axis integration. Since 2003. ASIAL Gold Member.',
+  path: `/solutions/${solution.slug}/`,
+};
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: `${site.url}/` },
+  { name: 'Solutions', url: `${site.url}/solutions/` },
+  { name: solution.label },
+]);
+
+const service = serviceSchema({
+  serviceType: 'Access Control Installation',
+  description: solution.heroLead,
+  url,
+});
+
+const faqSchema = faqPageSchema(solution.faqs);
+---
+<PageLayout seo={seo} schemaBlocks={[breadcrumbs, service, faqSchema]}>
+  <SolutionHero solution={solution} />
+  <Capabilities items={solution.capabilities} />
+  <HowItWorks steps={solution.process} />
+  <Faqs items={solution.faqs} eyebrow="Common questions" heading="Frequently asked." />
+  <RelatedSolutions currentSlug={solution.slug} />
+  <CtaBlock
+    heading="Ready to scope your access control? <em>Let&apos;s walk the site.</em>"
+    buttonText="Request a site assessment"
+  />
+</PageLayout>
