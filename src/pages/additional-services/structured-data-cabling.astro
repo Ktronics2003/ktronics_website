@@ -1,0 +1,112 @@
+---
+/**
+ * /additional-services/structured-data-cabling/
+ * See test-and-tag.astro for composition rationale.
+ */
+import PageLayout from '@layouts/PageLayout.astro';
+import Eyebrow from '@components/ui/Eyebrow.astro';
+import Capabilities from '@components/sections/Capabilities.astro';
+import Faqs from '@components/sections/Faqs.astro';
+import CtaBlock from '@components/sections/CtaBlock.astro';
+import Button from '@components/ui/Button.astro';
+import { breadcrumbSchema, faqPageSchema, serviceSchema } from '@lib/schema';
+import { getAdditionalService } from '@lib/additionalServices';
+import { site } from '@lib/site';
+
+const service = getAdditionalService('structured-data-cabling');
+const url = `${site.url}/additional-services/${service.slug}/`;
+
+const seo = {
+  title: `${service.pageTitle} | Ktronics`,
+  description:
+    "Commercial structured data cabling in Sydney: Cat 6, Cat 6A, single and multi-mode fibre. Comms rack fit-out, certification, as-built drawings. ACMA registered.",
+  path: `/additional-services/${service.slug}/`,
+};
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: `${site.url}/` },
+  { name: 'Additional Services', url: `${site.url}/additional-services/` },
+  { name: service.label },
+]);
+
+const serviceLd = serviceSchema({
+  serviceType: 'Structured Data Cabling',
+  description: service.heroLead,
+  url,
+});
+
+const faqSchema = faqPageSchema(service.faqs);
+---
+<PageLayout seo={seo} schemaBlocks={[breadcrumbs, serviceLd, faqSchema]}>
+  <section class="addsvc-hero on-dark">
+    <div class="container addsvc-hero-grid">
+      <div class="addsvc-hero-text">
+        <Eyebrow>Additional Services</Eyebrow>
+        <h1 class="addsvc-title">{service.pageTitle.replace(' | Ktronics', '')}</h1>
+        <p class="addsvc-lead">{service.heroLead}</p>
+        <div class="addsvc-cta-row">
+          <Button href="/contact/" variant="primary">Request a quote</Button>
+          <Button href="/additional-services/" variant="secondary" arrow={false}>Other services</Button>
+        </div>
+      </div>
+      <div class="addsvc-hero-icon">
+        <img src={service.icon} alt="" width="128" height="128" aria-hidden="true" />
+      </div>
+    </div>
+  </section>
+
+  <Capabilities items={service.capabilities} />
+  <Faqs items={service.faqs} eyebrow="Common questions" heading="Frequently asked." />
+  <CtaBlock
+    heading="Got a fit-out coming up? <em>Let&apos;s walk the comms requirements.</em>"
+    buttonText="Request a quote"
+  />
+</PageLayout>
+
+<style>
+  .addsvc-hero {
+    background: var(--bg-dark);
+    color: var(--fg-on-dark);
+    padding-block: clamp(72px, 9vw, 128px);
+  }
+  .addsvc-hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 200px;
+    gap: 48px;
+    align-items: center;
+  }
+  .addsvc-title {
+    margin: 16px 0 24px;
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.035em;
+    color: var(--fg-on-dark);
+    text-wrap: balance;
+  }
+  .addsvc-lead {
+    color: var(--fg-mute-on-dark);
+    font-size: var(--t-lead);
+    line-height: 1.6;
+    max-width: 64ch;
+    margin: 0 0 32px;
+  }
+  .addsvc-cta-row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .addsvc-hero-icon {
+    display: flex;
+    justify-content: center;
+  }
+  .addsvc-hero-icon img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+  }
+  @media (max-width: 800px) {
+    .addsvc-hero-grid { grid-template-columns: 1fr; }
+    .addsvc-hero-icon { order: -1; max-width: 120px; margin: 0; }
+  }
+</style>

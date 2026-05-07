@@ -33,6 +33,13 @@ Ktronics Pty Ltd is a commercial electronic security specialist based in Brookva
 - [Corporate offices](https://www.ktronics.com.au/industries/corporate-offices/)
 - [Retail and hospitality](https://www.ktronics.com.au/industries/retail-hospitality/)
 
+## Additional services
+
+Complementary trade services Ktronics performs alongside the security pillars, often bundled into the same service contract.
+
+- [Test and tag (AS/NZS 3760)](https://www.ktronics.com.au/additional-services/test-and-tag/): compliant electrical safety testing and tagging of portable appliances for commercial sites
+- [Structured data cabling](https://www.ktronics.com.au/additional-services/structured-data-cabling/): Cat 6, Cat 6A, single and multi-mode fibre, comms rack fit-out, ACMA-registered cablers
+
 ## Buying guides and FAQs
 
 - [Frequently asked questions](https://www.ktronics.com.au/resources/faqs/): canonical Q&A on pricing, compliance, monitoring, lifecycle, choosing an installer

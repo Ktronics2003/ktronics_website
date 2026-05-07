@@ -1,0 +1,118 @@
+---
+/**
+ * /additional-services/test-and-tag/
+ *
+ * Lighter composition than the security pillar pages:
+ *   - Hero (dark) with eyebrow, h1, lead, CTA
+ *   - Capabilities grid (light)
+ *   - FAQs (light) + FAQPage schema
+ *   - CTA (dark)
+ */
+import PageLayout from '@layouts/PageLayout.astro';
+import Eyebrow from '@components/ui/Eyebrow.astro';
+import Capabilities from '@components/sections/Capabilities.astro';
+import Faqs from '@components/sections/Faqs.astro';
+import CtaBlock from '@components/sections/CtaBlock.astro';
+import Button from '@components/ui/Button.astro';
+import { breadcrumbSchema, faqPageSchema, serviceSchema } from '@lib/schema';
+import { getAdditionalService } from '@lib/additionalServices';
+import { site } from '@lib/site';
+
+const service = getAdditionalService('test-and-tag');
+const url = `${site.url}/additional-services/${service.slug}/`;
+
+const seo = {
+  title: `${service.pageTitle} | Ktronics`,
+  description:
+    "AS/NZS 3760 compliant test and tag for Sydney commercial sites. Bundled with your security service contract or as a standalone job. Tagged, registered, audit-ready.",
+  path: `/additional-services/${service.slug}/`,
+};
+
+const breadcrumbs = breadcrumbSchema([
+  { name: 'Home', url: `${site.url}/` },
+  { name: 'Additional Services', url: `${site.url}/additional-services/` },
+  { name: service.label },
+]);
+
+const serviceLd = serviceSchema({
+  serviceType: 'Test and Tag (AS/NZS 3760)',
+  description: service.heroLead,
+  url,
+});
+
+const faqSchema = faqPageSchema(service.faqs);
+---
+<PageLayout seo={seo} schemaBlocks={[breadcrumbs, serviceLd, faqSchema]}>
+  {/* ----- Hero ----- */}
+  <section class="addsvc-hero on-dark">
+    <div class="container addsvc-hero-grid">
+      <div class="addsvc-hero-text">
+        <Eyebrow>Additional Services</Eyebrow>
+        <h1 class="addsvc-title">{service.pageTitle.replace(' | Ktronics', '')}</h1>
+        <p class="addsvc-lead">{service.heroLead}</p>
+        <div class="addsvc-cta-row">
+          <Button href="/contact/" variant="primary">Request a quote</Button>
+          <Button href="/additional-services/" variant="secondary" arrow={false}>Other services</Button>
+        </div>
+      </div>
+      <div class="addsvc-hero-icon">
+        <img src={service.icon} alt="" width="128" height="128" aria-hidden="true" />
+      </div>
+    </div>
+  </section>
+
+  <Capabilities items={service.capabilities} />
+  <Faqs items={service.faqs} eyebrow="Common questions" heading="Frequently asked." />
+  <CtaBlock
+    heading="Want test and tag bundled with your service visit? <em>Just ask.</em>"
+    buttonText="Request a quote"
+  />
+</PageLayout>
+
+<style>
+  .addsvc-hero {
+    background: var(--bg-dark);
+    color: var(--fg-on-dark);
+    padding-block: clamp(72px, 9vw, 128px);
+  }
+  .addsvc-hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 200px;
+    gap: 48px;
+    align-items: center;
+  }
+  .addsvc-title {
+    margin: 16px 0 24px;
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.035em;
+    color: var(--fg-on-dark);
+    text-wrap: balance;
+  }
+  .addsvc-lead {
+    color: var(--fg-mute-on-dark);
+    font-size: var(--t-lead);
+    line-height: 1.6;
+    max-width: 64ch;
+    margin: 0 0 32px;
+  }
+  .addsvc-cta-row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .addsvc-hero-icon {
+    display: flex;
+    justify-content: center;
+  }
+  .addsvc-hero-icon img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+  }
+  @media (max-width: 800px) {
+    .addsvc-hero-grid { grid-template-columns: 1fr; }
+    .addsvc-hero-icon { order: -1; max-width: 120px; margin: 0; }
+  }
+</style>

@@ -68,6 +68,7 @@ export const site = {
   primaryNav: [
     { label: 'Solutions', href: '/solutions/' },
     { label: 'Industries', href: '/industries/' },
+    { label: 'Additional Services', href: '/additional-services/' },
     { label: 'Work', href: '/case-studies/' },
     { label: 'About', href: '/about/' },
     { label: 'Resources', href: '/resources/' },
