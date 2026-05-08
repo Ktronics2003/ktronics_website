@@ -29,23 +29,23 @@ const isCurrent = (href: string) =>
 // detail pages (Solutions + Industries). The "All ..." leading entry routes
 // back to the hub; the rest are the individual pages. Children are computed
 // live from their data files so additions appear automatically.
+// Solutions dropdown holds all six security pillars plus the two add-on
+// services (Test & Tag, Data Cabling) at the bottom. Add-ons live at
+// /additional-services/* URLs but appear under the Solutions nav per the
+// product framing decision (one nav menu, not two).
 const solutionChildren: NavChild[] = [
   { label: 'All solutions', href: '/solutions/' },
   ...allSolutions().map((s) => ({ label: s.label, href: `/solutions/${s.slug}/` })),
+  ...allAdditionalServices().map((s) => ({ label: s.label, href: `/additional-services/${s.slug}/` })),
 ];
 const industryChildren: NavChild[] = [
   { label: 'All industries', href: '/industries/' },
   ...allIndustries().map((i) => ({ label: i.label, href: `/industries/${i.slug}/` })),
 ];
-const additionalServiceChildren: NavChild[] = [
-  { label: 'All services', href: '/additional-services/' },
-  ...allAdditionalServices().map((s) => ({ label: s.label, href: `/additional-services/${s.slug}/` })),
-];
 
 const navItems: NavItem[] = site.primaryNav.map((item) => {
-  if (item.label === 'Solutions')           return { ...item, children: solutionChildren };
-  if (item.label === 'Industries')          return { ...item, children: industryChildren };
-  if (item.label === 'Additional Services') return { ...item, children: additionalServiceChildren };
+  if (item.label === 'Solutions')  return { ...item, children: solutionChildren };
+  if (item.label === 'Industries') return { ...item, children: industryChildren };
   return { ...item };
 });
 

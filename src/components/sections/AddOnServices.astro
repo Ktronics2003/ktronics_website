@@ -1,0 +1,138 @@
+---
+/**
+ * Two-card "Add-on services" strip that sits beneath the homepage SolutionsGrid.
+ * Visually quieter than the six pillars (smaller heading, two-column grid,
+ * lighter background) so the security pillars stay the headline brand story.
+ *
+ * Pulls from lib/additionalServices.ts so adding a third add-on later
+ * surfaces here automatically.
+ */
+import { allAdditionalServices } from '@lib/additionalServices';
+const services = allAdditionalServices();
+---
+<section class="addons">
+  <div class="container">
+    <div class="addons-header">
+      <span class="addons-eyebrow">Add-on services</span>
+      <h2 class="addons-heading">Two trade services we run on every commercial install.</h2>
+      <p class="addons-lead">
+        Bundled into your scheduled service contract or available as standalone jobs.
+      </p>
+    </div>
+
+    <ul class="addons-grid">
+      {services.map((s) => (
+        <li>
+          <a href={`/additional-services/${s.slug}/`} class="addon-card">
+            <img class="addon-icon" src={s.icon} alt="" width="48" height="48" aria-hidden="true" />
+            <div class="addon-meta">
+              <h3 class="addon-title">{s.label}</h3>
+              <p class="addon-body">{s.shortDescription}</p>
+            </div>
+            <span class="addon-arrow" aria-hidden="true">↗</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .addons {
+    padding-block: clamp(56px, 7vw, 88px);
+    background: var(--bg-alt);
+  }
+  .addons-header {
+    max-width: 60ch;
+    margin-bottom: 32px;
+  }
+  .addons-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-text);
+    display: block;
+    margin-bottom: 12px;
+  }
+  .addons-heading {
+    margin: 0 0 12px;
+    font-size: clamp(1.375rem, 2.2vw, 1.75rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+  .addons-lead {
+    color: var(--ktx-ink-soft);
+    font-size: 1rem;
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  .addons-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--ktx-line);
+    border-left: 1px solid var(--ktx-line);
+  }
+  .addon-card {
+    display: grid;
+    grid-template-columns: 56px 1fr 32px;
+    gap: 20px;
+    align-items: center;
+    padding: 28px 32px;
+    border-right: 1px solid var(--ktx-line);
+    border-bottom: 1px solid var(--ktx-line);
+    background: var(--bg);
+    transition: background 0.2s ease;
+    position: relative;
+  }
+  .addon-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 0;
+    background: var(--ktx-red);
+    transition: height 0.25s var(--ease);
+  }
+  .addon-card:hover { background: var(--ktx-paper-hover); }
+  .addon-card:hover::before { height: 3px; }
+  .addon-card:hover .addon-title { color: var(--ktx-red); }
+  .addon-card:hover .addon-arrow { color: var(--ktx-red); transform: translate(2px, -2px); }
+  .addon-card:hover .addon-icon { transform: scale(1.05); }
+
+  .addon-icon {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    transition: transform 0.25s var(--ease);
+  }
+  .addon-title {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 0 0 4px;
+    transition: color 0.2s ease;
+  }
+  .addon-body {
+    color: var(--ktx-ink-soft);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+  .addon-arrow {
+    font-size: 1.25rem;
+    color: var(--ktx-mute);
+    transition: color 0.2s ease, transform 0.2s var(--ease);
+  }
+
+  @media (max-width: 720px) {
+    .addons-grid { grid-template-columns: 1fr; }
+    .addon-card { padding: 24px; }
+  }
+</style>
