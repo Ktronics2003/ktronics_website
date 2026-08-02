@@ -1,0 +1,1671 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ktronics — Operations platform (mockup)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#E51838; --red-dk:#C0122E;
+  --ink:#16181A; --ink2:#1F2225; --ink3:#2B2F33;
+  --paper:#E6E2DA; --card:#F1EEE8; --rule:#C8C2B6; --rule2:#DCD7CD;
+  --mute:#6B665D; --text:#1B1D20;
+  --ok:#2E7D5B; --warn:#B5761A; --bad:#C0122E; --blue:#2C5F8A;
+}
+*,*::before,*::after{box-sizing:border-box;}
+body{margin:0;background:var(--paper);color:var(--text);font-family:'Roboto',system-ui,sans-serif;font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+button,input,select{font-family:'Roboto',sans-serif;}
+.mono,.num,th,.tag,.pill,.btn,.fld,.sub,.badge,.sechead,.eyebrow{font-family:'Roboto Mono',monospace;}
+
+/* ---------- shell ---------- */
+.app{display:grid;grid-template-columns:228px 1fr;min-height:100vh;}
+.rail{background:var(--ink);color:#EFEDE8;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;}
+.brand{padding:20px 18px 16px;border-bottom:1px solid rgba(255,255,255,.1);}
+.brand .logo{font-weight:900;font-size:1.125rem;letter-spacing:-.03em;}
+.brand .logo b{color:var(--red);}
+.brand .sub{font-size:.5625rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(239,237,232,.4);margin-top:3px;}
+.nav{padding:10px 0;flex:1;overflow-y:auto;}
+.nav button{display:flex;align-items:center;gap:9px;width:100%;text-align:left;background:none;border:none;
+  padding:10px 18px;color:rgba(239,237,232,.6);font-size:.875rem;cursor:pointer;border-left:2px solid transparent;}
+.nav button:hover{color:#fff;background:rgba(255,255,255,.04);}
+.nav button[aria-current="true"]{color:#fff;border-left-color:var(--red);background:rgba(255,255,255,.06);font-weight:500;}
+.nav .kids{background:rgba(0,0,0,.28);}
+.nav .kids button{padding:8px 18px 8px 32px;font-size:.8125rem;color:rgba(239,237,232,.5);}
+.nav .kids button::before{content:"";width:5px;height:1px;background:currentColor;flex:none;margin-right:-4px;}
+.nav .kids button[aria-current="true"]{color:#fff;font-weight:500;}
+.badge{margin-left:auto;font-size:.625rem;background:rgba(255,255,255,.14);color:rgba(255,255,255,.72);padding:1px 6px;border-radius:9px;}
+.badge.hot{background:var(--red);color:#fff;}
+.railfoot{padding:13px 18px;border-top:1px solid rgba(255,255,255,.1);font-size:.5625rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(239,237,232,.34);line-height:1.8;}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--ok);margin-right:6px;}
+
+.main{min-width:0;}
+.topbar{background:var(--ink2);color:#EFEDE8;padding:15px 26px;display:flex;align-items:center;gap:18px;border-bottom:2px solid var(--red);}
+.topbar h1{margin:0;font-size:1.125rem;font-weight:500;letter-spacing:-.01em;}
+.topbar .desc{font-size:.8125rem;color:rgba(239,237,232,.52);margin-left:auto;text-align:right;max-width:48ch;}
+.body{padding:20px 26px 60px;}
+
+/* ---------- primitives ---------- */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);margin-bottom:20px;}
+.stat{background:var(--card);padding:15px 17px;}
+.stat b{display:block;font-size:1.625rem;font-weight:500;letter-spacing:-.03em;line-height:1.15;}
+.stat span{font-family:'Roboto Mono',monospace;font-size:.625rem;letter-spacing:.09em;text-transform:uppercase;color:var(--mute);display:block;margin-top:4px;line-height:1.4;}
+.stat.alert b{color:var(--red);}
+
+.panel{background:var(--card);border:1px solid var(--rule);margin-bottom:20px;}
+.panel-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 18px;border-bottom:1px solid var(--rule);}
+.panel-head h2{margin:0;font-size:.9375rem;font-weight:500;}
+.panel-head .hint{font-size:.8125rem;color:var(--mute);}
+.panel-head .right{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+
+.btn{font-family:'Roboto Mono',monospace;font-size:.6875rem;letter-spacing:.08em;text-transform:uppercase;padding:8px 14px;border:1px solid var(--ink);background:var(--ink);color:#F1EEE8;cursor:pointer;transition:.15s;}
+.btn:hover{background:#000;} .btn:disabled{opacity:.3;cursor:not-allowed;}
+.btn.alt{background:transparent;color:var(--ink);} .btn.alt:hover{background:var(--rule2);}
+.btn.red{background:var(--red);border-color:var(--red);} .btn.red:hover{background:var(--red-dk);border-color:var(--red-dk);}
+.btn.sm{padding:5px 10px;font-size:.625rem;}
+.btn:focus-visible{outline:2px solid var(--red);outline-offset:2px;}
+
+select,input[type=search]{font-family:'Roboto Mono',monospace;font-size:.6875rem;padding:7px 10px;border:1px solid var(--rule);background:#fff;color:var(--text);}
+label.fld{display:flex;align-items:center;gap:7px;font-size:.625rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);}
+
+table{width:100%;border-collapse:collapse;}
+th{font-size:.5625rem;letter-spacing:.11em;text-transform:uppercase;color:var(--mute);text-align:left;padding:9px 18px;border-bottom:1px solid var(--rule);font-weight:500;white-space:nowrap;}
+td{padding:10px 18px;border-bottom:1px solid var(--rule2);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tbody tr.click{cursor:pointer;} tbody tr:hover{background:#EAE6DF;}
+td.num,th.num{font-size:.8125rem;white-space:nowrap;}
+.tag{font-family:'Roboto Mono',monospace;font-size:.6875rem;color:var(--mute);}
+.strong{font-weight:500;}
+
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:.5625rem;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border:1px solid currentColor;white-space:nowrap;}
+.p-ok{color:var(--ok);} .p-due{color:var(--warn);} .p-over{color:var(--bad);font-weight:700;}
+.p-fail{color:#fff;background:var(--bad);border-color:var(--bad);}
+.p-sched{color:var(--mute);} .p-live{color:var(--blue);} .p-won{color:#fff;background:var(--ok);border-color:var(--ok);}
+
+.empty{padding:42px 18px;text-align:center;color:var(--mute);}
+.check{width:15px;height:15px;accent-color:var(--red);cursor:pointer;}
+.bar{height:5px;background:var(--rule2);position:relative;overflow:hidden;margin-top:6px;}
+.bar span{position:absolute;inset:0 auto 0 0;background:var(--ok);}
+.bar span.warn{background:var(--warn);} .bar span.bad{background:var(--bad);} .bar span.blue{background:var(--blue);}
+.note{background:#DFDACF;border-left:3px solid var(--mute);padding:12px 16px;font-size:.8125rem;color:#4A463F;margin-bottom:20px;}
+.note b{color:var(--text);font-weight:500;}
+.sechead{font-size:.625rem;letter-spacing:.13em;text-transform:uppercase;color:var(--red);margin:0 0 10px;display:flex;align-items:center;gap:9px;}
+.sechead::after{content:"";flex:1;height:1px;background:var(--rule);}
+
+/* ---------- site plan ---------- */
+.plan-wrap{display:grid;grid-template-columns:1fr 264px;gap:0;}
+.plan{background:#DEDAD1;padding:14px;border-right:1px solid var(--rule);}
+.plan svg{width:100%;height:auto;display:block;}
+.wall{fill:none;stroke:#8C877C;stroke-width:2.5;}
+.room{fill:#E9E5DC;stroke:#B4AEA2;stroke-width:1.2;}
+.floor{fill:#F1EEE8;stroke:none;}
+.fence{fill:none;stroke:#B4AEA2;stroke-width:1.5;stroke-dasharray:7 5;}
+.rlabel{font-family:'Roboto Mono',monospace;font-size:9px;letter-spacing:.1em;fill:#8C877C;text-transform:uppercase;}
+.dock{stroke:#8C877C;stroke-width:4;}
+.pin{cursor:pointer;}
+.pin circle{stroke:#F1EEE8;stroke-width:1.6;transition:.15s;}
+.pin text{font-family:'Roboto Mono',monospace;font-size:8px;font-weight:700;fill:#fff;text-anchor:middle;pointer-events:none;}
+.pin:hover circle{stroke:var(--ink);stroke-width:2.4;}
+.pin.dim{opacity:.16;}
+.legend{padding:14px 16px;}
+.legend h4{margin:0 0 10px;font-size:.75rem;font-weight:500;}
+.legend .row{display:flex;align-items:center;gap:9px;padding:6px 0;font-size:.8125rem;cursor:pointer;}
+.legend .row input{accent-color:var(--red);}
+.legend .sw{width:15px;height:15px;border-radius:50%;flex:none;border:1.5px solid #F1EEE8;box-shadow:0 0 0 1px var(--rule);}
+.legend .ct{margin-left:auto;font-family:'Roboto Mono',monospace;font-size:.6875rem;color:var(--mute);}
+.legend hr{border:none;border-top:1px solid var(--rule);margin:14px 0;}
+
+/* ---------- schedule ---------- */
+.sched{display:grid;grid-template-columns:130px repeat(5,1fr);border-left:1px solid var(--rule);}
+.sched > div{border-right:1px solid var(--rule);border-bottom:1px solid var(--rule2);padding:7px 9px;min-height:58px;}
+.sched .hd{background:#DFDACF;font-family:'Roboto Mono',monospace;font-size:.625rem;letter-spacing:.09em;text-transform:uppercase;color:var(--mute);min-height:0;padding:9px;border-bottom:1px solid var(--rule);}
+.sched .who{background:#EAE6DF;font-size:.8125rem;font-weight:500;}
+.sched .who small{display:block;font-family:'Roboto Mono',monospace;font-size:.625rem;color:var(--mute);font-weight:400;}
+.visit{background:var(--ink);color:#F1EEE8;padding:6px 8px;margin-bottom:4px;font-size:.75rem;line-height:1.35;cursor:pointer;border-left:3px solid var(--red);}
+.visit:hover{background:#000;}
+.visit b{display:block;font-family:'Roboto Mono',monospace;font-size:.625rem;letter-spacing:.06em;color:rgba(255,255,255,.6);font-weight:400;}
+.visit.maint{border-left-color:var(--blue);} .visit.def{border-left-color:var(--warn);}
+
+/* ---------- mode switch ---------- */
+.modesw{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,.14);margin:0 18px 4px;border:1px solid rgba(255,255,255,.14);}
+.modesw button{background:transparent;border:none;color:rgba(239,237,232,.55);font-family:'Roboto Mono',monospace;font-size:.625rem;letter-spacing:.09em;text-transform:uppercase;padding:8px 4px;cursor:pointer;}
+.modesw button[aria-pressed="true"]{background:#F1EEE8;color:var(--ink);font-weight:700;}
+
+/* ---------- technician app ---------- */
+.techapp{display:none;background:#101214;min-height:100vh;}
+body.tech .app{display:none;}
+body.tech .techapp{display:block;}
+.phone{max-width:470px;margin:0 auto;background:var(--paper);min-height:100vh;padding-bottom:84px;position:relative;}
+@media(min-width:530px){.phone{box-shadow:0 0 60px rgba(0,0,0,.5);}}
+.thead{background:var(--ink);color:#F1EEE8;padding:16px 18px 16px;border-bottom:3px solid var(--red);position:sticky;top:0;z-index:12;}
+.thead .r1{display:flex;align-items:center;gap:12px;}
+.thead .hello{flex:1;min-width:0;}
+.thead .hello b{display:block;font-size:1.0625rem;font-weight:500;letter-spacing:-.01em;}
+.thead .hello span{font-family:'Roboto Mono',monospace;font-size:.625rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(239,237,232,.45);}
+.thead select{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#F1EEE8;font-size:.6875rem;padding:6px 8px;border-radius:6px;}
+.thead .back{background:none;border:1px solid rgba(255,255,255,.28);color:rgba(239,237,232,.75);font-family:'Roboto Mono',monospace;font-size:.5625rem;letter-spacing:.1em;text-transform:uppercase;padding:6px 9px;border-radius:6px;cursor:pointer;}
+.tbody{padding:16px 15px 30px;}
+.tcard{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:16px;margin-bottom:14px;}
+.tcard h3{margin:0 0 3px;font-size:.9375rem;font-weight:500;}
+.tlabel{font-family:'Roboto Mono',monospace;font-size:.5625rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);display:flex;align-items:center;gap:8px;margin-bottom:11px;}
+.tlabel::after{content:"";flex:1;height:1px;background:var(--rule);}
+
+/* message card */
+.msg{background:var(--ink);color:#F1EEE8;border:none;border-radius:12px;padding:18px;margin-bottom:16px;position:relative;overflow:hidden;}
+.msg::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red);}
+.msg .kind{font-family:'Roboto Mono',monospace;font-size:.5625rem;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-bottom:9px;}
+.msg p{margin:0;font-size:.9375rem;line-height:1.55;}
+.msg .nx{position:absolute;right:12px;bottom:11px;background:none;border:1px solid rgba(255,255,255,.25);color:rgba(239,237,232,.6);border-radius:20px;font-size:.625rem;padding:4px 11px;cursor:pointer;font-family:'Roboto Mono',monospace;letter-spacing:.08em;}
+.msg .nx:hover{background:rgba(255,255,255,.1);color:#fff;}
+
+/* big buttons */
+.bigbtn{display:flex;align-items:center;justify-content:center;gap:11px;width:100%;min-height:64px;border:none;border-radius:12px;
+  font-family:'Roboto',sans-serif;font-size:1.0625rem;font-weight:500;cursor:pointer;margin-bottom:12px;transition:.15s;padding:16px;}
+.bigbtn.go{background:var(--red);color:#fff;} .bigbtn.go:active{background:var(--red-dk);}
+.bigbtn.stop{background:transparent;color:var(--ink);border:2px solid var(--ink);} .bigbtn.stop:active{background:var(--rule2);}
+.bigbtn.proj{background:var(--ink);color:#F1EEE8;} .bigbtn.proj:active{background:#000;}
+.bigbtn:disabled{opacity:.35;cursor:not-allowed;}
+.bigbtn small{display:block;font-size:.75rem;font-weight:400;opacity:.7;margin-top:2px;}
+.onshift{background:var(--card);border:1px solid var(--rule);border-left:4px solid var(--ok);border-radius:12px;padding:15px 16px;margin-bottom:12px;display:flex;align-items:center;gap:14px;}
+.onshift .big{font-family:'Roboto Mono',monospace;font-size:1.75rem;font-weight:300;line-height:1;font-variant-numeric:tabular-nums;}
+.onshift .t{flex:1;font-size:.8125rem;line-height:1.4;}
+.onshift .t b{display:block;font-weight:500;}
+
+/* priorities */
+.prio{list-style:none;margin:0;padding:0;}
+.prio li{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--rule2);font-size:.9375rem;line-height:1.4;cursor:pointer;}
+.prio li:last-child{border-bottom:none;}
+.prio .box{width:22px;height:22px;border:2px solid var(--mute);border-radius:5px;flex:none;margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:.8125rem;color:transparent;transition:.13s;}
+.prio li.done .box{background:var(--ok);border-color:var(--ok);color:#fff;}
+.prio li.done .txt{text-decoration:line-through;color:var(--mute);}
+.prio .txt b{display:block;font-weight:500;}
+.prio .txt span{font-family:'Roboto Mono',monospace;font-size:.6875rem;color:var(--mute);}
+.prio li.urgent .txt b::after{content:"URGENT";font-family:'Roboto Mono',monospace;font-size:.5rem;letter-spacing:.1em;background:var(--red);color:#fff;padding:2px 5px;margin-left:7px;vertical-align:middle;border-radius:2px;}
+
+/* kpis */
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+.kpi{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:14px;}
+.kpi b{display:block;font-size:1.5rem;font-weight:500;letter-spacing:-.03em;line-height:1.1;}
+.kpi b em{font-style:normal;font-size:.8125rem;color:var(--mute);font-weight:400;}
+.kpi span{font-family:'Roboto Mono',monospace;font-size:.5625rem;letter-spacing:.09em;text-transform:uppercase;color:var(--mute);display:block;margin-top:4px;line-height:1.45;}
+.kpi.good b{color:var(--ok);} .kpi.bad b{color:var(--bad);}
+
+/* job cards */
+.jcard{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:15px;margin-bottom:11px;border-left:4px solid var(--blue);cursor:pointer;}
+.jcard.maint{border-left-color:var(--ok);} .jcard.def{border-left-color:var(--warn);}
+.jcard .r{display:flex;justify-content:space-between;gap:12px;align-items:baseline;}
+.jcard .rf{font-family:'Roboto Mono',monospace;font-size:.6875rem;color:var(--mute);}
+.jcard h4{margin:3px 0 2px;font-size:.9375rem;font-weight:500;}
+
+/* tab bar */
+.tabbar{position:fixed;bottom:0;left:0;right:0;max-width:470px;margin:0 auto;background:var(--ink);
+  display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(255,255,255,.1);z-index:14;
+  padding-bottom:env(safe-area-inset-bottom,0px);}
+.tabbar button{background:none;border:none;color:rgba(239,237,232,.45);padding:13px 4px 15px;cursor:pointer;
+  font-family:'Roboto Mono',monospace;font-size:.5625rem;letter-spacing:.09em;text-transform:uppercase;border-top:2px solid transparent;margin-top:-1px;}
+.tabbar button i{display:block;font-style:normal;font-size:1.125rem;margin-bottom:3px;}
+.tabbar button[aria-current="true"]{color:#fff;border-top-color:var(--red);}
+
+/* greeting */
+.hi{font-size:1.5rem;font-weight:500;letter-spacing:-.02em;line-height:1.2;}
+.hi span{display:block;font-family:'Roboto Mono',monospace;font-size:.625rem;letter-spacing:.11em;text-transform:uppercase;color:rgba(239,237,232,.45);font-weight:400;margin-top:4px;}
+
+/* signed-in strip (no ticking clock) */
+.instrip{background:var(--card);border:1px solid var(--rule);border-left:4px solid var(--ok);border-radius:12px;padding:14px 16px;margin-bottom:12px;display:flex;align-items:center;gap:12px;}
+.instrip .t{flex:1;font-size:.875rem;line-height:1.4;}
+.instrip .t b{display:block;font-weight:500;}
+.instrip .t span{font-family:'Roboto Mono',monospace;font-size:.6875rem;color:var(--mute);}
+.gpschip{display:inline-flex;align-items:center;gap:5px;font-family:'Roboto Mono',monospace;font-size:.5625rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ok);border:1px solid var(--ok);padding:3px 7px;border-radius:20px;margin-top:6px;}
+
+/* points + ring */
+.scorecard{background:var(--ink);color:#F1EEE8;border-radius:12px;padding:18px;margin-bottom:14px;display:flex;gap:18px;align-items:center;}
+.ring{position:relative;flex:none;width:86px;height:86px;}
+.ring svg{transform:rotate(-90deg);}
+.ring .rc{fill:none;stroke:rgba(255,255,255,.14);stroke-width:8;}
+.ring .rf2{fill:none;stroke:var(--red);stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset .6s cubic-bezier(.4,0,.2,1);}
+.ring .rf2.done{stroke:#4FBF89;}
+.ring .mid{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.ring .mid b{font-size:1.375rem;font-weight:500;line-height:1;letter-spacing:-.02em;}
+.ring .mid span{font-family:'Roboto Mono',monospace;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(239,237,232,.5);margin-top:2px;}
+.scorecard .sc{flex:1;min-width:0;}
+.scorecard .sc b{display:block;font-size:1rem;font-weight:500;margin-bottom:4px;}
+.scorecard .sc p{margin:0;font-size:.8125rem;color:rgba(239,237,232,.62);line-height:1.45;}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px;}
+.chip2{font-family:'Roboto Mono',monospace;font-size:.5625rem;letter-spacing:.07em;text-transform:uppercase;background:rgba(255,255,255,.1);color:rgba(239,237,232,.8);padding:4px 9px;border-radius:20px;}
+.chip2.fire{background:var(--red);color:#fff;}
+
+/* positive stat rows */
+.win{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:14px 16px;margin-bottom:10px;}
+.win .h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:7px;}
+.win .h b{font-size:.9375rem;font-weight:500;}
+.win .h em{font-style:normal;font-family:'Roboto Mono',monospace;font-size:.8125rem;color:var(--mute);}
+.win p{margin:6px 0 0;font-size:.8125rem;color:var(--mute);line-height:1.45;}
+.win p.good{color:var(--ok);font-weight:500;}
+.win .bar{height:7px;border-radius:4px;}
+.win .bar span{border-radius:4px;}
+
+/* priorities award */
+.prio li .pts{font-family:'Roboto Mono',monospace;font-size:.625rem;color:var(--mute);align-self:center;flex:none;}
+.prio li.done .pts{color:var(--ok);font-weight:500;}
+
+/* job picker */
+.jobgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+.jtile{background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:14px;cursor:pointer;text-align:left;border-top:4px solid var(--blue);transition:.13s;}
+.jtile:active{background:#EAE6DF;}
+.jtile.maint{border-top-color:var(--ok);} .jtile.def{border-top-color:var(--warn);}
+.jtile .rf{font-family:'Roboto Mono',monospace;font-size:.625rem;color:var(--mute);}
+.jtile h4{margin:5px 0 3px;font-size:.875rem;font-weight:500;line-height:1.25;}
+.jtile .st{font-size:.75rem;color:var(--mute);line-height:1.3;}
+.tsearch{width:100%;padding:14px 15px;border:1px solid var(--rule);border-radius:10px;font-size:.9375rem;font-family:'Roboto',sans-serif;background:#fff;margin-bottom:14px;}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:18px;}
+.duo button{border:none;border-radius:12px;padding:18px 12px;font-family:'Roboto',sans-serif;font-size:.9375rem;font-weight:500;cursor:pointer;}
+.duo .nw{background:var(--red);color:#fff;} .duo .sr{background:var(--ink);color:#F1EEE8;}
+.duo i{display:block;font-style:normal;font-size:1.25rem;margin-bottom:5px;}
+.backbar{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.backbar button{background:none;border:1px solid var(--rule);border-radius:8px;padding:8px 13px;font-family:'Roboto Mono',monospace;font-size:.6875rem;cursor:pointer;color:var(--text);}
+
+/* bottom sheet */
+.sheetwrap{position:fixed;inset:0;z-index:70;display:none;}
+.sheetwrap.show{display:block;}
+.sheetwrap .bg{position:absolute;inset:0;background:rgba(10,12,14,.6);}
+.sheet{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:min(470px,100%);background:var(--paper);
+  border-radius:18px 18px 0 0;padding:26px 20px calc(26px + env(safe-area-inset-bottom,0px));animation:up .3s cubic-bezier(.2,.8,.3,1);}
+@keyframes up{from{transform:translate(-50%,100%)}to{transform:translate(-50%,0)}}
+.sheet .grab{width:38px;height:4px;background:var(--rule);border-radius:3px;margin:-12px auto 20px;}
+.sheet .ic{width:52px;height:52px;border-radius:50%;background:var(--ink);color:#F1EEE8;display:flex;align-items:center;justify-content:center;font-size:1.375rem;margin-bottom:14px;}
+.sheet .ic.ok{background:var(--ok);}
+.sheet h3{margin:0 0 8px;font-size:1.1875rem;font-weight:500;letter-spacing:-.015em;}
+.sheet p{margin:0 0 20px;font-size:.9375rem;color:var(--mute);line-height:1.5;}
+.sheet .step{font-family:'Roboto Mono',monospace;font-size:.5625rem;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:12px;}
+
+/* ---------- team ---------- */
+.crew{display:grid;grid-template-columns:repeat(auto-fill,minmax(266px,1fr));gap:1px;background:var(--rule);border-top:1px solid var(--rule);}
+.person{background:var(--card);padding:16px 18px;cursor:pointer;transition:.13s;}
+.person:hover{background:#EAE6DF;}
+.person .top{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px;}
+.avatar{width:38px;height:38px;border-radius:50%;background:var(--ink);color:#F1EEE8;display:flex;align-items:center;justify-content:center;font-family:'Roboto Mono',monospace;font-size:.8125rem;font-weight:700;flex:none;}
+.avatar.away{background:var(--warn);}
+.person .nm{font-weight:500;font-size:.9375rem;line-height:1.25;}
+.person .rl{font-family:'Roboto Mono',monospace;font-size:.625rem;letter-spacing:.09em;text-transform:uppercase;color:var(--red);}
+.person .cts a{display:block;font-size:.8125rem;color:var(--text);text-decoration:none;padding:1px 0;}
+.person .cts a:hover{text-decoration:underline;}
+.person .lic{margin-top:11px;padding-top:10px;border-top:1px solid var(--rule2);font-family:'Roboto Mono',monospace;font-size:.625rem;color:var(--mute);line-height:1.7;}
+.person .lic b{color:var(--text);font-weight:500;}
+.person .lic .warn{color:var(--bad);font-weight:500;}
+.gantt{display:grid;grid-template-columns:140px 1fr;border-top:1px solid var(--rule);}
+.gantt .lbl{padding:6px 14px;font-size:.8125rem;border-bottom:1px solid var(--rule2);background:#EAE6DF;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.gantt .lbl.hd{background:#DFDACF;font-family:'Roboto Mono',monospace;font-size:.5625rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);border-bottom:1px solid var(--rule);}
+.gantt .track{position:relative;height:31px;border-bottom:1px solid var(--rule2);background:linear-gradient(90deg,var(--rule2) 1px,transparent 1px);background-size:calc(100%/12) 100%;}
+.gantt .track.hd{height:auto;padding:0;background:#DFDACF;border-bottom:1px solid var(--rule);display:flex;}
+.gantt .track.hd span{flex:1;font-family:'Roboto Mono',monospace;font-size:.5625rem;letter-spacing:.06em;color:var(--mute);padding:6px 0 6px 5px;border-left:1px solid var(--rule);}
+.lv{position:absolute;top:6px;height:19px;line-height:19px;background:var(--blue);color:#fff;font-family:'Roboto Mono',monospace;font-size:.625rem;padding:0 7px;white-space:nowrap;overflow:hidden;cursor:default;border-radius:1px;}
+.lv.req{background:transparent;color:var(--mute);border:1px dashed var(--mute);}
+.lv.train{background:var(--ok);} .lv.rdo{background:var(--mute);}
+.now-line{position:absolute;top:0;bottom:0;width:2px;background:var(--red);z-index:2;}
+
+/* ---------- clock ---------- */
+.pulse{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ok);margin-right:7px;animation:pulse 1.6s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+
+/* ---------- drawer ---------- */
+.scrim{position:fixed;inset:0;background:rgba(20,22,24,.55);opacity:0;pointer-events:none;transition:.2s;z-index:40;}
+.scrim.show{opacity:1;pointer-events:auto;}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(540px,94vw);background:var(--card);border-left:3px solid var(--red);transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1);z-index:41;overflow-y:auto;}
+.drawer.show{transform:none;}
+.drawer-head{padding:20px 22px;border-bottom:1px solid var(--rule);position:sticky;top:0;background:var(--card);z-index:2;}
+.drawer-head h3{margin:0 0 4px;font-size:1.0625rem;font-weight:500;}
+.drawer-body{padding:20px 22px 44px;}
+.closex{position:absolute;top:15px;right:18px;background:none;border:none;font-size:1.25rem;cursor:pointer;color:var(--mute);line-height:1;}
+.kv{display:grid;grid-template-columns:128px 1fr;gap:7px 14px;font-size:.8125rem;margin-bottom:22px;}
+.kv dt{font-family:'Roboto Mono',monospace;font-size:.625rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);padding-top:2px;}
+.kv dd{margin:0;}
+.hist{border-left:2px solid var(--rule);padding-left:14px;margin:0 0 22px;}
+.hist li{list-style:none;margin-bottom:11px;position:relative;font-size:.8125rem;}
+.hist li::before{content:"";position:absolute;left:-19px;top:6px;width:7px;height:7px;border-radius:50%;background:var(--rule);}
+.hist li.fail::before{background:var(--bad);} .hist li.now::before{background:var(--red);}
+.hist li b{display:block;font-family:'Roboto Mono',monospace;font-size:.625rem;letter-spacing:.07em;color:var(--mute);text-transform:uppercase;}
+
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,18px);background:var(--ink);color:#F1EEE8;padding:13px 22px;border-left:3px solid var(--red);font-size:.8125rem;opacity:0;pointer-events:none;transition:.22s;z-index:60;max-width:min(560px,92vw);}
+.toast.show{opacity:1;transform:translate(-50%,0);}
+.toast b{font-family:'Roboto Mono',monospace;font-size:.6875rem;letter-spacing:.09em;text-transform:uppercase;color:var(--red);display:block;margin-bottom:3px;}
+
+/* ---------- timesheet ---------- */
+.clock{display:grid;grid-template-columns:1fr 320px;gap:1px;background:var(--rule);border:1px solid var(--rule);margin-bottom:20px;}
+.clock > div{background:var(--card);padding:20px 22px;}
+.clock.live .cl-main{background:var(--ink);color:#F1EEE8;border-left:4px solid var(--red);}
+.eyebrow{font-size:.625rem;letter-spacing:.15em;text-transform:uppercase;color:var(--mute);display:flex;align-items:center;gap:8px;margin-bottom:14px;}
+.clock.live .eyebrow{color:var(--red);}
+.pulse{width:8px;height:8px;border-radius:50%;background:var(--red);animation:pl 1.6s infinite;}
+@keyframes pl{0%,100%{opacity:1}50%{opacity:.25}}
+.cl-time{font-family:'Roboto Mono',monospace;font-size:3.25rem;font-weight:300;letter-spacing:-.045em;line-height:1;font-variant-numeric:tabular-nums;margin-bottom:6px;}
+.cl-what{font-size:.9375rem;font-weight:500;margin-bottom:2px;}
+.cl-sub{font-family:'Roboto Mono',monospace;font-size:.75rem;color:var(--mute);}
+.clock.live .cl-sub{color:rgba(241,238,232,.55);}
+.cl-form{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end;margin-bottom:16px;}
+.cl-form label{display:flex;flex-direction:column;gap:5px;font-family:'Roboto Mono',monospace;font-size:.625rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);}
+.cl-form select{min-width:180px;}
+.btn.big{padding:14px 28px;font-size:.8125rem;letter-spacing:.12em;}
+.tot{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--rule2);}
+.tot:last-child{border-bottom:none;}
+.tot span{font-family:'Roboto Mono',monospace;font-size:.625rem;letter-spacing:.09em;text-transform:uppercase;color:var(--mute);}
+.tot b{font-family:'Roboto Mono',monospace;font-size:1.125rem;font-weight:500;font-variant-numeric:tabular-nums;}
+.wk{display:grid;grid-template-columns:150px repeat(5,1fr) 92px;border-left:1px solid var(--rule);}
+.wk > div{border-right:1px solid var(--rule);border-bottom:1px solid var(--rule2);padding:9px 11px;font-family:'Roboto Mono',monospace;font-size:.8125rem;text-align:right;font-variant-numeric:tabular-nums;}
+.wk .hd{background:#DFDACF;font-size:.625rem;letter-spacing:.09em;text-transform:uppercase;color:var(--mute);border-bottom:1px solid var(--rule);}
+.wk .who{text-align:left;background:#EAE6DF;font-family:'Roboto',sans-serif;font-size:.8125rem;font-weight:500;}
+.wk .sum{background:#EAE6DF;font-weight:500;}
+.wk .zero{color:#B3ADA1;}
+.wk .today{background:#E4E9E6;}
+@media(max-width:980px){
+  .plan-wrap{grid-template-columns:1fr;} .plan{border-right:none;border-bottom:1px solid var(--rule);}
+  .sched{grid-template-columns:96px repeat(5,1fr);font-size:.75rem;}
+  .clock{grid-template-columns:1fr;}
+  .wk{grid-template-columns:106px repeat(5,1fr) 72px;font-size:.75rem;}
+  .wk > div{padding:7px 6px;}
+}
+@media(max-width:900px){
+  .app{grid-template-columns:1fr;}
+  .rail{position:static;height:auto;}
+  .nav{display:flex;padding:0 6px;overflow-x:auto;}
+  .nav .kids{display:none;}
+  .nav button{padding:12px;border-left:none;border-bottom:2px solid transparent;white-space:nowrap;}
+  .nav button[aria-current="true"]{border-left-color:transparent;border-bottom-color:var(--red);}
+  .railfoot{display:none;} .topbar .desc{display:none;}
+  .body{padding:16px 13px 50px;}
+  th,td{padding:8px 12px;}
+  .sched{display:block;} .sched .hd{display:none;}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="rail">
+    <div class="brand"><div class="logo">K<b>TRONICS</b></div><div class="sub">Operations</div><a href="/" style="display:block;margin-top:8px;font-size:.68rem;color:inherit;opacity:.55;text-decoration:none">← Owner dashboard</a></div>
+    <div class="modesw"><button data-mode="admin" aria-pressed="true">Admin</button><button data-mode="tech" aria-pressed="false">Technician</button></div>
+    <nav class="nav" id="nav"></nav>
+    <div class="railfoot"><span class="dot"></span>ServiceM8 sync live<br>Last pull 14:52</div>
+  </aside>
+  <div class="main">
+    <div class="topbar"><h1 id="ttl"></h1><div class="desc" id="tdesc"></div></div>
+    <div class="body" id="view"></div>
+  </div>
+</div>
+<div class="techapp" id="techapp"></div>
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true"><div id="dc"></div></aside>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ================= data ================= */
+const TODAY=new Date(2026,6,24);
+const addM=(d,m)=>{const x=new Date(d);x.setMonth(x.getMonth()+m);return x;};
+const addD=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x;};
+const days=d=>Math.round((d-TODAY)/86400000);
+const fmt=d=>d.toLocaleDateString("en-AU",{day:"2-digit",month:"short",year:"2-digit"});
+const money=n=>"$"+Math.round(n).toLocaleString();
+
+const SITES=[
+  {id:"S1",name:"Eastern Creek DC",     client:"Pharmaceutical distributor",addr:"Rooty Hill Rd Sth, Eastern Creek NSW",sla:4, contract:"KTX-C-0042",since:2003,plan:"warehouse"},
+  {id:"S2",name:"Substation network",   client:"HV infrastructure operator", addr:"11 sites, Sydney metro",             sla:2, contract:"KTX-C-0007",since:2004,plan:null},
+  {id:"S3",name:"Macquarie Park DC",    client:"Co-located data centre",     addr:"Waterloo Rd, Macquarie Park NSW",     sla:2, contract:"KTX-C-0118",since:2016,plan:null},
+  {id:"S4",name:"Wetherill Park plant", client:"Beverage manufacturer",      addr:"Newton Rd, Wetherill Park NSW",       sla:8, contract:"KTX-C-0093",since:2014,plan:null},
+  {id:"S5",name:"North Sydney tenancy", client:"Corporate office",           addr:"Level 12, Miller St, North Sydney",   sla:24,contract:"KTX-C-0155",since:2021,plan:"office"}
+];
+const TYPES=[
+  {t:"IP camera",       k:"C",make:"Axis",       models:["P3268-LV","Q6135-LE"],  months:6, mins:15,part:"Camera unit",     cost:890, col:"#2C5F8A"},
+  {t:"IP camera",       k:"C",make:"Avigilon",   models:["H6A-BO1","H5A-DO1"],    months:6, mins:15,part:"Camera unit",     cost:1150,col:"#2C5F8A"},
+  {t:"Card reader",     k:"R",make:"Lenel",      models:["LNL-1320","LNL-2220"],  months:12,mins:20,part:"Reader module",   cost:340, col:"#7A4E9E"},
+  {t:"Door controller", k:"D",make:"Inner Range",models:["Integriti LAN"],        months:12,mins:35,part:"Controller board",cost:1240,col:"#7A4E9E"},
+  {t:"Alarm panel",     k:"P",make:"Bosch",      models:["Solution 6000"],        months:3, mins:45,part:"Panel + battery", cost:620, col:"#B5761A"},
+  {t:"Intercom",        k:"I",make:"Aiphone",    models:["IX-DV","IX-MV7"],       months:12,mins:20,part:"Door station",    cost:780, col:"#2E7D5B"},
+  {t:"Fence controller",k:"F",make:"Gallagher",  models:["F22"],                  months:3, mins:40,part:"Energiser",       cost:1980,col:"#8C5A2B"},
+  {t:"UPS / battery",   k:"U",make:"AUS",        models:["12V 7Ah"],              months:6, mins:10,part:"Battery set",     cost:145, col:"#5A5A5A"}
+];
+const ZONES=["Dock A","Dock B","Cold store","Main entry","Plant room","Comms room","Perimeter N","Perimeter S","Level 12 lift lobby","Switchroom","Tunnel access"];
+const FAULTS=["No comms to head end","Lens fogged, IR failed","Battery below spec","Reader intermittent","Tamper circuit open","PoE injector failed","Firmware out of support"];
+const TECHS=["K. Lamb","D. Reyes","S. Whitmore","M. Okafor","J. Petrov","A. Nguyen"];
+
+function seeded(s){return()=>{s=(s*1103515245+12345)&0x7fffffff;return s/0x7fffffff;};}
+const rnd=seeded(20260724); const pick=a=>a[Math.floor(rnd()*a.length)];
+
+/* --- projects: many per site --- */
+const PROJECTS=[
+  {ref:"P-1042",name:"Perimeter camera refresh — stage 2",siteId:"S1",type:"Upgrade",    state:"active",value:184500,start:new Date(2026,3,6), due:new Date(2026,8,18),pm:"K. Lamb",     pct:62,next:"Dock B head-end cutover"},
+  {ref:"P-1051",name:"Cold store reader replacement",     siteId:"S1",type:"Install",    state:"active",value:41200, start:new Date(2026,5,11),due:new Date(2026,7,7), pm:"D. Reyes",    pct:38,next:"Commission 6 readers"},
+  {ref:"P-0912",name:"Avigilon ACC migration",            siteId:"S1",type:"Upgrade",    state:"past",  value:312000,start:new Date(2012,1,1), due:new Date(2012,10,30),pm:"K. Lamb",    pct:100,next:"—"},
+  {ref:"P-0988",name:"Dock A access control build",       siteId:"S1",type:"Install",    state:"past",  value:96400, start:new Date(2024,2,4), due:new Date(2024,6,19),pm:"S. Whitmore",pct:100,next:"—"},
+  {ref:"M-0042",name:"Site-wide PPM contract",            siteId:"S1",type:"Maintenance",state:"maint", value:78000, start:new Date(2003,0,1), due:new Date(2027,5,30),pm:"D. Reyes",   pct:72,next:"Q3 camera round"},
+  {ref:"P-1033",name:"Substation 7 electric fence",       siteId:"S2",type:"Install",    state:"active",value:127800,start:new Date(2026,4,18),due:new Date(2026,9,2), pm:"M. Okafor",  pct:24,next:"Energiser install"},
+  {ref:"M-0007",name:"HV network PPM + SCADA interface",  siteId:"S2",type:"Maintenance",state:"maint", value:142000,start:new Date(2004,0,1), due:new Date(2027,5,30),pm:"K. Lamb",    pct:81,next:"Tunnel access round"},
+  {ref:"P-1019",name:"Hall 3 Lenel expansion",            siteId:"S3",type:"Install",    state:"active",value:238000,start:new Date(2026,2,9), due:new Date(2026,10,14),pm:"J. Petrov", pct:71,next:"Audit documentation pack"},
+  {ref:"M-0118",name:"Compliance PPM + audit support",    siteId:"S3",type:"Maintenance",state:"maint", value:64500, start:new Date(2016,0,1), due:new Date(2027,5,30),pm:"J. Petrov",  pct:88,next:"Half-year audit"},
+  {ref:"P-0974",name:"Genetec unified console rollout",   siteId:"S4",type:"Upgrade",    state:"past",  value:158900,start:new Date(2023,7,1), due:new Date(2024,1,28),pm:"S. Whitmore",pct:100,next:"—"},
+  {ref:"M-0093",name:"Line 2 &amp; perimeter PPM",            siteId:"S4",type:"Maintenance",state:"maint",value:38600, start:new Date(2014,0,1), due:new Date(2027,5,30),pm:"A. Nguyen",pct:64,next:"Perimeter S round"},
+  {ref:"P-1057",name:"Level 12 tenancy fitout",           siteId:"S5",type:"Install",    state:"active",value:52300, start:new Date(2026,6,1), due:new Date(2026,8,4), pm:"A. Nguyen",  pct:15,next:"Rough-in level 12"},
+  {ref:"M-0155",name:"Tenancy service agreement",         siteId:"S5",type:"Maintenance",state:"maint", value:14200, start:new Date(2021,0,1), due:new Date(2027,5,30),pm:"A. Nguyen",  pct:59,next:"Annual reader test"}
+];
+
+/* --- assets --- */
+const ASSETS=[]; let n=1;
+SITES.forEach((s,si)=>{
+  const count=[64,52,38,34,22][si];
+  const proj=PROJECTS.filter(p=>p.siteId===s.id);
+  for(let i=0;i<count;i++){
+    const ty=pick(TYPES);
+    const last=addM(TODAY,-Math.floor(rnd()*ty.months)-Math.floor(rnd()*3));
+    ASSETS.push({id:"A"+String(n).padStart(4,"0"),
+      tag:s.id+"-"+ty.k+String(i+1).padStart(3,"0"),
+      type:ty.t,k:ty.k,col:ty.col,make:ty.make,model:pick(ty.models),zone:pick(ZONES),
+      siteId:s.id,months:ty.months,mins:ty.mins,part:ty.part,cost:ty.cost,
+      proj:pick(proj).ref,last,due:addM(last,ty.months),status:"ok",job:null,x:null,y:null});
+    n++;
+  }
+});
+ASSETS.forEach(a=>{const d=days(a.due); if(d<0)a.status="overdue"; else if(d<=45)a.status="due";});
+
+const DEFECTS=[];
+ASSETS.filter(a=>rnd()<.06).slice(0,14).forEach(a=>{a.status="failed";
+  DEFECTS.push({assetId:a.id,fault:pick(FAULTS),sev:rnd()<.3?"Critical":(rnd()<.6?"Major":"Minor"),found:addM(TODAY,-Math.floor(rnd()*3)),est:null});});
+
+/* --- plan coordinates --- */
+const COORD_WH=[[200,120],[300,110],[420,110],[540,110],[640,105],[700,150],[720,250],[700,340],
+  [620,400],[540,410],[450,410],[360,410],[280,405],[190,390],[130,330],[120,240],[130,170],
+  [250,250],[380,250],[500,250],[610,250],[420,330]];
+const COORD_OF=[[160,120],[280,110],[400,120],[520,130],[620,180],[640,290],[540,350],[420,360],
+  [300,355],[190,300],[150,210],[330,230],[460,240]];
+ASSETS.filter(a=>a.siteId==="S1").slice(0,COORD_WH.length).forEach((a,i)=>{a.x=COORD_WH[i][0];a.y=COORD_WH[i][1];});
+ASSETS.filter(a=>a.siteId==="S5").slice(0,COORD_OF.length).forEach((a,i)=>{a.x=COORD_OF[i][0];a.y=COORD_OF[i][1];});
+
+/* --- estimates --- */
+const ESTIMATES=[
+  {ref:"E-2204",title:"Hall 4 camera extension — 32 cameras",siteId:"S3",kind:"Project",  total:97400,state:"sent", raised:new Date(2026,6,9)},
+  {ref:"E-2207",title:"Substation 9 & 11 fence upgrade",     siteId:"S2",kind:"Project",  total:64800,state:"draft",raised:new Date(2026,6,17)},
+  {ref:"E-2199",title:"Dock B intercom replacement",         siteId:"S1",kind:"Remedial", total:8940, state:"won",  raised:new Date(2026,5,29)},
+  {ref:"E-2201",title:"Annual test & tag — all sites",       siteId:"S4",kind:"Service",  total:11250,state:"sent", raised:new Date(2026,6,2)}
+];
+let eSeq=2207, jSeq=4417;
+
+/* --- schedule --- */
+const VISITS=[];
+(function(){
+  const start=new Date(2026,6,27);
+  const kinds=[["Install","P-1042","S1"],["Install","P-1019","S3"],["Maint","M-0042","S1"],
+    ["Maint","M-0007","S2"],["Defect","—","S1"],["Install","P-1051","S1"],["Maint","M-0118","S3"],
+    ["Install","P-1033","S2"],["Maint","M-0093","S4"],["Install","P-1057","S5"],["Defect","—","S3"],
+    ["Maint","M-0155","S5"],["Install","P-1042","S1"],["Maint","M-0042","S1"],["Defect","—","S2"]];
+  TECHS.forEach((t,ti)=>{
+    for(let d=0;d<5;d++){
+      if(rnd()<.28) continue;
+      const k=kinds[Math.floor(rnd()*kinds.length)];
+      VISITS.push({tech:t,day:d,date:addD(start,d),kind:k[0],ref:k[1],siteId:k[2],
+        hrs:[3,4,6,8][Math.floor(rnd()*4)],
+        note:k[0]==="Maint"?"Scheduled PPM round":k[0]==="Defect"?"Remedial attendance":"Project works"});
+    }
+  });
+})();
+
+/* --- timesheet: week Mon 20 – Fri 24 July 2026, today is Friday --- */
+const ME="K. Lamb", WKSTART=new Date(2026,6,20), DAYIDX=4;
+const ACTIVITIES=[
+  {a:"Project works",       bill:true},
+  {a:"PPM service round",   bill:true},
+  {a:"Remedial attendance", bill:true},
+  {a:"Programming / commissioning",bill:true},
+  {a:"Travel",              bill:false},
+  {a:"Workshop / prep",     bill:false},
+  {a:"Office / admin",      bill:false}
+];
+const WORKREFS=PROJECTS.filter(p=>p.state!=="past").map(p=>({ref:p.ref,name:p.name,siteId:p.siteId}));
+const TIME=[]; let tSeq=0;
+const hhmm=m=>String(Math.floor(m/60)).padStart(2,"0")+":"+String(m%60).padStart(2,"0");
+const hrs=m=>(Math.round(m/6)/10).toFixed(1);
+(function(){
+  TECHS.forEach(t=>{
+    for(let d=0;d<=DAYIDX;d++){
+      if(rnd()<.1) continue;
+      let clk=7*60+Math.floor(rnd()*3)*15;
+      const blocks=d===DAYIDX?2+Math.floor(rnd()*2):3+Math.floor(rnd()*2);
+      for(let b=0;b<blocks;b++){
+        const w=pick(WORKREFS);
+        const ac=b===0?ACTIVITIES[4]:pick(ACTIVITIES.slice(0,4));
+        const mins=b===0?30+Math.floor(rnd()*4)*15:60+Math.floor(rnd()*8)*30;
+        TIME.push({id:++tSeq,tech:t,day:d,date:addD(WKSTART,d),ref:w.ref,siteId:w.siteId,
+          act:ac.a,bill:ac.bill,start:clk,mins,
+          state:d<3?"approved":(d===3?"submitted":"draft")});
+        clk+=mins+(rnd()<.3?30:0);
+      }
+    }
+  });
+})();
+let CLOCK={live:false,since:null,ref:WORKREFS[0].ref,act:ACTIVITIES[0].a};
+
+const site=id=>SITES.find(s=>s.id===id);
+const asset=id=>ASSETS.find(a=>a.id===id);
+const proj=r=>PROJECTS.find(p=>p.ref===r);
+
+const work=r=>WORKREFS.find(w=>w.ref===r)||{ref:r,name:"—",siteId:"S1"};
+const NOWM=14*60+52;                                   /* 14:52 on the wall clock */
+
+/* --- team roster, licences and leave --- */
+const TEAM=[
+ {n:"K. Lamb",     role:"Managing Director",     mob:"0412 004 118",em:"karl@ktronics.com.au",   since:2003,field:true,
+  lic:"NSW 409112377",cls:"Master 102039 / Class 2A",exp:new Date(2028,2,31),veh:"KTX-01 Ranger",
+  tix:[["Working at heights",new Date(2027,4,18)],["EWP yellow card",new Date(2027,9,2)],["Test & tag AS/NZS 3760",new Date(2028,1,9)]]},
+ {n:"D. Reyes",    role:"Service Manager",       mob:"0413 776 209",em:"dreyes@ktronics.com.au", since:2009,field:true,
+  lic:"NSW 409556021",cls:"Class 2A / 2B",exp:new Date(2027,6,14),veh:"KTX-04 Hilux",
+  tix:[["Working at heights",new Date(2027,1,22)],["Confined space",new Date(2027,7,30)],["First aid",new Date(2027,3,11)]]},
+ {n:"S. Whitmore", role:"Senior Technician",     mob:"0438 219 640",em:"swhitmore@ktronics.com.au",since:2011,field:true,
+  lic:"NSW 409218844",cls:"Class 2A",exp:new Date(2026,8,12),veh:"KTX-06 Transit",
+  tix:[["Working at heights",new Date(2027,5,6)],["EWP yellow card",new Date(2026,11,19)],["Asbestos awareness",new Date(2028,0,25)]]},
+ {n:"M. Okafor",   role:"Technician",            mob:"0427 331 158",em:"mokafor@ktronics.com.au",since:2018,field:true,
+  lic:"NSW 409771302",cls:"Class 2A",exp:new Date(2027,10,3),veh:"KTX-07 Transit",
+  tix:[["Working at heights",new Date(2027,2,14)],["Confined space",new Date(2027,4,29)],["White card",new Date(2029,5,1)]]},
+ {n:"J. Petrov",   role:"Technician",            mob:"0405 882 470",em:"jpetrov@ktronics.com.au",since:2020,field:true,
+  lic:"NSW 409884517",cls:"Class 2A",exp:new Date(2027,3,26),veh:"KTX-09 Hilux",
+  tix:[["Working at heights",new Date(2028,1,8)],["Test & tag AS/NZS 3760",new Date(2027,8,17)]]},
+ {n:"A. Nguyen",   role:"Technician — 3rd year", mob:"0466 145 903",em:"anguyen@ktronics.com.au",since:2023,field:true,
+  lic:"NSW 410023996",cls:"Class 2A provisional",exp:new Date(2027,1,20),veh:"KTX-11 Transit",
+  tix:[["White card",new Date(2029,2,4)],["First aid",new Date(2026,7,2)]]},
+ {n:"L. Hartley",  role:"Office Manager",        mob:"0417 620 331",em:"lhartley@ktronics.com.au",since:2007,field:false,
+  lic:"—",cls:"Administrative",exp:null,veh:"—",tix:[["First aid",new Date(2027,6,21)]]},
+ {n:"T. Brennan",  role:"Accounts & Compliance", mob:"0421 508 774",em:"accounts@ktronics.com.au",since:2015,field:false,
+  lic:"—",cls:"Administrative",exp:null,veh:"—",tix:[]}
+];
+const LEAVE=[
+ {n:"T. Brennan", kind:"Annual",  from:new Date(2026,6,22),to:new Date(2026,6,24),ok:true},
+ {n:"S. Whitmore",kind:"Annual",  from:new Date(2026,6,27),to:new Date(2026,7,7), ok:true},
+ {n:"J. Petrov",  kind:"RDO",     from:new Date(2026,6,31),to:new Date(2026,6,31),ok:true},
+ {n:"A. Nguyen",  kind:"Training",from:new Date(2026,7,10),to:new Date(2026,7,14),ok:true},
+ {n:"M. Okafor",  kind:"Annual",  from:new Date(2026,7,24),to:new Date(2026,8,4), ok:true},
+ {n:"L. Hartley", kind:"Personal",from:new Date(2026,8,3), to:new Date(2026,8,3), ok:false},
+ {n:"D. Reyes",   kind:"Annual",  from:new Date(2026,8,21),to:new Date(2026,9,2), ok:false},
+ {n:"K. Lamb",    kind:"Annual",  from:new Date(2026,9,5), to:new Date(2026,9,16),ok:true}
+];
+const person=n=>TEAM.find(p=>p.n===n);
+const onLeave=(n,d)=>LEAVE.some(l=>l.n===n&&d>=l.from&&d<=l.to);
+const bizDays=l=>{let c=0,d=new Date(l.from);while(d<=l.to){if(d.getDay()>0&&d.getDay()<6)c++;d=addD(d,1);}return c;};
+const initials=n=>n.replace(/[^A-Za-z. ]/g,"").split(" ").map(x=>x[0]).join("").slice(0,2).toUpperCase();
+const ONNOW=[
+  {tech:"D. Reyes", ref:"M-0042",siteId:"S1",act:"Testing",   from:7*60+12},
+  {tech:"M. Okafor",ref:"P-1033",siteId:"S2",act:"Install",   from:6*60+48},
+  {tech:"A. Nguyen",ref:"P-1057",siteId:"S5",act:"Rough-in",  from:9*60+5}
+];
+const mineToday=()=>TIME.filter(e=>e.tech===ME&&e.day===DAYIDX);
+const elapsedMs=()=>CLOCK.live?Date.now()-CLOCK.since:0;
+const elapsedStr=()=>{const s=Math.floor(elapsedMs()/1000);
+  return [Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(x=>String(x).padStart(2,"0")).join(":");};
+
+/* ================= shell ================= */
+const NAV=[
+  {k:"overview",label:"Overview",desc:"The state of the business this morning: work in flight, work owed, work unbilled."},
+  {k:"projects",label:"Projects",kids:[
+    {k:"proj:active",label:"Active projects",desc:"Installs and upgrades currently in flight, with progress and value."},
+    {k:"proj:past",  label:"Past projects", desc:"Completed work. As-builts, warranty status and the assets each project left behind."},
+    {k:"proj:maint", label:"Scheduled maintenance",desc:"Recurring PPM contracts. Select what's due and raise the service visits."}
+  ]},
+  {k:"estate",  label:"Site estate",desc:"One record per property. Site plans, every asset on them, and every project assigned to the site."},
+  {k:"defects", label:"Defects",  desc:"Failed assets. Each one is unbilled work waiting on an estimate."},
+  {k:"estimate",label:"Estimate", desc:"Everything priced but not yet won, plus remedials generated straight from defects."},
+  {k:"schedule",label:"Schedule", desc:"Who is where, this week. Project works, PPM rounds and remedial attendances in one grid."},
+  {k:"timesheet",label:"Timesheet",desc:"Clock on to the work you're actually doing. Hours land against the project, not a generic bucket."},
+  {k:"team",label:"Team",desc:"Contact details, licences and tickets for everyone, and who's away when."}
+];
+let view="overview", sel=new Set();
+const flatNav=()=>{const o=[];NAV.forEach(v=>v.kids?v.kids.forEach(k=>o.push(k)):o.push(v));return o;};
+
+function renderNav(){
+  const open=view.startsWith("proj:");
+  document.getElementById("nav").innerHTML=NAV.map(v=>{
+    if(v.kids){
+      let inner=`<button data-v="proj:active" aria-current="${open}">${v.label}<span class="badge">${PROJECTS.filter(p=>p.state==="active").length}</span></button>`;
+      if(open) inner+=`<div class="kids">${v.kids.map(k=>`<button data-v="${k.k}" aria-current="${k.k===view}">${k.label}</button>`).join("")}</div>`;
+      return inner;
+    }
+    let b="";
+    if(v.k==="defects"){const c=DEFECTS.filter(d=>!d.est).length; if(c) b=`<span class="badge hot">${c}</span>`;}
+    if(v.k==="estimate") b=`<span class="badge">${ESTIMATES.filter(e=>e.state!=="won").length}</span>`;
+    if(v.k==="timesheet"){const c=TIME.filter(e=>e.state==="submitted").length;
+      b=CLOCK.live?`<span class="badge hot">ON</span>`:(c?`<span class="badge">${c}</span>`:"");}
+    if(v.k==="team"){const c=TEAM.filter(p=>onLeave(p.n,TODAY)).length; if(c) b=`<span class="badge">${c} away</span>`;}
+    return `<button data-v="${v.k}" aria-current="${v.k===view}">${v.label}${b}</button>`;
+  }).join("");
+  document.querySelectorAll("#nav button").forEach(b=>b.onclick=()=>{view=b.dataset.v;sel.clear();render();});
+}
+function render(){
+  const v=flatNav().find(x=>x.k===view)||NAV[0];
+  document.getElementById("ttl").textContent=v.label;
+  document.getElementById("tdesc").textContent=v.desc;
+  renderNav();
+  const V={overview,"proj:active":()=>projList("active"),"proj:past":()=>projList("past"),
+    "proj:maint":projMaint,estate,defects:defectsView,estimate:estimateView,schedule:scheduleView,
+    timesheet:timesheetView,team:teamView};
+  document.getElementById("view").innerHTML=V[view]();
+  wire(); window.scrollTo(0,0);
+}
+function toast(t,m){const e=document.getElementById("toast");e.innerHTML=`<b>${t}</b>${m}`;
+  e.classList.add("show");clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove("show"),4400);}
+const PILL={ok:'<span class="pill p-ok">In date</span>',due:'<span class="pill p-due">Due soon</span>',
+  overdue:'<span class="pill p-over">Overdue</span>',failed:'<span class="pill p-fail">Failed</span>',
+  scheduled:'<span class="pill p-sched">Scheduled</span>'};
+
+/* ================= views ================= */
+function overview(){
+  const act=PROJECTS.filter(p=>p.state==="active");
+  const wip=act.reduce((s,p)=>s+p.value*(1-p.pct/100),0);
+  const over=ASSETS.filter(a=>a.status==="overdue").length;
+  const open=DEFECTS.filter(d=>!d.est);
+  const pipe=ESTIMATES.filter(e=>e.state!=="won"&&e.state!=="lost").reduce((s,e)=>s+e.total,0);
+  return `
+  <div class="note"><b>Mockup.</b> Invented data, real shapes — 210 assets, 13 projects across 5 properties. Everything you click works.</div>
+  <div class="stats">
+    <div class="stat"><b>${act.length}</b><span>Projects<br>in flight</span></div>
+    <div class="stat"><b>${money(wip/1000)}k</b><span>Work in progress<br>still to deliver</span></div>
+    <div class="stat ${over?"alert":""}"><b>${over}</b><span>Services<br>overdue</span></div>
+    <div class="stat ${open.length?"alert":""}"><b>${open.length}</b><span>Defects without<br>an estimate</span></div>
+    <div class="stat"><b>${money(pipe/1000)}k</b><span>Estimates<br>out for decision</span></div>
+  </div>
+  <div class="panel"><div class="panel-head"><h2>Projects in flight</h2>
+    <div class="right"><button class="btn alt sm" data-go="proj:active">All projects</button></div></div>
+  <table><thead><tr><th>Ref</th><th>Project</th><th>Site</th><th>Lead</th><th class="num">Value</th><th class="num">Due</th><th style="width:150px">Progress</th></tr></thead><tbody>
+  ${act.map(p=>`<tr class="click" data-proj="${p.ref}"><td class="num strong">${p.ref}</td><td>${p.name}<div class="tag">Next: ${p.next}</div></td>
+    <td>${site(p.siteId).name}</td><td class="tag">${p.pm}</td><td class="num">${money(p.value)}</td>
+    <td class="num">${fmt(p.due)}</td><td class="num">${p.pct}%<div class="bar"><span class="blue" style="width:${p.pct}%"></span></div></td></tr>`).join("")}
+  </tbody></table></div>
+  <div class="panel"><div class="panel-head"><h2>Estate compliance</h2><span class="hint">Share of each site's assets currently in date.</span>
+    <div class="right"><button class="btn alt sm" data-go="estate">Open site estate</button></div></div>
+  <table><thead><tr><th>Site</th><th>Client</th><th class="num">Projects</th><th class="num">Assets</th><th class="num">Overdue</th><th class="num">Defects</th><th style="width:160px">Compliance</th></tr></thead><tbody>
+  ${SITES.map(s=>{const a=ASSETS.filter(x=>x.siteId===s.id);
+    const o=a.filter(x=>x.status==="overdue").length,f=DEFECTS.filter(x=>asset(x.assetId).siteId===s.id&&!x.est).length;
+    const pct=Math.round((a.length-o-f)/a.length*100),cls=pct>92?"":pct>80?"warn":"bad";
+    return `<tr class="click" data-site="${s.id}"><td class="strong">${s.name}</td><td class="tag">${s.client}</td>
+      <td class="num">${PROJECTS.filter(p=>p.siteId===s.id).length}</td><td class="num">${a.length}</td>
+      <td class="num" style="${o?'color:var(--bad);font-weight:500':''}">${o}</td>
+      <td class="num" style="${f?'color:var(--bad)':''}">${f}</td>
+      <td class="num">${pct}%<div class="bar"><span class="${cls}" style="width:${pct}%"></span></div></td></tr>`;}).join("")}
+  </tbody></table></div>`;
+}
+
+function projList(state){
+  const list=PROJECTS.filter(p=>p.state===state);
+  const isPast=state==="past";
+  return `<div class="panel"><div class="panel-head"><h2>${isPast?"Completed":"Active"} projects</h2>
+    <span class="hint">${isPast?"Every asset installed under these projects is still tracked against the site.":"Installs and upgrades currently being delivered."}</span></div>
+  <table><thead><tr><th>Ref</th><th>Project</th><th>Site</th><th>Type</th><th>Lead</th><th class="num">Value</th><th class="num">${isPast?"Completed":"Due"}</th><th class="num">Assets</th>${isPast?"":'<th style="width:140px">Progress</th>'}</tr></thead><tbody>
+  ${list.map(p=>`<tr class="click" data-proj="${p.ref}"><td class="num strong">${p.ref}</td>
+    <td>${p.name}${p.state==="active"?`<div class="tag">Next: ${p.next}</div>`:""}</td>
+    <td>${site(p.siteId).name}</td><td class="tag">${p.type}</td><td class="tag">${p.pm}</td>
+    <td class="num">${money(p.value)}</td><td class="num">${fmt(p.due)}</td>
+    <td class="num">${ASSETS.filter(a=>a.proj===p.ref).length}</td>
+    ${isPast?"":`<td class="num">${p.pct}%<div class="bar"><span class="blue" style="width:${p.pct}%"></span></div></td>`}</tr>`).join("")}
+  </tbody></table></div>
+  ${isPast?`<div class="note">Past projects don't go cold — the kit they installed is the estate you now maintain. Open one to see what it left behind and which of those assets are due.</div>`:""}`;
+}
+
+function projMaint(){
+  const win=+(window._win||90), sf=window._sf||"all";
+  let list=ASSETS.filter(a=>a.status!=="failed"&&!a.job&&days(a.due)<=win);
+  if(sf!=="all") list=list.filter(a=>a.siteId===sf);
+  list.sort((a,b)=>a.due-b.due);
+  const mins=[...sel].reduce((s,id)=>s+asset(id).mins,0);
+  return `
+  <div class="panel"><div class="panel-head"><h2>Maintenance contracts</h2><span class="hint">Recurring PPM agreements by site.</span></div>
+  <table><thead><tr><th>Ref</th><th>Contract</th><th>Site</th><th>Lead</th><th class="num">Annual value</th><th class="num">Assets</th><th style="width:150px">FY delivery</th></tr></thead><tbody>
+  ${PROJECTS.filter(p=>p.state==="maint").map(p=>`<tr class="click" data-proj="${p.ref}"><td class="num strong">${p.ref}</td><td>${p.name}<div class="tag">Next: ${p.next}</div></td>
+    <td>${site(p.siteId).name}</td><td class="tag">${p.pm}</td><td class="num">${money(p.value)}</td>
+    <td class="num">${ASSETS.filter(a=>a.siteId===p.siteId).length}</td>
+    <td class="num">${p.pct}%<div class="bar"><span class="${p.pct>75?"":p.pct>60?"warn":"bad"}" style="width:${p.pct}%"></span></div></td></tr>`).join("")}
+  </tbody></table></div>
+
+  <div class="panel"><div class="panel-head"><h2>Services falling due</h2>
+    <div class="right">
+      <label class="fld">Window <select id="win">${[30,90,180].map(w=>`<option value="${w}" ${win==w?"selected":""}>${w===180?"Next 6 months":"Next "+w+" days"}</option>`).join("")}</select></label>
+      <label class="fld">Site <select id="sf"><option value="all">All sites</option>${SITES.map(s=>`<option value="${s.id}" ${sf===s.id?"selected":""}>${s.name}</option>`).join("")}</select></label>
+      <button class="btn alt sm" id="selall">Select all</button>
+    </div></div>
+  ${list.length?`<table><thead><tr><th style="width:34px"></th><th>Asset</th><th>Site / zone</th><th>Equipment</th><th class="num">Interval</th><th class="num">Last</th><th class="num">Due</th><th></th></tr></thead><tbody>
+  ${list.map(a=>{const d=days(a.due);return `<tr>
+    <td><input type="checkbox" class="check pk" data-id="${a.id}" ${sel.has(a.id)?"checked":""}></td>
+    <td><span class="mono strong" style="font-size:.8125rem">${a.tag}</span></td>
+    <td>${site(a.siteId).name}<div class="tag">${a.zone}</div></td>
+    <td>${a.make} ${a.model}<div class="tag">${a.type}</div></td>
+    <td class="num">${a.months} mth</td><td class="num">${fmt(a.last)}</td>
+    <td class="num" style="${d<0?'color:var(--bad);font-weight:500':''}">${fmt(a.due)}<div class="tag">${d<0?Math.abs(d)+" d late":"in "+d+" d"}</div></td>
+    <td>${PILL[a.status]}</td></tr>`}).join("")}
+  </tbody></table>
+  <div class="panel-head" style="border-bottom:none;border-top:1px solid var(--rule)">
+    <span class="hint"><b>${sel.size}</b> selected · ${Math.round(mins/60*10)/10} labour hours · ${new Set([...sel].map(i=>asset(i).siteId)).size} site visit(s)</span>
+    <div class="right"><button class="btn red" id="raise" ${sel.size?"":"disabled"}>Raise service visit${sel.size===1?"":"s"}</button></div>
+  </div>`:`<div class="empty">Nothing due in this window.</div>`}
+  </div>`;
+}
+
+/* ---- site estate with plan ---- */
+function planSVG(s,list){
+  const filt=window._layers||{};
+  const pins=list.filter(a=>a.x!==null).map(a=>{
+    const off=filt[a.k]===false;
+    const col=a.status==="failed"?"#C0122E":a.status==="overdue"?"#C0122E":a.status==="due"?"#B5761A":a.col;
+    return `<g class="pin ${off?"dim":""}" data-id="${a.id}"><title>${a.tag} — ${a.make} ${a.model} (${a.zone})</title>
+      <circle cx="${a.x}" cy="${a.y}" r="10" fill="${col}"></circle>
+      <text x="${a.x}" y="${a.y+3}">${a.k}</text></g>`;}).join("");
+
+  if(s.plan==="warehouse") return `<svg viewBox="0 0 800 480" role="img" aria-label="Eastern Creek site plan">
+    <rect class="fence" x="14" y="14" width="772" height="452"/>
+    <text class="rlabel" x="20" y="30">Perimeter fence — Gallagher F22</text>
+    <rect class="floor" x="70" y="60" width="680" height="380"/>
+    <rect class="wall"  x="70" y="60" width="680" height="380"/>
+    <rect class="room" x="70" y="60" width="180" height="110"/><text class="rlabel" x="82" y="80">Admin / office</text>
+    <rect class="room" x="70" y="170" width="110" height="70"/><text class="rlabel" x="82" y="190">Comms</text>
+    <rect class="room" x="70" y="240" width="110" height="80"/><text class="rlabel" x="82" y="260">Plant</text>
+    <rect class="room" x="580" y="60" width="170" height="180"/><text class="rlabel" x="592" y="80">Cold store</text>
+    <text class="rlabel" x="330" y="200">Warehouse floor</text>
+    ${[0,1,2,3,4,5,6].map(i=>`<line class="dock" x1="${300+i*62}" y1="440" x2="${348+i*62}" y2="440"/>
+      <text class="rlabel" x="${304+i*62}" y="458">D${i+1}</text>`).join("")}
+    <line class="dock" x1="70" y1="100" x2="70" y2="140"/><text class="rlabel" x="24" y="126">Entry</text>
+    ${pins}</svg>`;
+
+  if(s.plan==="office") return `<svg viewBox="0 0 800 480" role="img" aria-label="North Sydney floor plan">
+    <rect class="floor" x="90" y="60" width="620" height="360"/>
+    <rect class="wall"  x="90" y="60" width="620" height="360"/>
+    <rect class="room" x="90" y="60" width="150" height="120"/><text class="rlabel" x="102" y="80">Lift lobby</text>
+    <rect class="room" x="560" y="60" width="150" height="110"/><text class="rlabel" x="572" y="80">Comms / hub</text>
+    <rect class="room" x="90" y="300" width="180" height="120"/><text class="rlabel" x="102" y="320">Boardroom</text>
+    <rect class="room" x="560" y="300" width="150" height="120"/><text class="rlabel" x="572" y="320">Exec suite</text>
+    <text class="rlabel" x="350" y="245">Open floor — Level 12</text>
+    <line class="dock" x1="90" y1="200" x2="90" y2="250"/><text class="rlabel" x="30" y="230">Fire stair</text>
+    ${pins}</svg>`;
+
+  return `<div class="empty" style="padding:80px 20px">
+    <div style="font-size:2rem;margin-bottom:8px">⬚</div>
+    No site plan uploaded for ${s.name}.<br>
+    <span class="tag">Drop a PDF or DWG to pin assets against it.</span>
+    <div style="margin-top:16px"><button class="btn alt sm" id="fakeup">Upload plan</button></div></div>`;
+}
+
+function estate(){
+  const sf=window._esf||"S1", s=site(sf);
+  const list=ASSETS.filter(a=>a.siteId===sf);
+  const ps=PROJECTS.filter(p=>p.siteId===sf);
+  const filt=window._layers||{};
+  const kinds=[...new Set(list.map(a=>a.k))];
+  const meta=k=>{const t=TYPES.find(x=>x.k===k);return t?t:{t:k,col:"#888"};};
+  return `
+  <div class="panel">
+    <div class="panel-head"><h2>${s.name}</h2>
+      <span class="hint">${s.client} · ${s.addr} · contract ${s.contract} · ${s.sla}hr SLA · client since ${s.since}</span>
+      <div class="right"><label class="fld">Property
+        <select id="esf">${SITES.map(x=>`<option value="${x.id}" ${x.id===sf?"selected":""}>${x.name}</option>`).join("")}</select></label></div>
+    </div>
+    <div class="plan-wrap">
+      <div class="plan">${planSVG(s,list)}</div>
+      <div class="legend">
+        <h4>Layers</h4>
+        ${kinds.map(k=>{const m=meta(k),c=list.filter(a=>a.k===k).length;
+          return `<label class="row"><input type="checkbox" class="lyr" data-k="${k}" ${filt[k]===false?"":"checked"}>
+          <span class="sw" style="background:${m.col}"></span>${m.t}<span class="ct">${c}</span></label>`;}).join("")}
+        <hr>
+        <h4>On this plan</h4>
+        <div class="row" style="cursor:default"><span class="sw" style="background:#B5761A"></span>Due soon<span class="ct">${list.filter(a=>a.status==="due").length}</span></div>
+        <div class="row" style="cursor:default"><span class="sw" style="background:#C0122E"></span>Overdue or failed<span class="ct">${list.filter(a=>["overdue","failed"].includes(a.status)).length}</span></div>
+        <hr>
+        <h4>Documents</h4>
+        <div class="row" style="cursor:default"><span class="tag">As-built — Rev D.pdf</span></div>
+        <div class="row" style="cursor:default"><span class="tag">Head-end schematic.pdf</span></div>
+        <div class="row" style="cursor:default"><span class="tag">Cable schedule.xlsx</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel"><div class="panel-head"><h2>Projects at this property</h2>
+    <span class="hint">${ps.length} projects assigned — installs, upgrades and the standing maintenance contract.</span></div>
+  <table><thead><tr><th>Ref</th><th>Project</th><th>Type</th><th>State</th><th>Lead</th><th class="num">Value</th><th class="num">Assets</th></tr></thead><tbody>
+  ${ps.map(p=>`<tr class="click" data-proj="${p.ref}"><td class="num strong">${p.ref}</td><td>${p.name}</td>
+    <td class="tag">${p.type}</td><td><span class="pill ${p.state==="active"?"p-live":p.state==="maint"?"p-ok":"p-sched"}">${p.state==="maint"?"Maintenance":p.state}</span></td>
+    <td class="tag">${p.pm}</td><td class="num">${money(p.value)}</td><td class="num">${ASSETS.filter(a=>a.proj===p.ref).length}</td></tr>`).join("")}
+  </tbody></table></div>
+
+  <div class="panel"><div class="panel-head"><h2>Asset register</h2>
+    <div class="right"><input type="search" id="eq" placeholder="Search tag, zone, model…" value="${window._eq||""}" style="width:210px"></div></div>
+  <table><thead><tr><th>Tag</th><th>Equipment</th><th>Zone</th><th>Installed under</th><th class="num">Interval</th><th class="num">Next due</th><th>Status</th></tr></thead><tbody>
+  ${(()=>{const q=(window._eq||"").toLowerCase();
+    const f=q?list.filter(a=>(a.tag+a.type+a.make+a.model+a.zone).toLowerCase().includes(q)):list;
+    return f.length?f.map(a=>`<tr class="click" data-asset="${a.id}"><td><span class="mono strong" style="font-size:.8125rem">${a.tag}</span></td>
+      <td>${a.make} ${a.model}<div class="tag">${a.type}</div></td><td>${a.zone}</td>
+      <td class="num">${a.proj}</td><td class="num">${a.months} mth</td><td class="num">${fmt(a.due)}</td>
+      <td>${PILL[a.job?"scheduled":a.status]}</td></tr>`).join("")
+      :`<tr><td colspan="7"><div class="empty">Nothing matches that search.</div></td></tr>`;})()}
+  </tbody></table></div>
+  <div class="note"><b>This is the join neither cheap platform makes.</b> The property holds the plan. The plan holds the assets. The assets remember which project installed them and when they're next owed a test. Everything else in here hangs off that.</div>`;
+}
+
+function defectsView(){
+  const open=DEFECTS.filter(d=>!d.est), done=DEFECTS.filter(d=>d.est);
+  const sev=s=>s==="Critical"?"p-fail":s==="Major"?"p-over":"p-due";
+  return `<div class="panel"><div class="panel-head"><h2>Open defects</h2>
+    <span class="hint">Assets that failed their last test. Each is unbilled work.</span></div>
+  ${open.length?`<table><thead><tr><th>Asset</th><th>Site / project</th><th>Fault</th><th>Severity</th><th class="num">Found</th><th class="num">Est. value</th><th></th></tr></thead><tbody>
+  ${open.map(d=>{const a=asset(d.assetId);return `<tr><td><span class="mono strong" style="font-size:.8125rem">${a.tag}</span><div class="tag">${a.make} ${a.model}</div></td>
+    <td>${site(a.siteId).name}<div class="tag">${a.zone} · ${a.proj}</div></td><td>${d.fault}</td>
+    <td><span class="pill ${sev(d.sev)}">${d.sev}</span></td><td class="num">${fmt(d.found)}</td>
+    <td class="num">${money(a.cost*1.6)}</td><td><button class="btn sm qbtn" data-id="${d.assetId}">Estimate</button></td></tr>`}).join("")}
+  </tbody></table>`:`<div class="empty">No open defects.</div>`}
+  </div>
+  ${done.length?`<div class="panel"><div class="panel-head"><h2>Estimated</h2></div>
+  <table><thead><tr><th>Estimate</th><th>Asset</th><th>Fault</th><th class="num">Value</th></tr></thead><tbody>
+  ${done.map(d=>`<tr><td class="num strong">${d.est}</td><td class="mono" style="font-size:.8125rem">${asset(d.assetId).tag}</td>
+    <td>${d.fault}</td><td class="num">${money(ESTIMATES.find(e=>e.ref===d.est).total)}</td></tr>`).join("")}
+  </tbody></table></div>`:""}`;
+}
+
+function estimateView(){
+  const S={draft:'<span class="pill p-sched">Draft</span>',sent:'<span class="pill p-live">Out for decision</span>',
+    won:'<span class="pill p-won">Won</span>',lost:'<span class="pill p-over">Lost</span>'};
+  const pipe=ESTIMATES.filter(e=>e.state==="sent").reduce((s,e)=>s+e.total,0);
+  const won=ESTIMATES.filter(e=>e.state==="won").reduce((s,e)=>s+e.total,0);
+  return `<div class="stats">
+    <div class="stat"><b>${ESTIMATES.filter(e=>e.state==="draft").length}</b><span>In draft</span></div>
+    <div class="stat"><b>${money(pipe/1000)}k</b><span>Out for<br>decision</span></div>
+    <div class="stat"><b>${money(won/1000)}k</b><span>Won, awaiting<br>project setup</span></div>
+    <div class="stat alert"><b>${DEFECTS.filter(d=>!d.est).length}</b><span>Defects with no<br>estimate yet</span></div>
+  </div>
+  <div class="panel"><div class="panel-head"><h2>Estimates</h2>
+    <span class="hint">Project pricing and defect remedials in one register.</span>
+    <div class="right"><button class="btn alt sm" data-go="defects">Estimate a defect</button></div></div>
+  <table><thead><tr><th>Ref</th><th>Description</th><th>Site</th><th>Kind</th><th class="num">Raised</th><th class="num">Value</th><th>Status</th></tr></thead><tbody>
+  ${ESTIMATES.slice().sort((a,b)=>b.raised-a.raised).map(e=>`<tr><td class="num strong">${e.ref}</td><td>${e.title}</td>
+    <td>${site(e.siteId).name}</td><td class="tag">${e.kind}</td><td class="num">${fmt(e.raised)}</td>
+    <td class="num">${money(e.total)}</td><td>${S[e.state]}</td></tr>`).join("")}
+  </tbody></table></div>
+  <div class="note">A won estimate becomes a project, and the project's assets land on the site plan. That loop is the reason this sits above the job platform rather than inside it.</div>`;
+}
+
+function scheduleView(){
+  const start=new Date(2026,6,27);
+  const dn=["Mon","Tue","Wed","Thu","Fri"];
+  const cls={Install:"",Maint:"maint",Defect:"def"};
+  return `<div class="panel"><div class="panel-head"><h2>Week of 27 – 31 July 2026</h2>
+    <span class="hint">Project works, PPM rounds and remedial attendances, by technician.</span>
+    <div class="right"><button class="btn alt sm" onclick="toast('Week changed','Mockup only — the grid stays on the current week.')">◀ Prev</button>
+    <button class="btn alt sm" onclick="toast('Week changed','Mockup only — the grid stays on the current week.')">Next ▶</button></div></div>
+  <div class="sched">
+    <div class="hd">Technician</div>${dn.map((d,i)=>`<div class="hd">${d} ${addD(start,i).getDate()} Jul</div>`).join("")}
+    ${TECHS.map(t=>{
+      const load=VISITS.filter(v=>v.tech===t).reduce((s,v)=>s+v.hrs,0);
+      return `<div class="who">${t}<small>${load} hrs booked</small></div>`+
+        dn.map((_,d)=>`<div>${VISITS.filter(v=>v.tech===t&&v.day===d).map(v=>
+          `<div class="visit ${cls[v.kind]}" data-visit="${v.ref}|${v.siteId}|${v.kind}|${v.hrs}|${v.tech}|${v.note}">
+            <b>${v.ref} · ${v.hrs}h</b>${site(v.siteId).name}</div>`).join("")}</div>`).join("");
+    }).join("")}
+  </div></div>
+  <div class="panel"><div class="panel-head"><h2>Unassigned</h2><span class="hint">Raised from the maintenance planner, waiting on a slot.</span></div>
+  ${JOBSQ.length?`<table><thead><tr><th>Ref</th><th>Site</th><th>Scope</th><th class="num">Est. hours</th><th></th></tr></thead><tbody>
+    ${JOBSQ.map(j=>`<tr><td class="num strong">${j.ref}</td><td>${site(j.siteId).name}</td>
+      <td>${j.count} assets due</td><td class="num">${Math.round(j.mins/60*10)/10}</td>
+      <td><button class="btn sm alt" onclick="toast('Assigned','${j.ref} pushed to the dispatch board in ServiceM8 for scheduling.')">Assign</button></td></tr>`).join("")}
+    </tbody></table>`:`<div class="empty">Nothing waiting. Raise services from Projects → Scheduled maintenance.</div>`}
+  </div>
+  <div class="note">The grid is a read-only mirror. Scheduling itself stays in ServiceM8 — this layer decides <b>what</b> needs doing, the job platform decides <b>who and when</b>.</div>`;
+}
+const JOBSQ=[];
+
+function timesheetView(){
+  const dn=["Mon","Tue","Wed","Thu","Fri"];
+  const mine=mineToday();
+  const todayMins=mine.reduce((s,e)=>s+e.mins,0);
+  const wkMine=TIME.filter(e=>e.tech===ME);
+  const wkMins=wkMine.reduce((s,e)=>s+e.mins,0);
+  const billMins=wkMine.filter(e=>e.bill).reduce((s,e)=>s+e.mins,0);
+  const pend=TIME.filter(e=>e.state==="submitted");
+  const w=work(CLOCK.ref);
+
+  const clockCard=CLOCK.live?`
+    <div class="cl-main">
+      <div class="eyebrow"><span class="pulse"></span>Clocked on</div>
+      <div class="cl-time" id="clkTime">${elapsedStr()}</div>
+      <div class="cl-what">${w.ref} — ${w.name}</div>
+      <div class="cl-sub">${site(w.siteId).name} · ${CLOCK.act} · started ${new Date(CLOCK.since).toLocaleTimeString("en-AU",{hour:"2-digit",minute:"2-digit"})}</div>
+      <div style="margin-top:20px"><button class="btn red big" id="clkoff">Clock off</button></div>
+    </div>`:`
+    <div class="cl-main">
+      <div class="eyebrow">Not clocked on</div>
+      <div class="cl-form">
+        <label>Work<select id="clkRef">${WORKREFS.map(x=>`<option value="${x.ref}" ${x.ref===CLOCK.ref?"selected":""}>${x.ref} — ${x.name}</option>`).join("")}</select></label>
+        <label>Activity<select id="clkAct">${ACTIVITIES.map(a=>`<option ${a.a===CLOCK.act?"selected":""}>${a.a}</option>`).join("")}</select></label>
+      </div>
+      <button class="btn big" id="clkon">Clock on</button>
+      <div class="cl-sub" style="margin-top:12px">Time runs against the project you pick, so it lands in job costing rather than a payroll bucket.</div>
+    </div>`;
+
+  return `
+  <div class="clock ${CLOCK.live?"live":""}">
+    ${clockCard}
+    <div>
+      <div class="eyebrow">${ME} · Fri 24 Jul</div>
+      <div class="tot"><span>Today</span><b>${hrs(todayMins+Math.floor(elapsedMs()/60000))}</b></div>
+      <div class="tot"><span>Week to date</span><b>${hrs(wkMins)}</b></div>
+      <div class="tot"><span>Billable share</span><b>${wkMins?Math.round(billMins/wkMins*100):0}%</b></div>
+      <div class="tot"><span>Awaiting approval</span><b>${pend.length}</b></div>
+    </div>
+  </div>
+
+  <div class="panel"><div class="panel-head"><h2>Today's entries</h2>
+    <span class="hint">${ME} · ${mine.length} entr${mine.length===1?"y":"ies"} · ${hrs(todayMins)} hrs</span></div>
+  ${mine.length?`<table><thead><tr><th class="num">Start</th><th class="num">Duration</th><th>Work</th><th>Site</th><th>Activity</th><th>Billable</th><th>Status</th></tr></thead><tbody>
+  ${mine.slice().sort((a,b)=>a.start-b.start).map(e=>`<tr>
+    <td class="num">${hhmm(e.start)}</td><td class="num strong">${hrs(e.mins)} h</td>
+    <td class="num">${e.ref}<div class="tag">${work(e.ref).name}</div></td>
+    <td>${site(e.siteId).name}</td><td class="tag">${e.act}</td>
+    <td>${e.bill?'<span class="pill p-ok">Billable</span>':'<span class="pill p-sched">Overhead</span>'}</td>
+    <td>${e.state==="approved"?'<span class="pill p-won">Approved</span>':e.state==="submitted"?'<span class="pill p-live">Submitted</span>':'<span class="pill p-sched">Draft</span>'}</td>
+    </tr>`).join("")}</tbody></table>`
+  :`<div class="empty">Nothing logged today yet. Clock on above.</div>`}
+  </div>
+
+  <div class="panel"><div class="panel-head"><h2>On the tools right now</h2>
+    <span class="hint">Live across the crew. Refreshes as techs clock on and off in the field.</span></div>
+  <table><thead><tr><th>Technician</th><th class="num">On since</th><th class="num">Elapsed</th><th>Work</th><th>Site</th><th>Activity</th></tr></thead><tbody>
+  ${ONNOW.map(o=>`<tr class="click" data-proj="${o.ref}"><td class="strong"><span class="pulse"></span>${o.tech}</td>
+    <td class="num">${hhmm(o.from)}</td><td class="num strong">${hrs(NOWM-o.from)} h</td>
+    <td class="num">${o.ref}<div class="tag" style="font-family:Roboto">${work(o.ref).name}</div></td>
+    <td>${site(o.siteId).name}</td><td class="tag">${o.act}</td></tr>`).join("")}
+  ${CLOCK.live?`<tr><td class="strong"><span class="pulse"></span>${ME} <span class="tag">· you</span></td>
+    <td class="num">${new Date(CLOCK.since).toLocaleTimeString("en-AU",{hour:"2-digit",minute:"2-digit"})}</td>
+    <td class="num strong" id="clkTime2">${elapsedStr()}</td>
+    <td class="num">${CLOCK.ref}<div class="tag" style="font-family:Roboto">${work(CLOCK.ref).name}</div></td>
+    <td>${site(work(CLOCK.ref).siteId).name}</td><td class="tag">${CLOCK.act}</td></tr>`:""}
+  </tbody></table>
+  <div class="panel-head" style="border-bottom:none;border-top:1px solid var(--rule)">
+    <span class="hint">${ONNOW.length+(CLOCK.live?1:0)} of ${TECHS.length} clocked on · ${TECHS.length-ONNOW.length-(CLOCK.live?1:0)} off the tools</span></div>
+  </div>
+
+  <div class="panel"><div class="panel-head"><h2>Week of 20 – 24 July 2026</h2>
+    <span class="hint">Hours by technician. Today's column is highlighted.</span>
+    <div class="right"><button class="btn alt sm" id="tsexport">Push approved hours to payroll</button></div></div>
+  <div class="wk">
+    <div class="hd who" style="text-align:left">Technician</div>
+    ${dn.map((d,i)=>`<div class="hd ${i===DAYIDX?"today":""}">${d} ${addD(WKSTART,i).getDate()}</div>`).join("")}
+    <div class="hd sum">Total</div>
+    ${TECHS.map(t=>{
+      const row=dn.map((_,d)=>{
+        const m=TIME.filter(e=>e.tech===t&&e.day===d).reduce((s,e)=>s+e.mins,0);
+        return `<div class="${d===DAYIDX?"today":""} ${m?"":"zero"}">${m?hrs(m):"—"}</div>`;}).join("");
+      const tot=TIME.filter(e=>e.tech===t).reduce((s,e)=>s+e.mins,0);
+      return `<div class="who">${t}${t===ME?' <span class="tag">· you</span>':""}</div>${row}<div class="sum">${hrs(tot)}</div>`;
+    }).join("")}
+    <div class="who sum">All staff</div>
+    ${dn.map((_,d)=>{const m=TIME.filter(e=>e.day===d).reduce((s,e)=>s+e.mins,0);
+      return `<div class="sum ${d===DAYIDX?"today":""}">${hrs(m)}</div>`;}).join("")}
+    <div class="sum">${hrs(TIME.reduce((s,e)=>s+e.mins,0))}</div>
+  </div></div>
+
+  <div class="panel"><div class="panel-head"><h2>Awaiting approval</h2>
+    <span class="hint">Submitted entries. Approve before they go to payroll and job costing.</span>
+    ${pend.length?`<div class="right"><button class="btn red sm" id="apprall">Approve all ${pend.length}</button></div>`:""}</div>
+  ${pend.length?`<table><thead><tr><th>Technician</th><th class="num">Date</th><th class="num">Hours</th><th>Work</th><th>Activity</th><th></th></tr></thead><tbody>
+  ${pend.map(e=>`<tr><td class="strong">${e.tech}</td><td class="num">${fmt(e.date)}</td>
+    <td class="num">${hrs(e.mins)} h</td><td class="num">${e.ref}<div class="tag">${site(e.siteId).name}</div></td>
+    <td class="tag">${e.act}</td>
+    <td><button class="btn sm alt appr" data-id="${e.id}">Approve</button></td></tr>`).join("")}
+  </tbody></table>`:`<div class="empty">Everything's approved.</div>`}
+  </div>
+
+  <div class="panel"><div class="panel-head"><h2>Where the week went</h2>
+    <span class="hint">Hours by project — the number ServiceM8 can't give you, because it doesn't know what a project is.</span></div>
+  <table><thead><tr><th>Work</th><th>Site</th><th class="num">Hours</th><th class="num">Labour at $145</th><th style="width:170px">Share of week</th></tr></thead><tbody>
+  ${(()=>{const by={};TIME.forEach(e=>{by[e.ref]=(by[e.ref]||0)+e.mins;});
+    const tot=Object.values(by).reduce((a,b)=>a+b,0);
+    return Object.entries(by).sort((a,b)=>b[1]-a[1]).map(([r,m])=>{
+      const p=proj(r),pc=Math.round(m/tot*100);
+      return `<tr class="click" data-proj="${r}"><td class="num strong">${r}<div class="tag" style="font-family:Roboto">${p?p.name:""}</div></td>
+        <td>${site(work(r).siteId).name}</td><td class="num">${hrs(m)}</td>
+        <td class="num">${money(m/60*145)}</td>
+        <td class="num">${pc}%<div class="bar"><span class="blue" style="width:${pc}%"></span></div></td></tr>`;}).join("");})()}
+  </tbody></table></div>
+
+  <div class="note"><b>Decide who owns time before anyone builds this.</b> ServiceM8 already has timesheets, so either this screen is the source of truth and pushes hours across, or it mirrors ServiceM8's entries and only adds the project split. Running both as sources will end in two sets of numbers that never agree.</div>`;
+}
+
+function teamView(){
+  const soon=(d,n)=>d&&days(d)>=0&&days(d)<=n;
+  const awayToday=TEAM.filter(p=>onLeave(p.n,TODAY));
+  const next30=LEAVE.filter(l=>days(l.from)>=0&&days(l.from)<=30);
+  const licSoon=TEAM.filter(p=>soon(p.exp,90));
+  const tixSoon=[];TEAM.forEach(p=>p.tix.forEach(([t,d])=>{if(soon(d,90))tixSoon.push({p:p.n,t,d});}));
+
+  /* leave that lands on top of booked work next week */
+  const clashes=[];
+  LEAVE.forEach(l=>{
+    const v=VISITS.filter(x=>x.tech===l.n&&x.date>=l.from&&x.date<=l.to);
+    if(v.length) clashes.push({l,v});
+  });
+
+  /* 12-week leave calendar from Mon 20 Jul */
+  const G0=new Date(2026,6,20), WKS=12, span=WKS*7;
+  const pos=d=>Math.max(0,Math.min(100,(d-G0)/86400000/span*100));
+
+  const KIND={Annual:"",Training:"train",RDO:"rdo",Personal:""};
+
+  return `
+  <div class="stats">
+    <div class="stat"><b>${TEAM.length}</b><span>On the<br>books</span></div>
+    <div class="stat"><b>${TEAM.filter(p=>p.field).length}</b><span>Licensed<br>field staff</span></div>
+    <div class="stat ${awayToday.length?"alert":""}"><b>${awayToday.length}</b><span>Away<br>today</span></div>
+    <div class="stat"><b>${next30.length}</b><span>Leave periods<br>next 30 days</span></div>
+    <div class="stat ${licSoon.length+tixSoon.length?"alert":""}"><b>${licSoon.length+tixSoon.length}</b><span>Licences/tickets<br>expiring in 90 days</span></div>
+  </div>
+
+  ${clashes.length||licSoon.length||tixSoon.length?`
+  <div class="panel"><div class="panel-head"><h2>Needs a decision</h2>
+    <span class="hint">Leave booked over work already scheduled, and credentials about to lapse.</span></div>
+  <table><thead><tr><th>What</th><th>Who</th><th>Detail</th><th class="num">When</th><th></th></tr></thead><tbody>
+  ${clashes.map(c=>`<tr><td><span class="pill p-fail">Coverage</span></td><td class="strong">${c.l.n}</td>
+    <td>${c.l.kind} leave over ${c.v.length} booked visit${c.v.length===1?"":"s"} — ${[...new Set(c.v.map(v=>site(v.siteId).name))].join(", ")}</td>
+    <td class="num">${fmt(c.l.from)} → ${fmt(c.l.to)}</td>
+    <td><button class="btn sm red" onclick="toast('Reassignment needed','${c.v.length} visit(s) for ${c.l.n} need another tech. In a live build this would open the Schedule filtered to that week.')">Reallocate</button></td></tr>`).join("")}
+  ${licSoon.map(p=>`<tr><td><span class="pill p-over">Licence</span></td><td class="strong">${p.n}</td>
+    <td>${p.cls} — ${p.lic}</td><td class="num">${fmt(p.exp)}<div class="tag">${days(p.exp)} days</div></td>
+    <td><button class="btn sm alt" data-person="${p.n}">Open</button></td></tr>`).join("")}
+  ${tixSoon.map(t=>`<tr><td><span class="pill p-due">Ticket</span></td><td class="strong">${t.p}</td>
+    <td>${t.t}</td><td class="num">${fmt(t.d)}<div class="tag">${days(t.d)} days</div></td>
+    <td><button class="btn sm alt" data-person="${t.p}">Open</button></td></tr>`).join("")}
+  </tbody></table></div>`:""}
+
+  <div class="panel"><div class="panel-head"><h2>The team</h2>
+    <span class="hint">Click anyone for licences, tickets, current work and leave balance.</span></div>
+  <div class="crew">
+  ${TEAM.map(p=>{
+    const away=onLeave(p.n,TODAY), lic=p.exp&&days(p.exp)<=90;
+    const nxt=LEAVE.filter(l=>l.n===p.n&&days(l.to)>=0).sort((a,b)=>a.from-b.from)[0];
+    return `<div class="person" data-person="${p.n}">
+      <div class="top"><div class="avatar ${away?"away":""}">${initials(p.n)}</div>
+        <div><div class="nm">${p.n}${p.n===ME?' <span class="tag">· you</span>':""}</div><div class="rl">${p.role}</div></div></div>
+      <div class="cts">
+        <a href="tel:${p.mob.replace(/ /g,"")}" onclick="event.stopPropagation()">${p.mob}</a>
+        <a href="mailto:${p.em}" onclick="event.stopPropagation()">${p.em}</a>
+      </div>
+      <div class="lic">
+        ${p.field?`Licence <b>${p.lic}</b><br>${p.cls} · exp <span class="${lic?"warn":""}">${fmt(p.exp)}</span><br>`:`${p.cls}<br>`}
+        ${p.field?`Vehicle ${p.veh}<br>`:""}
+        With Ktronics since ${p.since}
+        ${away?`<br><span class="warn">On ${LEAVE.find(l=>l.n===p.n&&TODAY>=l.from&&TODAY<=l.to).kind.toLowerCase()} leave today</span>`
+          :nxt?`<br>Next away ${fmt(nxt.from)} · ${nxt.kind.toLowerCase()}`:""}
+      </div></div>`;}).join("")}
+  </div></div>
+
+  <div class="panel"><div class="panel-head"><h2>Leave calendar</h2>
+    <span class="hint">Twelve weeks out. Solid is approved, dashed is requested. The red line is today.</span></div>
+  <div class="gantt">
+    <div class="lbl hd">Person</div>
+    <div class="track hd">${Array.from({length:WKS},(_,i)=>`<span>${addD(G0,i*7).getDate()}/${addD(G0,i*7).getMonth()+1}</span>`).join("")}</div>
+    ${TEAM.map(p=>{
+      const ls=LEAVE.filter(l=>l.n===p.n&&l.to>=G0&&l.from<=addD(G0,span));
+      return `<div class="lbl">${p.n}</div><div class="track">
+        ${p.n===TEAM[0].n?`<div class="now-line" style="left:${pos(TODAY)}%"></div>`:`<div class="now-line" style="left:${pos(TODAY)}%;opacity:.35"></div>`}
+        ${ls.map(l=>{const L=pos(l.from),R=pos(addD(l.to,1));
+          return `<div class="lv ${KIND[l.kind]||""} ${l.ok?"":"req"}" style="left:${L}%;width:${Math.max(R-L,3)}%"
+            title="${l.kind} leave · ${fmt(l.from)} → ${fmt(l.to)} · ${bizDays(l)} days · ${l.ok?"approved":"requested"}">${bizDays(l)>2?l.kind:""}</div>`;}).join("")}
+      </div>`;}).join("")}
+  </div></div>
+
+  <div class="panel"><div class="panel-head"><h2>Scheduled leave</h2>
+    <span class="hint">Everything booked or requested from today forward.</span>
+    <div class="right"><button class="btn alt sm" onclick="toast('Leave request','Mockup only — in a live build this opens a request that routes to the office manager for approval.')">Request leave</button></div></div>
+  <table><thead><tr><th>Person</th><th>Role</th><th>Type</th><th class="num">From</th><th class="num">To</th><th class="num">Days</th><th>Status</th><th>Cover</th></tr></thead><tbody>
+  ${LEAVE.filter(l=>days(l.to)>=0).sort((a,b)=>a.from-b.from).map(l=>{
+    const p=person(l.n), cl=clashes.find(c=>c.l===l);
+    return `<tr class="click" data-person="${l.n}"><td class="strong">${l.n}</td><td class="tag">${p.role}</td>
+      <td>${l.kind}</td><td class="num">${fmt(l.from)}</td><td class="num">${fmt(l.to)}</td>
+      <td class="num">${bizDays(l)}</td>
+      <td>${l.ok?'<span class="pill p-won">Approved</span>':'<span class="pill p-live">Requested</span>'}</td>
+      <td>${cl?`<span class="pill p-over">${cl.v.length} visit${cl.v.length===1?"":"s"} unallocated</span>`
+        :p.field?'<span class="pill p-ok">Clear</span>':'<span class="tag">n/a</span>'}</td></tr>`;}).join("")}
+  </tbody></table></div>
+
+  <div class="note"><b>The reason this sits next to the schedule.</b> Leave on its own is a payroll record. Leave read against booked visits and licence expiry dates is an operations control — it tells you a fortnight out that Whitmore's jobs need another name on them, and that his Class 2A lapses before he's back.</div>`;
+}
+
+function personDrawer(name){
+  const p=person(name);
+  const mine=TIME.filter(e=>e.tech===name);
+  const wk=mine.reduce((s,e)=>s+e.mins,0), bill=mine.filter(e=>e.bill).reduce((s,e)=>s+e.mins,0);
+  const leads=PROJECTS.filter(x=>x.pm===name);
+  const ls=LEAVE.filter(l=>l.n===name).sort((a,b)=>a.from-b.from);
+  const taken=ls.filter(l=>l.to<TODAY&&l.kind==="Annual").reduce((s,l)=>s+bizDays(l),0);
+  const now=ONNOW.find(o=>o.tech===name);
+  const away=onLeave(name,TODAY);
+  return openDrawer(`<div class="drawer-head"><button class="closex" onclick="closeDrawer()">✕</button>
+    <h3>${p.n}</h3><div class="tag">${p.role} · with Ktronics since ${p.since}</div></div>
+  <div class="drawer-body">
+    ${now?`<div class="note" style="border-left-color:var(--ok)"><b><span class="pulse"></span>On the tools now</b>
+      ${now.ref} — ${work(now.ref).name} at ${site(now.siteId).name}, since ${hhmm(now.from)} (${hrs(NOWM-now.from)} h).</div>`:""}
+    ${away?`<div class="note" style="border-left-color:var(--warn)"><b>On leave today</b>
+      Back ${fmt(addD(LEAVE.find(l=>l.n===name&&TODAY>=l.from&&TODAY<=l.to).to,1))}.</div>`:""}
+    <dl class="kv">
+      <dt>Mobile</dt><dd><a href="tel:${p.mob.replace(/ /g,"")}" style="color:inherit">${p.mob}</a></dd>
+      <dt>Email</dt><dd><a href="mailto:${p.em}" style="color:inherit">${p.em}</a></dd>
+      ${p.field?`<dt>Security licence</dt><dd>${p.lic}<div class="tag">${p.cls}</div></dd>
+      <dt>Licence expiry</dt><dd>${fmt(p.exp)} ${days(p.exp)<=90?'<span class="pill p-over">'+days(p.exp)+' days</span>':""}</dd>
+      <dt>Vehicle</dt><dd>${p.veh}</dd>`:`<dt>Role type</dt><dd>${p.cls} — office based</dd>`}
+    </dl>
+    ${p.tix.length?`<h4 class="sechead">Tickets &amp; competencies</h4>
+    <table style="margin-bottom:22px"><tbody>${p.tix.map(([t,d])=>`<tr>
+      <td style="padding:7px 0">${t}</td>
+      <td style="padding:7px 0;text-align:right" class="num">${fmt(d)} ${days(d)<=90?'<span class="pill p-due">expiring</span>':""}</td></tr>`).join("")}
+    </tbody></table>`:""}
+    ${leads.length?`<h4 class="sechead">Leads ${leads.length} project${leads.length===1?"":"s"}</h4>
+    <table style="margin-bottom:22px"><tbody>${leads.map(x=>`<tr class="click" data-proj="${x.ref}">
+      <td style="padding:7px 0"><span class="mono strong" style="font-size:.8125rem">${x.ref}</span>
+        <div class="tag" style="font-family:Roboto">${x.name}</div></td>
+      <td style="padding:7px 0;text-align:right" class="num">${money(x.value)}</td></tr>`).join("")}
+    </tbody></table>`:""}
+    ${p.field?`<h4 class="sechead">This week</h4>
+    <dl class="kv"><dt>Hours logged</dt><dd>${hrs(wk)} h</dd>
+      <dt>Billable share</dt><dd>${wk?Math.round(bill/wk*100):0}%</dd>
+      <dt>Annual leave taken</dt><dd>${taken} days this year</dd></dl>`:""}
+    <h4 class="sechead">Leave</h4>
+    ${ls.length?`<ul class="hist" style="padding-left:14px">${ls.map(l=>`<li class="${days(l.from)>=0?"now":""}">
+      <b>${fmt(l.from)} → ${fmt(l.to)} · ${bizDays(l)} days</b>${l.kind} · ${l.ok?"approved":"awaiting approval"}</li>`).join("")}</ul>`
+      :`<p class="tag">Nothing booked.</p>`}
+  </div>`);
+}
+
+/* ================= technician app ================= */
+let MODE="admin", TAB="today", WHO=ME, SHIFT={on:false,since:null};
+const PRIODONE=new Set();
+
+const FIRST={"K. Lamb":"Karl","D. Reyes":"Dan","S. Whitmore":"Sam","M. Okafor":"Michael",
+  "J. Petrov":"Josef","A. Nguyen":"Amy","L. Hartley":"Louise","T. Brennan":"Tom"};
+
+/* ---- points & goals ---- */
+const PTS={priority:15,checkin:10,photo:5,note:5,scan:8,defect:25,close:30};
+const GOAL=120;
+let EARNED=42;                      /* banked before the app opened */
+const STREAK=12, BADGES=[["🔥",STREAK+" day streak",true],["📷","Evidence hound",false],["⚡","SLA beater ×5",false]];
+let SHEET=null;                     /* null | "gps" | "prio" */
+
+function priorities(){
+  const p=person(WHO), out=[];
+  const mine=PROJECTS.filter(x=>x.pm===WHO&&x.state==="active");
+  const crit=DEFECTS.filter(d=>d.sev==="Critical"&&!d.est);
+  if(crit.length){const a=asset(crit[0].assetId);
+    out.push({t:`Attend critical defect — ${a.tag}`,s:`${site(a.siteId).name} · ${crit[0].fault}`,u:true,p:25});}
+  mine.slice(0,2).forEach(x=>out.push({t:x.next,s:`${x.ref} · ${site(x.siteId).name}`,u:false,p:20}));
+  const od=ASSETS.filter(a=>a.status==="overdue").length;
+  if(od) out.push({t:`Pick up overdue services while you're on site`,s:`${od} past due across the estate`,u:false,p:15});
+  const tix=(p.tix||[]).filter(([,d])=>days(d)>=0&&days(d)<=60);
+  if(tix.length) out.push({t:`Renew ${tix[0][0].toLowerCase()}`,s:`Expires ${fmt(tix[0][1])}`,u:days(tix[0][1])<=14,p:10});
+  const draft=TIME.filter(e=>e.tech===WHO&&e.state==="draft").length;
+  if(draft) out.push({t:`Submit ${draft} timesheet entr${draft===1?"y":"ies"}`,s:"Week closes Friday 5pm",u:false,p:10});
+  out.push({t:"Photograph and tag anything you replace",s:"Keeps the evidence pack clean",u:false,p:15});
+  return out.slice(0,6);
+}
+const earnedTotal=()=>EARNED+[...PRIODONE].reduce((s,i)=>s+(priorities()[i]?priorities()[i].p:0),0)+(CLOCK.live?PTS.checkin:0);
+
+function wins(){
+  const mine=TIME.filter(e=>e.tech===WHO);
+  const wk=mine.reduce((s,e)=>s+e.mins,0);
+  const done=14+(WHO.length%5), target=16;
+  const found=DEFECTS.filter(d=>d.est).length+2, value=found*1400;
+  const pr=priorities(), pd=[...PRIODONE].length;
+  return [
+   {t:"Priorities today",v:`${pd} of ${pr.length}`,pc:Math.round(pd/pr.length*100),
+    m:pd===pr.length?"All clear. That's the whole list done before knock-off.":pd?`${pr.length-pd} to go — you're moving faster than yesterday.`:"Tick the first one and you're away.",
+    good:pd===pr.length},
+   {t:"Services closed this month",v:`${done} of ${target}`,pc:Math.round(done/target*100),
+    m:done>=target?"Target beaten. Best month you've had.":`${target-done} more and you beat last month.`,good:done>=target},
+   {t:"First-time fix",v:"96%",pc:96,m:"Highest on the crew. Almost nothing comes back to you.",good:true},
+   {t:"Defects you found",v:`${found} this month`,pc:Math.min(100,found*20),
+    m:`Worth about ${money(value)} of remedial work to the team. Finding them is the job.`,good:true},
+   {t:"Response vs SLA",v:"1.4 h",pc:88,m:"Well inside the 4-hour promise on every callout.",good:true}
+  ];
+}
+
+function techToday(){
+  const p=person(WHO), pr=priorities(), w=work(CLOCK.ref);
+  const pts=earnedTotal(), pc=Math.min(100,Math.round(pts/GOAL*100));
+  const C=2*Math.PI*36;
+  return `
+  ${SHIFT.on?`
+    <div class="instrip">
+      <div class="t"><b>Signed in to work</b><span>Since ${new Date(SHIFT.since).toLocaleTimeString("en-AU",{hour:"2-digit",minute:"2-digit"})}</span>
+        <div class="gpschip">◉ Location shared while signed in</div></div>
+    </div>
+    <button class="bigbtn stop" id="shiftoff">Sign out of work</button>
+  `:`
+    <button class="bigbtn go" id="shifton">Sign in to work<small>Starts your day and shares your location for safety</small></button>
+  `}
+
+  <div class="tcard">
+    <div class="tlabel">Priorities today · ${[...PRIODONE].length}/${pr.length}</div>
+    <ul class="prio">
+    ${pr.map((x,i)=>`<li class="${PRIODONE.has(i)?"done":""} ${x.u?"urgent":""}" data-prio="${i}">
+      <span class="box">✓</span><span class="txt"><b>${x.t}</b><span>${x.s}</span></span>
+      <span class="pts">+${x.p}</span></li>`).join("")}
+    </ul>
+  </div>
+
+  ${CLOCK.live?`
+    <div class="instrip" style="border-left-color:var(--blue)">
+      <div class="t"><b>${CLOCK.ref} — ${w.name}</b><span>${site(w.siteId).name} · ${CLOCK.act} · since ${new Date(CLOCK.since).toLocaleTimeString("en-AU",{hour:"2-digit",minute:"2-digit"})}</span></div>
+    </div>
+    <button class="bigbtn stop" id="tprojoff">Check out of job</button>
+  `:`
+    <button class="bigbtn proj" id="gopick" ${SHIFT.on?"":"disabled"}>Check in to a job
+      <small>${SHIFT.on?"Recent jobs, search, or start a new one":"Sign in to work first"}</small></button>
+  `}
+
+  <div class="tlabel" style="margin-top:22px">How today's going</div>
+  <div class="scorecard">
+    <div class="ring">
+      <svg width="86" height="86" viewBox="0 0 86 86">
+        <circle class="rc" cx="43" cy="43" r="36"/>
+        <circle class="rf2 ${pc>=100?"done":""}" cx="43" cy="43" r="36"
+          stroke-dasharray="${C}" stroke-dashoffset="${C*(1-pc/100)}"/>
+      </svg>
+      <div class="mid"><b>${pc}%</b><span>of goal</span></div>
+    </div>
+    <div class="sc">
+      <b>${pc>=100?"Goal smashed":pc>=70?"You're ahead of pace":pc>=35?"Good start":"Let's get moving"}</b>
+      <p>${pts} of ${GOAL} points today${pc>=100?". Everything from here is bonus.":`. ${GOAL-pts} to go — that's about ${Math.ceil((GOAL-pts)/20)} more ticked off.`}</p>
+      <div class="chips">${BADGES.map(([i,t,hot])=>`<span class="chip2 ${hot?"fire":""}">${i} ${t}</span>`).join("")}</div>
+    </div>
+  </div>
+
+  ${wins().map(w2=>`<div class="win">
+    <div class="h"><b>${w2.t}</b><em>${w2.v}</em></div>
+    <div class="bar"><span class="${w2.good?"":"blue"}" style="width:${w2.pc}%"></span></div>
+    <p class="${w2.good?"good":""}">${w2.m}</p></div>`).join("")}`;
+}
+
+function techJobPick(){
+  const q=(window._jq||"").toLowerCase();
+  const recent=[
+    {ref:"P-1042",siteId:"S1",kind:"Install",note:"Perimeter camera refresh",when:"Yesterday"},
+    {ref:"M-0042",siteId:"S1",kind:"Maint",  note:"Site-wide PPM round",     when:"Yesterday"},
+    {ref:"P-1051",siteId:"S1",kind:"Install",note:"Cold store readers",      when:"Wed"},
+    {ref:"M-0007",siteId:"S2",kind:"Maint",  note:"HV network PPM",          when:"Wed"},
+    {ref:"P-1019",siteId:"S3",kind:"Install",note:"Hall 3 Lenel expansion",  when:"Tue"},
+    {ref:"P-1033",siteId:"S2",kind:"Install",note:"Substation 7 fence",      when:"Mon"}
+  ];
+  const all=q?WORKREFS.filter(x=>(x.ref+x.name+site(x.siteId).name).toLowerCase().includes(q))
+              .map(x=>({ref:x.ref,siteId:x.siteId,kind:x.ref[0]==="M"?"Maint":"Install",note:x.name,when:""}))
+            :recent;
+  const cls={Install:"",Maint:"maint",Defect:"def"};
+  return `
+  <div class="backbar"><button data-tab="today">‹ Back</button>
+    <div class="tlabel" style="margin:0;flex:1">Check in to a job</div></div>
+
+  <div class="duo">
+    <button class="nw" id="newjob"><i>＋</i>New job</button>
+    <button class="sr" id="focussearch"><i>⌕</i>Search all</button>
+  </div>
+
+  <input class="tsearch" id="jq" type="search" placeholder="Search job, site or ref…" value="${window._jq||""}">
+
+  <div class="tlabel">${q?`${all.length} match${all.length===1?"":"es"}`:"Recent jobs"}</div>
+  ${all.length?`<div class="jobgrid">
+    ${all.slice(0,10).map(j=>`<button class="jtile ${cls[j.kind]}" data-pickjob="${j.ref}">
+      <div class="rf">${j.ref}${j.when?" · "+j.when:""}</div>
+      <h4>${j.note}</h4>
+      <div class="st">${site(j.siteId).name}</div></button>`).join("")}
+  </div>`:`<div class="tcard"><div class="empty" style="padding:26px 0">
+    Nothing matches. Try a site name, or start a new job.</div></div>`}`;
+}
+
+function techJobs(){
+  const v=VISITS.filter(x=>x.tech===WHO).sort((a,b)=>a.day-b.day);
+  const cls={Install:"",Maint:"maint",Defect:"def"};
+  const dn=["Mon 27","Tue 28","Wed 29","Thu 30","Fri 31"];
+  const lv=LEAVE.find(l=>l.n===WHO&&l.to>=new Date(2026,6,27)&&l.from<=new Date(2026,6,31));
+  return `
+  <div class="tlabel">Week of 27 – 31 July</div>
+  ${lv?`<div class="msg" style="margin-bottom:16px"><div class="kind">Heads up</div>
+    <p>You're on ${lv.kind.toLowerCase()} leave ${fmt(lv.from)} → ${fmt(lv.to)}. ${v.length} visit${v.length===1?"":"s"} below still have your name on them — the office has been flagged.</p><div style="height:6px"></div></div>`:""}
+  ${v.length?v.map(x=>`<div class="jcard ${cls[x.kind]}" data-visit2="${x.ref}|${x.siteId}|${x.kind}|${x.hrs}">
+    <div class="r"><span class="rf">${dn[x.day]}</span><span class="rf">${x.hrs} h</span></div>
+    <h4>${site(x.siteId).name}</h4>
+    <div class="rf">${x.ref} · ${x.note}</div></div>`).join("")
+    :`<div class="tcard"><div class="empty" style="padding:26px 0">Nothing booked this week.</div></div>`}
+  <div class="tlabel" style="margin-top:22px">Overdue nearby</div>
+  ${ASSETS.filter(a=>a.status==="overdue").slice(0,4).map(a=>`<div class="jcard def" data-asset="${a.id}">
+    <div class="r"><span class="rf">${a.tag}</span><span class="rf">${Math.abs(days(a.due))} d late</span></div>
+    <h4>${a.make} ${a.model}</h4><div class="rf">${site(a.siteId).name} · ${a.zone}</div></div>`).join("")}`;
+}
+
+function techTime(){
+  const mine=TIME.filter(e=>e.tech===WHO), today=mine.filter(e=>e.day===DAYIDX);
+  const wk=mine.reduce((s,e)=>s+e.mins,0), td=today.reduce((s,e)=>s+e.mins,0);
+  return `
+  <div class="kpis" style="margin-bottom:16px">
+    <div class="kpi"><b>${hrs(td+Math.floor(elapsedMs()/60000))}<em> h</em></b><span>Today</span></div>
+    <div class="kpi"><b>${hrs(wk)}<em> / 38 h</em></b><span>Week to date</span></div>
+  </div>
+  <div class="tlabel">Today's entries</div>
+  ${today.length?today.slice().sort((a,b)=>a.start-b.start).map(e=>`<div class="jcard">
+    <div class="r"><span class="rf">${hhmm(e.start)}</span><span class="rf">${hrs(e.mins)} h</span></div>
+    <h4>${e.ref} — ${work(e.ref).name}</h4>
+    <div class="rf">${site(e.siteId).name} · ${e.act} · ${e.bill?"billable":"overhead"}</div></div>`).join("")
+    :`<div class="tcard"><div class="empty" style="padding:26px 0">Nothing logged today. Sign in to a project on the Today screen.</div></div>`}
+  <button class="bigbtn proj" style="margin-top:14px" onclick="toast('Timesheet submitted','Your week has gone to ${person(WHO).n===ME?"the office":"D. Reyes"} for approval.')">Submit my week</button>`;
+}
+
+function techTeam(){
+  return `<div class="tlabel">Tap to call</div>
+  ${TEAM.filter(p=>p.n!==WHO).map(p=>{const away=onLeave(p.n,TODAY);
+    return `<div class="jcard" style="border-left-color:${away?"var(--warn)":"var(--rule)"}">
+    <div class="r"><span class="rf">${p.role}</span>${away?'<span class="pill p-due">Away</span>':""}</div>
+    <h4>${p.n}</h4>
+    <div style="display:flex;gap:9px;margin-top:9px">
+      <a class="btn sm alt" style="text-decoration:none" href="tel:${p.mob.replace(/ /g,"")}">${p.mob}</a>
+      <a class="btn sm alt" style="text-decoration:none" href="mailto:${p.em}">Email</a></div></div>`;}).join("")}
+  <div class="tlabel" style="margin-top:22px">Emergency control room</div>
+  <a class="bigbtn go" style="text-decoration:none" href="tel:1300621006">1300 621 006</a>`;
+}
+
+function sheetHTML(){
+  if(!SHEET) return "";
+  if(SHEET==="gps") return `<div class="sheetwrap show"><div class="bg" data-sheet="prio"></div><div class="sheet">
+    <div class="grab"></div><div class="step">Step 1 of 2</div>
+    <div class="ic">◉</div>
+    <h3>Location sharing is on</h3>
+    <p>While you're signed in, the office can see where you are. It's there so someone knows which substation you're in if you stop answering — not to check up on you. It switches off the moment you sign out.</p>
+    <button class="bigbtn go" data-sheet="prio" style="margin:0">Got it</button></div></div>`;
+  if(SHEET==="prio"){const n=priorities().length;
+    return `<div class="sheetwrap show"><div class="bg" data-sheet="close"></div><div class="sheet">
+    <div class="grab"></div><div class="step">Step 2 of 2</div>
+    <div class="ic ok">✓</div>
+    <h3>Do you know your priorities today?</h3>
+    <p>There ${n===1?"is":"are"} ${n} on your list, and one is flagged urgent. Ticking them off as you go builds your day score — and tells the office what's actually done without anyone having to ring you.</p>
+    <button class="bigbtn go" data-sheet="show" style="margin-bottom:10px">Show me the list</button>
+    <button class="bigbtn stop" data-sheet="close" style="margin:0">I'm across it</button></div></div>`;}
+  return "";
+}
+
+function renderTech(){
+  const p=person(WHO);
+  const S={today:techToday,jobs:techJobs,time:techTime,team:techTeam,jobpick:techJobPick};
+  const TABS=[["today","◉","Today"],["jobs","▤","Jobs"],["time","◷","Time"],["team","☰","Team"]];
+  const cur=TAB==="jobpick"?"today":TAB;
+  document.getElementById("techapp").innerHTML=`
+  <div class="phone">
+    <div class="thead"><div class="r1">
+      <div class="avatar ${onLeave(WHO,TODAY)?"away":""}">${initials(WHO)}</div>
+      <div class="hello"><div class="hi">Hi ${FIRST[WHO]||WHO}<span>${p.role} · Fri 24 Jul</span></div></div>
+      <select id="whoSel">${TEAM.filter(x=>x.field).map(x=>`<option ${x.n===WHO?"selected":""}>${x.n}</option>`).join("")}</select>
+      <button class="back" data-mode="admin">Admin</button>
+    </div></div>
+    <div class="tbody">${S[TAB]()}</div>
+    <div class="tabbar">${TABS.map(([k,i,l])=>`<button data-tab="${k}" aria-current="${k===cur}"><i>${i}</i>${l}</button>`).join("")}</div>
+  </div>${sheetHTML()}`;
+  wireTech();
+}
+
+function wireTech(){
+  const $=s=>document.getElementById(s), on=(i,e,f)=>{const x=$(i);if(x)x[e]=f;};
+  document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{TAB=b.dataset.tab;window._jq="";renderTech();});
+  document.querySelectorAll("[data-mode]").forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
+  on("whoSel","onchange",e=>{WHO=e.target.value;PRIODONE.clear();renderTech();});
+
+  document.querySelectorAll("[data-sheet]").forEach(b=>b.onclick=()=>{
+    const v=b.dataset.sheet;
+    if(v==="close"){SHEET=null;}
+    else if(v==="show"){SHEET=null;renderTech();
+      const el=document.querySelector(".prio"); if(el) el.scrollIntoView({behavior:"smooth",block:"center"}); return;}
+    else SHEET=v;
+    renderTech();});
+
+  document.querySelectorAll("[data-prio]").forEach(l=>l.onclick=()=>{
+    const i=+l.dataset.prio, pr=priorities()[i];
+    if(PRIODONE.has(i)){PRIODONE.delete(i);}
+    else{PRIODONE.add(i);
+      const left=priorities().length-PRIODONE.size;
+      toast(`+${pr.p} points`, left?`${pr.t} — ticked. ${left} to go.`:`That's the lot, ${FIRST[WHO]}. Full list cleared before knock-off.`);}
+    renderTech();});
+
+  on("shifton","onclick",()=>{SHIFT.on=true;SHIFT.since=Date.now();SHEET="gps";renderTech();});
+  on("shiftoff","onclick",()=>{
+    if(CLOCK.live){CLOCK.live=false;CLOCK.since=null;}
+    SHIFT.on=false;SHIFT.since=null;
+    const pts=earnedTotal();
+    toast("Signed out",`${pts} points today and a ${STREAK+1} day streak. Location sharing is off.`);renderTech();});
+
+  on("gopick","onclick",()=>{TAB="jobpick";window._jq="";renderTech();});
+  on("jq","oninput",e=>{window._jq=e.target.value;const c=e.target.selectionStart;renderTech();
+    const x=$("jq"); if(x){x.focus();x.setSelectionRange(c,c);}});
+  on("focussearch","onclick",()=>{const x=$("jq"); if(x)x.focus();});
+  on("newjob","onclick",()=>toast("New job","Mockup only — a live build would capture site, contact and scope here, then check you straight in."));
+  document.querySelectorAll("[data-pickjob]").forEach(b=>b.onclick=()=>{
+    CLOCK.ref=b.dataset.pickjob; CLOCK.live=true; CLOCK.since=Date.now();
+    TAB="today"; window._jq="";
+    toast(`+${PTS.checkin} points`,`Checked in to ${CLOCK.ref} at ${site(work(CLOCK.ref).siteId).name}.`);
+    renderTech();});
+
+  on("tprojoff","onclick",()=>{
+    const mins=Math.max(1,Math.round(elapsedMs()/60000)),ac=ACTIVITIES.find(x=>x.a===CLOCK.act),st=new Date(CLOCK.since);
+    TIME.push({id:++tSeq,tech:WHO,day:DAYIDX,date:addD(WKSTART,DAYIDX),ref:CLOCK.ref,siteId:work(CLOCK.ref).siteId,
+      act:CLOCK.act,bill:ac?ac.bill:true,start:st.getHours()*60+st.getMinutes(),mins,state:"draft"});
+    CLOCK.live=false;CLOCK.since=null;
+    toast("Checked out",`${hrs(mins)} h logged. Still signed in to work.`);renderTech();});
+
+  document.querySelectorAll("[data-visit2]").forEach(v=>v.onclick=()=>{
+    const [ref,sid,kind,h]=v.dataset.visit2.split("|");
+    toast(kind+" visit",`${ref} · ${site(sid).name} · ${h} hours allowed.`);});
+  document.querySelectorAll("[data-asset]").forEach(r=>r.onclick=()=>assetDrawer(r.dataset.asset));
+}
+
+function setMode(m){
+  MODE=m; document.body.classList.toggle("tech",m==="tech");
+  document.querySelectorAll(".modesw button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.mode===m));
+  m==="tech"?renderTech():render();
+}
+
+/* ================= drawers ================= */
+function openDrawer(h){document.getElementById("dc").innerHTML=h;
+  document.getElementById("drawer").classList.add("show");document.getElementById("scrim").classList.add("show");}
+function closeDrawer(){document.getElementById("drawer").classList.remove("show");document.getElementById("scrim").classList.remove("show");}
+document.getElementById("scrim").onclick=closeDrawer;
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeDrawer();});
+
+function assetDrawer(id){
+  const a=asset(id),s=site(a.siteId),d=DEFECTS.find(x=>x.assetId===id&&!x.est);
+  let h=[],dt=new Date(a.last); for(let i=0;i<4;i++){h.push(new Date(dt));dt=addM(dt,-a.months);}
+  openDrawer(`<div class="drawer-head"><button class="closex" onclick="closeDrawer()">✕</button>
+    <h3 class="mono">${a.tag}</h3><div class="tag">${a.make} ${a.model} · ${a.type}</div></div>
+  <div class="drawer-body">
+    <dl class="kv"><dt>Property</dt><dd>${s.name}</dd><dt>Zone</dt><dd>${a.zone}</dd>
+      <dt>Installed under</dt><dd>${a.proj} — ${proj(a.proj)?proj(a.proj).name:"—"}</dd>
+      <dt>Service level</dt><dd>Every ${a.months} months · ${a.mins} min allowance</dd>
+      <dt>Last tested</dt><dd>${fmt(a.last)}</dd><dt>Next due</dt><dd>${fmt(a.due)} ${PILL[a.job?"scheduled":a.status]}</dd></dl>
+    ${d?`<h4 class="sechead">Open defect</h4><div class="note" style="margin-bottom:22px"><b>${d.sev}: ${d.fault}</b><br>
+      Found ${fmt(d.found)} · estimated remedial ${money(a.cost*1.6)}
+      <div style="margin-top:10px"><button class="btn red sm qbtn" data-id="${a.id}">Raise estimate</button></div></div>`:""}
+    <h4 class="sechead">Service history</h4>
+    <ul class="hist" style="padding-left:14px">${h.map((x,i)=>`<li class="${i===1&&d?"fail":""}">
+      <b>${fmt(x)}</b>${i===1&&d?"Failed — "+d.fault:"Tested, passed"} · ${TECHS[i%TECHS.length]}</li>`).join("")}</ul></div>`);
+  wire();
+}
+function projDrawer(ref){
+  const p=proj(ref),s=site(p.siteId),as=ASSETS.filter(a=>a.proj===ref);
+  openDrawer(`<div class="drawer-head"><button class="closex" onclick="closeDrawer()">✕</button>
+    <h3>${p.name}</h3><div class="tag">${p.ref} · ${p.type} · ${s.name}</div></div>
+  <div class="drawer-body">
+    <dl class="kv"><dt>Property</dt><dd>${s.name}<div class="tag">${s.addr}</div></dd>
+      <dt>Client</dt><dd>${s.client}</dd><dt>Lead</dt><dd>${p.pm}</dd>
+      <dt>Contract value</dt><dd>${money(p.value)}</dd>
+      <dt>Term</dt><dd>${fmt(p.start)} → ${fmt(p.due)}</dd>
+      <dt>Progress</dt><dd>${p.pct}%<div class="bar" style="max-width:200px"><span class="blue" style="width:${p.pct}%"></span></div></dd>
+      ${p.state==="active"?`<dt>Next milestone</dt><dd>${p.next}</dd>`:""}</dl>
+    <h4 class="sechead">Assets under this project (${as.length})</h4>
+    ${as.length?`<table style="margin-bottom:22px"><tbody>${as.slice(0,10).map(a=>`<tr class="click" data-asset="${a.id}">
+      <td style="padding:7px 0"><span class="mono strong" style="font-size:.8125rem">${a.tag}</span><div class="tag">${a.make} ${a.model} · ${a.zone}</div></td>
+      <td style="padding:7px 0;text-align:right">${PILL[a.status]}</td></tr>`).join("")}</tbody></table>
+      ${as.length>10?`<p class="tag">+ ${as.length-10} more on the site estate.</p>`:""}`:`<p class="tag">No assets recorded.</p>`}
+    <h4 class="sechead">Activity</h4>
+    <ul class="hist" style="padding-left:14px">
+      <li class="now"><b>${fmt(TODAY)}</b>${p.state==="active"?p.next:"Project closed, warranty running"}</li>
+      <li><b>${fmt(addD(TODAY,-18))}</b>Progress claim ${p.state==="past"?"final":"#3"} issued · ${money(p.value*.25)}</li>
+      <li><b>${fmt(addD(TODAY,-46))}</b>Variation approved — additional 4 devices</li>
+      <li><b>${fmt(p.start)}</b>Project opened from estimate</li></ul></div>`);
+  wire();
+}
+function estimateDrawer(assetId){
+  const a=asset(assetId),d=DEFECTS.find(x=>x.assetId===assetId);
+  if(d.est){toast("Already estimated",`${d.est} covers ${a.tag}.`);return;}
+  const lab=Math.max(2,Math.round(a.mins/30)*2),rate=145;
+  const lines=[{d:`${a.part} — ${a.make} ${a.model}`,q:1,r:a.cost},
+    {d:"Consumables, fixings, terminations",q:1,r:Math.round(a.cost*.08)},
+    {d:"Labour — attend, replace, commission, retest",q:lab,r:rate}];
+  const sub=lines.reduce((s,l)=>s+l.q*l.r,0),gst=Math.round(sub*.1),total=sub+gst;
+  const ref="E-"+(++eSeq);
+  openDrawer(`<div class="drawer-head"><button class="closex" onclick="closeDrawer()">✕</button>
+    <h3>Remedial estimate</h3><div class="tag">${a.tag} · ${site(a.siteId).name} · ${d.fault}</div></div>
+  <div class="drawer-body">
+    <div class="note">Built from the defect. The failed asset supplies the part, its service level supplies the labour allowance, the contract supplies the rate. Nothing retyped.</div>
+    <h4 class="sechead">Draft ${ref}</h4>
+    <table style="margin-bottom:18px"><thead><tr><th>Item</th><th class="num">Qty</th><th class="num">Rate</th><th class="num">Amount</th></tr></thead><tbody>
+    ${lines.map(l=>`<tr><td>${l.d}</td><td class="num">${l.q}</td><td class="num">${money(l.r)}</td><td class="num">${money(l.q*l.r)}</td></tr>`).join("")}
+    <tr><td colspan="3" class="num" style="text-align:right">Subtotal</td><td class="num">${money(sub)}</td></tr>
+    <tr><td colspan="3" class="num" style="text-align:right">GST</td><td class="num">${money(gst)}</td></tr>
+    <tr><td colspan="3" class="num strong" style="text-align:right">Total</td><td class="num strong">${money(total)}</td></tr></tbody></table>
+    <button class="btn red" id="sendq" data-id="${assetId}" data-ref="${ref}" data-total="${total}">Push to ServiceM8 as a quote</button></div>`);
+  wire();
+}
+
+/* ================= wiring ================= */
+function wire(){
+  const $=s=>document.getElementById(s), on=(i,e,f)=>{const x=$(i);if(x)x[e]=f;};
+  document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{view=b.dataset.go;sel.clear();render();});
+  on("win","onchange",e=>{window._win=e.target.value;render();});
+  on("sf","onchange",e=>{window._sf=e.target.value;sel.clear();render();});
+  on("esf","onchange",e=>{window._esf=e.target.value;window._eq="";render();});
+  on("eq","oninput",e=>{window._eq=e.target.value;const p=e.target.selectionStart;render();
+    const x=$("eq");if(x){x.focus();x.setSelectionRange(p,p);}});
+  on("fakeup","onclick",()=>toast("Mockup","Plan upload isn't wired in this demo. Eastern Creek and North Sydney have plans loaded."));
+  on("selall","onclick",()=>{document.querySelectorAll(".pk").forEach(c=>sel.add(c.dataset.id));render();});
+  document.querySelectorAll(".pk").forEach(c=>c.onchange=()=>{c.checked?sel.add(c.dataset.id):sel.delete(c.dataset.id);render();});
+  document.querySelectorAll(".lyr").forEach(c=>c.onchange=()=>{
+    window._layers=window._layers||{};window._layers[c.dataset.k]=c.checked;render();});
+  document.querySelectorAll("[data-person]").forEach(r=>r.onclick=e=>{e.stopPropagation();personDrawer(r.dataset.person);});
+  document.querySelectorAll("[data-asset]").forEach(r=>r.onclick=()=>assetDrawer(r.dataset.asset));
+  document.querySelectorAll("[data-proj]").forEach(r=>r.onclick=()=>projDrawer(r.dataset.proj));
+  document.querySelectorAll("[data-site]").forEach(r=>r.onclick=()=>{window._esf=r.dataset.site;view="estate";render();});
+  document.querySelectorAll(".pin").forEach(p=>p.onclick=()=>assetDrawer(p.dataset.id));
+  document.querySelectorAll(".qbtn").forEach(b=>b.onclick=e=>{e.stopPropagation();estimateDrawer(b.dataset.id);});
+  document.querySelectorAll("[data-visit]").forEach(v=>v.onclick=()=>{
+    const [ref,sid,kind,hrs,tech,note]=v.dataset.visit.split("|");
+    toast(kind+" visit",`${ref} · ${site(sid).name} · ${hrs} hrs · ${tech} — ${note}.`);});
+
+  on("raise","onclick",()=>{
+    const by={}; [...sel].forEach(id=>{const a=asset(id);(by[a.siteId]=by[a.siteId]||[]).push(a);});
+    const refs=[];
+    Object.entries(by).forEach(([sid,l])=>{const ref="KTX-"+(++jSeq);
+      JOBSQ.push({ref,siteId:sid,count:l.length,mins:l.reduce((s,a)=>s+a.mins,0)});
+      l.forEach(a=>{a.job=ref;a.status="scheduled";});refs.push(ref);});
+    const c=sel.size;sel.clear();
+    toast("Pushed to ServiceM8",`${refs.length} job card(s) — ${refs.join(", ")} — covering ${c} assets. Now waiting for a slot on the Schedule.`);
+    render();
+  });
+  on("clkRef","onchange",e=>{CLOCK.ref=e.target.value;});
+  on("clkAct","onchange",e=>{CLOCK.act=e.target.value;});
+  on("clkon","onclick",()=>{
+    const r=$("clkRef"),a=$("clkAct");
+    if(r)CLOCK.ref=r.value; if(a)CLOCK.act=a.value;
+    CLOCK.live=true; CLOCK.since=Date.now();
+    const w=work(CLOCK.ref);
+    toast("Clocked on",`${CLOCK.act} on ${w.ref} at ${site(w.siteId).name}. The timer runs until you clock off.`);
+    render();
+  });
+  on("clkoff","onclick",()=>{
+    const mins=Math.max(1,Math.round(elapsedMs()/60000));
+    const w=work(CLOCK.ref), ac=ACTIVITIES.find(x=>x.a===CLOCK.act);
+    const st=new Date(CLOCK.since);
+    TIME.push({id:++tSeq,tech:ME,day:DAYIDX,date:addD(WKSTART,DAYIDX),ref:CLOCK.ref,siteId:w.siteId,
+      act:CLOCK.act,bill:ac?ac.bill:true,start:st.getHours()*60+st.getMinutes(),mins,state:"draft"});
+    CLOCK.live=false; CLOCK.since=null;
+    toast("Clocked off",`${hrs(mins)} hrs logged against ${w.ref}${ac&&ac.bill?" as billable time":" as overhead"}. Sitting in draft until you submit it.`);
+    render();
+  });
+  document.querySelectorAll(".appr").forEach(b=>b.onclick=()=>{
+    const e=TIME.find(x=>x.id==b.dataset.id); e.state="approved";
+    toast("Approved",`${hrs(e.mins)} hrs for ${e.tech} on ${e.ref} released to payroll and job costing.`);
+    render();
+  });
+  on("apprall","onclick",()=>{
+    const p=TIME.filter(e=>e.state==="submitted");
+    const m=p.reduce((s,e)=>s+e.mins,0);
+    p.forEach(e=>e.state="approved");
+    toast("Approved",`${p.length} entries · ${hrs(m)} hrs · ${money(m/60*145)} of labour released to job costing.`);
+    render();
+  });
+  on("tsexport","onclick",()=>{
+    const a=TIME.filter(e=>e.state==="approved");
+    const m=a.reduce((s,e)=>s+e.mins,0);
+    toast("Pushed to payroll",`${hrs(m)} approved hours across ${new Set(a.map(e=>e.tech)).size} staff sent to Xero, split by project for job costing.`);
+  });
+
+  on("sendq","onclick",e=>{
+    const b=e.target,id=b.dataset.id,ref=b.dataset.ref,total=+b.dataset.total;
+    const d=DEFECTS.find(x=>x.assetId===id),a=asset(id);
+    d.est=ref; ESTIMATES.push({ref,title:`${a.tag} — ${d.fault}`,siteId:a.siteId,kind:"Remedial",total,state:"draft",raised:TODAY});
+    a.status="due"; closeDrawer();
+    toast("Estimate raised",`${ref} — ${money(total)} for ${a.tag} — created against ${site(a.siteId).client}, sitting in Estimate as a draft.`);
+    render();
+  });
+}
+window.closeDrawer=closeDrawer; window.toast=toast;
+setInterval(()=>{
+  const set=(id,v)=>{const el=document.getElementById(id); if(el) el.textContent=v;};
+  if(CLOCK.live){ set("clkTime",elapsedStr()); set("clkTime2",elapsedStr()); set("projTime",elapsedStr()); }
+  if(SHIFT.on) set("shiftTime",shiftStr());
+},1000);
+document.querySelectorAll(".modesw button").forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
+render();
+</script>
+
+<div id="opsGate" style="position:fixed;inset:0;z-index:9999;background:#F4F6F8;display:flex;align-items:center;justify-content:center;padding:24px;font-family:'IBM Plex Sans',system-ui,sans-serif">
+  <form id="opsGateForm" style="background:#fff;border:1px solid #E7EAEF;border-radius:14px;padding:36px 32px;max-width:360px;width:100%;text-align:center;box-shadow:0 4px 14px rgba(20,24,34,.06)">
+    <div style="font-weight:700;font-size:1.4rem;letter-spacing:-.02em;color:#15171C"><span style="color:#E51838">K</span>TRONICS</div>
+    <p style="color:#7B818B;font-size:.8rem;margin:10px 0 20px">Operations platform — enter passcode</p>
+    <input id="opsGateInput" type="password" autocomplete="current-password" style="width:100%;padding:10px 12px;border:1px solid #E7EAEF;border-radius:8px;font-family:monospace;font-size:.9rem;text-align:center;letter-spacing:.1em" autofocus>
+    <button type="submit" style="margin-top:14px;width:100%;padding:10px;border:0;border-radius:8px;cursor:pointer;background:#15171C;color:#fff;font-weight:600;font-size:.85rem">Open</button>
+    <div id="opsGateErr" style="color:#E51838;font-size:.74rem;min-height:18px;margin-top:10px;font-weight:500"></div>
+  </form>
+</div>
+<script>
+(function(){
+"use strict";
+var HASH="87abaa24b865ede2411b0f0484eb4ca5a5c7d04000816fff72f86e2032c27f0d";
+function sha256(ascii){function rr(v,a){return (v>>>a)|(v<<(32-a));}
+var mathPow=Math.pow,maxWord=mathPow(2,32),result='',words=[],asciiBitLength=ascii.length*8;
+var hash=sha256.h=sha256.h||[],k=sha256.k=sha256.k||[],primeCounter=k.length,isComposite={};
+for(var candidate=2;primeCounter<64;candidate++){if(!isComposite[candidate]){for(var i=0;i<313;i+=candidate){isComposite[i]=candidate;}
+hash[primeCounter]=(mathPow(candidate,.5)*maxWord)|0;k[primeCounter++]=(mathPow(candidate,1/3)*maxWord)|0;}}
+ascii+='\x80';while(ascii.length%64-56)ascii+='\x00';
+for(i=0;i<ascii.length;i++){var j=ascii.charCodeAt(i);if(j>>8)return;words[i>>2]|=j<<((3-i)%4)*8;}
+words[words.length]=((asciiBitLength/maxWord)|0);words[words.length]=(asciiBitLength);
+for(j=0;j<words.length;){var w=words.slice(j,j+=16),oldHash=hash;hash=hash.slice(0,8);
+for(i=0;i<64;i++){var w15=w[i-15],w2=w[i-2];var a=hash[0],e=hash[4];
+var temp1=hash[7]+(rr(e,6)^rr(e,11)^rr(e,25))+((e&hash[5])^((~e)&hash[6]))+k[i]
++(w[i]=(i<16)?w[i]:(w[i-16]+(rr(w15,7)^rr(w15,18)^(w15>>>3))+w[i-7]+(rr(w2,17)^rr(w2,19)^(w2>>>10)))|0);
+var temp2=(rr(a,2)^rr(a,13)^rr(a,22))+((a&hash[1])^(a&hash[2])^(hash[1]&hash[2]));
+hash=[(temp1+temp2)|0].concat(hash);hash[4]=(hash[4]+temp1)|0;}
+for(i=0;i<8;i++){hash[i]=(hash[i]+oldHash[i])|0;}}
+for(i=0;i<8;i++){for(j=3;j+1;j--){var b=(hash[i]>>(j*8))&255;result+=((b<16)?0:'')+b.toString(16);}}
+return result;}
+var g=document.getElementById('opsGate');
+function unlocked(){try{return sessionStorage.getItem('ktron_auth')==='1';}catch(e){return false;}}
+if(unlocked()){g.style.display='none';}
+document.getElementById('opsGateForm').addEventListener('submit',function(ev){
+ev.preventDefault();
+var v=document.getElementById('opsGateInput').value||'';
+if(sha256(v)===HASH){try{sessionStorage.setItem('ktron_auth','1');sessionStorage.setItem('ktron_pass',v);}catch(e){}g.style.display='none';}
+else{document.getElementById('opsGateErr').textContent='Incorrect passcode.';document.getElementById('opsGateInput').value='';}
+});
+})();
+</script>
+</body>
+</html>

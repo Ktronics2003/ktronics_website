@@ -7,9 +7,11 @@
  *   FounderStory (light)    — Karl's NZ → Sydney founder story
  *   ValuesGrid (paper-2)    — four brand principles
  *   TrackRecord (dark)      — generic critical-infrastructure proof
- *   TeamGrid (light)        — portraits, name + role
  *   CareersNudge (light)    — link to /careers/
  *   CtaBlock (dark)         — final CTA
+ *
+ * (TeamGrid removed at owner request — the group photo in AboutHero + the
+ * founder story cover the "who we are" ground without individual portraits.)
  *
  * (CredentialsStrip removed — ASIAL badge + Master Licence are carried in
  * the footer site-wide, so the dedicated strip read as thin/empty here.)
@@ -25,7 +27,6 @@ import AboutHero from '@components/sections/AboutHero.astro';
 import FounderStory from '@components/sections/FounderStory.astro';
 import ValuesGrid from '@components/sections/ValuesGrid.astro';
 import TrackRecord from '@components/sections/TrackRecord.astro';
-import TeamGrid from '@components/sections/TeamGrid.astro';
 import CareersNudge from '@components/sections/CareersNudge.astro';
 import CtaBlock from '@components/sections/CtaBlock.astro';
 import { breadcrumbSchema } from '@lib/schema';
@@ -48,7 +49,6 @@ const breadcrumbs = breadcrumbSchema([
   <FounderStory />
   <ValuesGrid />
   <TrackRecord />
-  <TeamGrid />
   <CareersNudge />
   <CtaBlock
     heading="Got a brief? Let&apos;s <em>walk the site</em>."

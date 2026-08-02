@@ -54,14 +54,15 @@ const allSchema = [organizationSchema(), localBusinessSchema(), ...schemaBlocks]
     <link rel="apple-touch-icon" href="/favicon.svg" />
 
     {/*
-      Fonts: IBM Plex Sans + IBM Plex Mono (Option 6 — corporate technical).
+      Fonts: Oswald (display / headings — a free stand-in for Tungsten with
+      matching condensed proportions) + Open Sans (body + labels).
       Loaded from Google Fonts CDN. Pre-launch: self-host the WOFF2s in
       /public/fonts/ and remove these CDN links. (Self-hosted = better perf + privacy.)
     */}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" />
 
     {/* JSON-LD */}
     {allSchema.map((block) => (
