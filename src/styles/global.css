@@ -9,28 +9,31 @@
 @tailwind utilities;
 
 /* ---------- Fonts ----------
- * Currently loaded from Google Fonts CDN in BaseLayout.astro (IBM Plex Sans + Mono).
+ * Loaded from Google Fonts CDN in BaseLayout.astro:
+ *   - Oswald — display / headings (free stand-in for Tungsten; matching
+ *     condensed proportions, industrial/mechanical feel)
+ *   - Open Sans — body + small labels (eyebrows, CTAs, tags)
+ *
  * To self-host:
- *   1. Download IBM Plex Sans + IBM Plex Mono WOFF2s from fonts.google.com or
- *      github.com/IBM/plex.
+ *   1. Download Oswald + Open Sans WOFF2s from fonts.google.com.
  *   2. Drop the WOFF2 files in /public/fonts/.
  *   3. Uncomment the @font-face block below.
  *   4. Remove the Google Fonts <link> tags from BaseLayout.astro.
  *
  * @font-face {
- *   font-family: 'IBM Plex Sans';
- *   src: url('/fonts/IBMPlexSans-Variable.woff2') format('woff2-variations');
- *   font-weight: 100 700; font-style: normal; font-display: swap;
+ *   font-family: 'Oswald';
+ *   src: url('/fonts/Oswald-Variable.woff2') format('woff2-variations');
+ *   font-weight: 200 700; font-style: normal; font-display: swap;
  * }
  * @font-face {
- *   font-family: 'IBM Plex Sans';
- *   src: url('/fonts/IBMPlexSans-Italic-Variable.woff2') format('woff2-variations');
- *   font-weight: 100 700; font-style: italic; font-display: swap;
+ *   font-family: 'Open Sans';
+ *   src: url('/fonts/OpenSans-Variable.woff2') format('woff2-variations');
+ *   font-weight: 300 800; font-style: normal; font-display: swap;
  * }
  * @font-face {
- *   font-family: 'IBM Plex Mono';
- *   src: url('/fonts/IBMPlexMono-Variable.woff2') format('woff2-variations');
- *   font-weight: 100 700; font-style: normal; font-display: swap;
+ *   font-family: 'Open Sans';
+ *   src: url('/fonts/OpenSans-Italic-Variable.woff2') format('woff2-variations');
+ *   font-weight: 300 800; font-style: italic; font-display: swap;
  * }
  */
 
@@ -38,10 +41,17 @@
    TOKENS
    ============================================================= */
 :root {
-  /* Type stack (Option 6 — IBM Plex). Change here to swap site-wide. */
-  --font-sans: 'IBM Plex Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-display: 'IBM Plex Sans', system-ui, sans-serif;
-  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  /* Type stack. Change here to swap site-wide.
+     - --font-sans:    body copy + buttons + form fields (Open Sans, humanist sans)
+     - --font-display: headings h1-h6 + display classes (Oswald, condensed sans;
+                       free stand-in for Tungsten)
+     - --font-mono:    aliased to Open Sans — legacy variable kept so existing
+                       components (eyebrows, CTAs, tags) still render. Their
+                       distinct "small caps" look comes from letter-spacing +
+                       uppercase, not from a mono font. */
+  --font-sans:    'Open Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Oswald', 'Open Sans', system-ui, sans-serif;
+  --font-mono:    'Open Sans', system-ui, sans-serif;
 
   /* Brand — Pairing C: cool charcoal + greige */
   --ktx-red: #E51838;
@@ -128,29 +138,32 @@ button { font: inherit; cursor: pointer; border: none; background: none; padding
 /* =============================================================
    TYPOGRAPHY
    ============================================================= */
+/* Oswald is already condensed, so headings don't need the aggressive
+   negative tracking IBM Plex Sans wanted. Slight -0.01em keeps them
+   compact without cramping the letterforms. */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   font-weight: 600;
   color: var(--fg);
-  letter-spacing: -0.035em;
+  letter-spacing: -0.01em;
   text-wrap: balance;
   margin: 0;
 }
 h1 { font-size: var(--t-h1); line-height: 1.05; }
 h2 { font-size: var(--t-h2); line-height: 1.10; }
-h3 { font-size: var(--t-h3); line-height: 1.20; letter-spacing: -0.01em; }
+h3 { font-size: var(--t-h3); line-height: 1.20; letter-spacing: 0; }
 
 .display-xl {
   font-size: var(--t-display-xl);
   font-weight: 600;
   line-height: 0.96;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.015em;
 }
 .display-l {
   font-size: var(--t-display-l);
   font-weight: 600;
   line-height: 1.0;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.01em;
 }
 
 .lead {

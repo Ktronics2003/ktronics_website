@@ -27,9 +27,11 @@ export default {
       fontFamily: {
         // Mirrors the CSS vars in src/styles/global.css (--font-*).
         // Change in BOTH places when swapping the type system.
-        sans: ['"IBM Plex Sans"', 'system-ui', 'sans-serif'],
-        display: ['"IBM Plex Sans"', 'system-ui', 'sans-serif'],
-        mono: ['"IBM Plex Mono"', 'ui-monospace', 'monospace'],
+        sans: ['"Open Sans"', 'system-ui', 'sans-serif'],
+        display: ['"Oswald"', '"Open Sans"', 'system-ui', 'sans-serif'],
+        // --font-mono is aliased to Open Sans in global.css; keeping this
+        // Tailwind alias in sync so `font-mono` utility still resolves.
+        mono: ['"Open Sans"', 'system-ui', 'sans-serif'],
       },
       maxWidth: {
         content: '1280px',
